@@ -18,9 +18,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import java.util.Arrays;
-import java.util.List;
-
 public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
 
     private static final String ARG_CROP = "crop";
@@ -78,7 +75,6 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
         maxPriceEditText.setText(crop.getMaxPrice());
         quantityEditText.setText(crop.getQuantity());
 
-        // Get the units array from resources (as a String array)
         // Get the units array from resources
         String[] unitsArray = getResources().getStringArray(R.array.quantity_units_array);
 
@@ -113,6 +109,12 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
         // Validate input
         if (newMinPrice.isEmpty() || newMaxPrice.isEmpty() || newQuantity.isEmpty()) {
             Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Ensure max price is greater than min price
+        if (Double.parseDouble(newMaxPrice) <= Double.parseDouble(newMinPrice)) {
+            Toast.makeText(getContext(), "Max price must be greater than Min price", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -157,7 +159,6 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
         });
     }
 
-
     private void deleteCropDetails(String listingId) {
         // Get a reference to the database
         DatabaseReference databaseReference = FirebaseDatabase.getInstance()
@@ -166,13 +167,30 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
                 .child("Listings")
                 .child(listingId); // Use the fetched listing ID
 
-        // Remove the crop from the database
-        databaseReference.removeValue().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(getContext(), "Crop deleted successfully!", Toast.LENGTH_SHORT).show();
-                dismiss(); // Close the bottom sheet
+        // Get a reference to the history node where old data will be stored
+        DatabaseReference historyReference = FirebaseDatabase.getInstance()
+                .getReference("Users")
+                .child(userId)
+                .child("ListingsHistory")
+                .child(listingId)
+                .push(); // Generate a unique key for each history entry
+
+        // Move the current crop details to the history node
+        historyReference.setValue(crop).addOnCompleteListener(historyTask -> {
+            if (historyTask.isSuccessful()) {
+                // Successfully moved the current crop to history
+
+                // Remove the crop from the database
+                databaseReference.removeValue().addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getContext(), "Crop deleted successfully!", Toast.LENGTH_SHORT).show();
+                        dismiss(); // Close the bottom sheet
+                    } else {
+                        Toast.makeText(getContext(), "Deletion failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
             } else {
-                Toast.makeText(getContext(), "Deletion failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed to move old listing to history: " + historyTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

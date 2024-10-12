@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:text="TRADER'S DETAIL"
         android:layout_marginTop="50dp"
-        android:textColor="@color/black"
+        android:textColor="@color/green"
         android:textSize="29sp"
         android:textAlignment="center"
         android:padding="7dp"

@@ -76,6 +76,8 @@ public class TraderListingsActivity extends AppCompatActivity {
                         crop.setListingId(snapshot.getKey()); // Get the listing ID
                         cropList.add(crop);
                         Log.d(TAG, "Crop added: " + crop); // Log each added crop
+                    } else {
+                        Log.w(TAG, "Crop is null for snapshot: " + snapshot.getKey()); // Log if crop is null
                     }
                 }
 
@@ -86,7 +88,7 @@ public class TraderListingsActivity extends AppCompatActivity {
                 cropAdapter = new CropAdapter(cropList, (crop, listingId) -> {
                     // Call method to show the Bottom Sheet Fragment
                     showUpdateCropDetails(crop, listingId);
-                });
+                }, true); // Pass true or false based on whether you want the crops to be clickable
                 recyclerView.setAdapter(cropAdapter);
             }
 
@@ -100,7 +102,7 @@ public class TraderListingsActivity extends AppCompatActivity {
     }
 
     private void showUpdateCropDetails(CropListingModel crop, String listingId) {
-        // Pass the listing ID to the fragment
+        // Pass the listing ID and user ID to the fragment
         UpdateCropDetailsFragment fragment = UpdateCropDetailsFragment.newInstance(crop, listingId, userId);
         fragment.show(getSupportFragmentManager(), "UpdateCropDetailsFragment");
         Log.d(TAG, "Showing update details for listingId: " + listingId + ", userId: " + userId); // Log showing details

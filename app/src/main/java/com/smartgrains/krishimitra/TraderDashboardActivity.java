@@ -61,6 +61,13 @@ public class TraderDashboardActivity extends AppCompatActivity {
         listCropButton.setOnClickListener(v -> openCropListing());
         viewListingButton.setOnClickListener(v -> openViewListings());
 
+        // Handle user profile image click to navigate to MenuActivity
+        userProfile.setOnClickListener(v -> {
+            Intent intent = new Intent(TraderDashboardActivity.this, MenuActivity.class);
+            intent.putExtra("USER_ID", traderId);  // Pass the trader ID to the MenuActivity
+            startActivity(intent);
+        });
+
         // Fetch location data after initializing buttons
         fetchLocationData();
     }

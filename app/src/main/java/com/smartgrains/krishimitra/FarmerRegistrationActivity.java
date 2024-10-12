@@ -3,11 +3,13 @@ package com.smartgrains.krishimitra;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,6 +23,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class FarmerRegistrationActivity extends AppCompatActivity {
@@ -42,6 +46,9 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+
+        CheckBox privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox);
+        privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -136,7 +143,8 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                             Toast.makeText(FarmerRegistrationActivity.this, "User already registered with this phone number", Toast.LENGTH_SHORT).show();
                         } else {
                             // User not registered, proceed with registration
-                            saveUserInfo(firstName, lastName, phoneNumber, password, address, state, district, taluka);
+                            String hashedPassword = hashPassword(password); // Hash the password
+                            saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, address, state, district, taluka);
                         }
                     }
 
@@ -146,6 +154,26 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                         Toast.makeText(FarmerRegistrationActivity.this, "Error checking registration", Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    // Method to hash the password using SHA-256
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            Log.e("HashError", "Error hashing password: " + e.getMessage());
+            return password; // Fallback to plain password in case of error
+        }
     }
 
     private void saveUserInfo(String firstName, String lastName, String phoneNumber, String password,

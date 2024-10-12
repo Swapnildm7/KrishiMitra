@@ -1,6 +1,7 @@
 package com.smartgrains.krishimitra;
 
 public class TraderModel {
+    private String traderId;
     private String traderName;
     private String shopName;
     private String shopAddress;
@@ -8,17 +9,18 @@ public class TraderModel {
     private String minPrice;
     private String maxPrice;
     private String quantity;
-    private String state;      // Added state field
-    private String district;   // Added district field
-    private String taluka;     // Added taluka field
+    private String unit; // New field for unit
+    private String state;
+    private String district;
+    private String taluka;
 
     // Default constructor required for calls to DataSnapshot.getValue(TraderModel.class)
     public TraderModel() {
     }
 
-    // Updated constructor to include state, district, and taluka
     public TraderModel(String traderName, String shopName, String shopAddress, String phoneNumber,
-                       String minPrice, String maxPrice, String quantity, String state, String district, String taluka) {
+                       String minPrice, String maxPrice, String quantity, String unit, // Add unit here
+                       String state, String district, String taluka, String traderId) {
         this.traderName = traderName;
         this.shopName = shopName;
         this.shopAddress = shopAddress;
@@ -26,9 +28,16 @@ public class TraderModel {
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.quantity = quantity;
-        this.state = state;           // Initialize state
-        this.district = district;     // Initialize district
-        this.taluka = taluka;         // Initialize taluka
+        this.unit = unit; // Initialize unit
+        this.state = state;
+        this.district = district;
+        this.taluka = taluka;
+        this.traderId = traderId; // Initialize traderId
+    }
+
+    // Getters for all fields
+    public String getTraderId() {
+        return traderId;
     }
 
     public String getTraderName() {
@@ -59,15 +68,19 @@ public class TraderModel {
         return quantity;
     }
 
-    public String getState() {         // Getter for state
+    public String getUnit() { // New getter for unit
+        return unit;
+    }
+
+    public String getState() {
         return state;
     }
 
-    public String getDistrict() {      // Getter for district
+    public String getDistrict() {
         return district;
     }
 
-    public String getTaluka() {        // Getter for taluka
+    public String getTaluka() {
         return taluka;
     }
 }

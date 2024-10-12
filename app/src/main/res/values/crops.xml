@@ -6,7 +6,13 @@
         <item>Wheat</item>
         <item>Jowar</item>
         <item>Maize</item>
-        <item>Black Gram</item>
+        <item>ChanaDal</item>
+        <item>Kardi</item>
+        <item>Blackgram</item>
+        <item>Soyabean</item>
+        <item>ToorDal</item>
+        <item>UradDal</item>
+        <item>MoongDal</item>
         <!-- Add more crop names as needed -->
     </string-array>
 

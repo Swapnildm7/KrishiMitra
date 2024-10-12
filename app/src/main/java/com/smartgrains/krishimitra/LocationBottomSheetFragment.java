@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.AdapterView;
-import android.widget.Toast; // Import Toast for feedback
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +20,19 @@ public class LocationBottomSheetFragment extends BottomSheetDialogFragment {
 
     private Spinner stateSpinner, districtSpinner, talukaSpinner;
     private Button selectButton;
+
+    // Define the listener interface
+    private OnLocationSelectedListener listener;
+
+    // Interface for location selection callback
+    public interface OnLocationSelectedListener {
+        void onLocationSelected(String state, String district, String taluka);
+    }
+
+    // Method to set the listener
+    public void setOnLocationSelectedListener(OnLocationSelectedListener listener) {
+        this.listener = listener;
+    }
 
     @Nullable
     @Override
@@ -64,11 +77,13 @@ public class LocationBottomSheetFragment extends BottomSheetDialogFragment {
                 String selectedState = stateSpinner.getSelectedItem().toString();
                 String selectedDistrict = districtSpinner.getSelectedItem().toString();
                 String selectedTaluka = talukaSpinner.getSelectedItem().toString();
-                // Pass the selected location data back to the TraderDashboardActivity
-                if (getActivity() instanceof FarmerDashboardActivity) {
-                    ((FarmerDashboardActivity) getActivity()).onLocationSelected(selectedState, selectedDistrict, selectedTaluka);
+
+                // Notify the listener about the selected location
+                if (listener != null) {
+                    listener.onLocationSelected(selectedState, selectedDistrict, selectedTaluka);
                 }
-                dismiss();
+
+                dismiss(); // Close the bottom sheet
             } else {
                 Toast.makeText(getContext(), "Please select State, District, and Taluka", Toast.LENGTH_SHORT).show();
             }
@@ -78,7 +93,7 @@ public class LocationBottomSheetFragment extends BottomSheetDialogFragment {
     }
 
     private void populateStateSpinner() {
-// Populate states spinner
+        // Populate states spinner
         List<String> states = LocationData.getStates(); // Retrieve states from your LocationData
         String[] statesArray = states.toArray(new String[0]); // Convert List to String[]
         CustomSpinnerAdapter stateAdapter = new CustomSpinnerAdapter(getContext(), statesArray);

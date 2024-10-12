@@ -1,4 +1,29 @@
 <resources>
     <string name="signup"><u>Not Registered ? SignUp</u></string>
     <string name="forgotpassword"><u>Forgot Password ?</u></string>
+    <string name="navigation_drawer_open">Open drawer</string>
+    <string name="navigation_drawer_close">Close drawer</string>
+    <string name="Desc">Krishi Mitra: Your Trusted Agricultural Companion
+Krishi Mitra is an innovative mobile application designed to empower farmers and traders by bridging the gap in agricultural information and resources. Krishi Mitra aims to revolutionize the agricultural landscape by providing farmers and traders with the tools they need to succeed. Join us on this journey to enhance agricultural practices and promote sustainable farming in your community!</string>
+    <string name="textViewDesc">The Future Of Agriculture is here empowering you with the Technology at your Fingertips</string>
+    <string name="login">LOGIN</string>
+    <string name="sign_up">SIGNUP</string>
+    <string name="enter_details">ENTER DETAILS</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="phone_number">Phone Number</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="select_your_role">Select your role:</string>
+    <string name="proceed">PROCEED</string>
+    <string name="farmer_logo">Farmer Logo</string>
+    <string name="welcome">Welcome!</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="password">Password</string>
+    <string name="Login">Login</string>
+    <string name="min_price_label">Min</string>
+    <string name="max_price_label">Max</string>
+    <string name="quantity_label">Quantity: %1$s</string>
+    <string name="unit_label">Unit: %1$s</string>
+    <string name="privacy_policy_text">I agree to the <a href='https://smartgrains.org/PrivacyPolicyKrishiMitra.html'>Privacy Policy</a></string>
 </resources>

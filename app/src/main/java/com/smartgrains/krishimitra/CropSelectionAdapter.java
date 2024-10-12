@@ -35,9 +35,14 @@ public class CropSelectionAdapter extends RecyclerView.Adapter<CropSelectionAdap
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         String crop = cropList.get(position);
         holder.cropNameTextView.setText(crop);
-        holder.cropCheckBox.setChecked(selectedCrops.contains(crop)); // Update checkbox state
 
-        // Handle checkbox click independently
+        // Temporarily remove listener before setting the checked state
+        holder.cropCheckBox.setOnCheckedChangeListener(null);
+
+        // Set the checkbox state based on whether the crop is selected
+        holder.cropCheckBox.setChecked(selectedCrops.contains(crop));
+
+        // Restore the listener after setting the checkbox state
         holder.cropCheckBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (isChecked) {
                 selectedCrops.add(crop); // Add crop if checked
@@ -48,9 +53,8 @@ public class CropSelectionAdapter extends RecyclerView.Adapter<CropSelectionAdap
             }
         });
 
-        // Prevent recycling issues
+        // Prevent recycling issues by directly toggling the checkbox on item click
         holder.itemView.setOnClickListener(v -> {
-            // Directly toggle checkbox on item click
             holder.cropCheckBox.setChecked(!holder.cropCheckBox.isChecked()); // Toggle checkbox
         });
     }
