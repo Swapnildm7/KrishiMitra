@@ -1,0 +1,4 @@
+<resources>
+    <string name="signup"><u>Not Registered ? SignUp</u></string>
+    <string name="forgotpassword"><u>Forgot Password ?</u></string>
+</resources>

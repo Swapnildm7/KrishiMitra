@@ -1,0 +1,33 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/trader">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="TRADER'S DETAIL"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/black"
+        android:textSize="29sp"
+        android:textAlignment="center"
+        android:padding="7dp"
+        android:textStyle="bold" />
+
+    <!-- Other UI elements above the RecyclerView -->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/traderRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="11dp"
+        android:layout_weight="1"
+        android:padding="8dp"
+        android:scrollbars="vertical" />
+
+    <!-- Other UI elements below the RecyclerView -->
+
+</LinearLayout>

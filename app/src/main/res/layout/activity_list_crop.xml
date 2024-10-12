@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/trader"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Crop Name Header -->
+    <TextView
+        android:id="@+id/tv_crop_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:text="Krishi Mitra"
+        android:textColor="@color/green"
+        android:textSize="25sp"
+        android:textStyle="bold" />
+
+    <!-- Label for Crop Name -->
+    <TextView
+        android:id="@+id/tv_crop_name_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Select Crop"
+        android:textColor="@color/black"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
+    <!-- Spinner for Crop Name -->
+    <Spinner
+        android:id="@+id/spinner_crop_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:autofillHints="Select Crop"
+        android:background="@drawable/spinner_background"
+        android:padding="8dp" />
+
+
+    <!-- Price Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_min_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Min Price"
+                android:textColor="@color/black"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_min_price"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edit_text_background"
+                android:hint="Min Price"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="#807675" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_max_price_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:text="Max Price"
+                android:textColor="@color/black"
+                android:textSize="21sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_max_price"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/edit_text_background"
+                android:hint="Max Price"
+                android:padding="8dp"
+                android:textColor="@color/black"
+                android:textColorHint="#807675" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Quantity Section -->
+    <TextView
+        android:id="@+id/tv_quantity_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="8dp"
+        android:text="Quantity"
+        android:textColor="@color/black"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/et_quantity"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:layout_marginRight="7dp"
+            android:background="@drawable/edit_text_background"
+            android:hint="Enter Quantity"
+            android:inputType="numberDecimal"
+            android:padding="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="#807675" />
+
+        <Spinner
+            android:id="@+id/unit_spinner"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:autofillHints="Select Crop"
+            android:background="@drawable/spinner_background"
+            android:padding="8dp" />
+
+    </LinearLayout>
+
+    <!-- Submit Button -->
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:padding="11dp"
+        android:text="Select"
+        android:textColor="@color/white"
+        android:backgroundTint="#43A047"
+        android:textSize="21sp"/>
+
+
+
+
+
+
+
+
+</LinearLayout>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@drawable/curved_background">
+
+    <!-- Title -->
+    <TextView
+        android:id="@+id/cropFilterTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select Crops"
+        android:textColor="@color/green"
+        android:textSize="21sp"
+        android:textStyle="bold"
+        android:paddingBottom="10dp" />
+
+    <!-- Crop List -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/cropRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" />
+
+    <!-- Done Button -->
+    <Button
+        android:id="@+id/doneButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:textSize="21sp"
+        android:layout_gravity="center"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="#43A047"
+        android:text="Select"
+        android:textColor="@color/white"  />
+
+</LinearLayout>

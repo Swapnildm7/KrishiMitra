@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">Krishi Mitra</string>
+
+    <string-array name="crop_names_array">
+        <item>Rice</item>
+        <item>Wheat</item>
+        <item>Jowar</item>
+        <item>Maize</item>
+        <item>Black Gram</item>
+        <!-- Add more crop names as needed -->
+    </string-array>
+
+    <string-array name="quantity_units_array">
+        <item>Quintal</item>
+        <item>Kg</item>
+        <item>Ton</item>
+    </string-array>
+</resources>

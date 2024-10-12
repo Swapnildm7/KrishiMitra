@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/trader"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title for the Crop Listing -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:gravity="center"
+        android:text="KRISHI MITRA"
+        android:layout_marginTop="50dp"
+        android:textColor="@color/green"
+        android:textSize="27sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="CROPS"
+        android:textColor="@color/black"
+        android:textSize="21dp"
+        android:padding="11dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="11dp"/>
+
+    <!-- RecyclerView for displaying listings -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/listingsRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:scrollbars="vertical" />
+
+</LinearLayout>
+
+
