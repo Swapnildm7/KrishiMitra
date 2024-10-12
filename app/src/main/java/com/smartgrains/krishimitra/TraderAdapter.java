@@ -4,11 +4,11 @@ import android.content.ClipboardManager;
 import android.content.ClipData;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri; // Add this import statement
+import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView; // Import ImageView for the phone icon
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,23 +39,21 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TraderView
         holder.shopNameTextView.setText(trader.getShopName());
         holder.shopAddressTextView.setText(trader.getShopAddress());
         holder.phoneNumberTextView.setText(trader.getPhoneNumber());
-        holder.priceTextView.setText("Min: " + trader.getMinPrice() + ", Max: " + trader.getMaxPrice());
-        holder.quantityTextView.setText("Quantity: " + trader.getQuantity());
+        holder.priceTextView.setText("Rs " + trader.getMinPrice() + "  -  " + "Rs " + trader.getMaxPrice());
+        holder.quantityTextView.setText(trader.getQuantity() + " " + trader.getUnit()); // Include unit
 
-        // Set click listener to navigate to TraderDetailsActivity
+        // Set click listener to navigate to TraderSpecificDetailsActivity
         holder.itemView.setOnClickListener(v -> {
-            // Create an intent to navigate to TraderDetailsActivity
-            Intent intent = new Intent(holder.itemView.getContext(), TraderDetailsActivity.class);
-            intent.putExtra("state", trader.getState());
-            intent.putExtra("district", trader.getDistrict());
-            intent.putExtra("taluka", trader.getTaluka());
-            intent.putExtra("traderName", trader.getTraderName());
-            intent.putExtra("shopName", trader.getShopName());
-            intent.putExtra("address", trader.getShopAddress());
-            intent.putExtra("phoneNumber", trader.getPhoneNumber());
-            intent.putExtra("minPrice", trader.getMinPrice());
-            intent.putExtra("maxPrice", trader.getMaxPrice());
-            intent.putExtra("quantity", trader.getQuantity());
+            // Create an intent to navigate to TraderSpecificDetailsActivity
+            Intent intent = new Intent(holder.itemView.getContext(), TraderSpecificDetailsActivity.class);
+            // Passing Trader ID and other relevant details
+            intent.putExtra("TRADER_ID", trader.getTraderId());  // Use trader ID to fetch more details
+            intent.putExtra("TRADER_NAME", trader.getTraderName());
+            intent.putExtra("SHOP_NAME", trader.getShopName());
+            intent.putExtra("SHOP_ADDRESS", trader.getShopAddress());
+            intent.putExtra("PHONE_NUMBER", trader.getPhoneNumber());
+
+            // Start the TraderSpecificDetailsActivity with the intent
             holder.itemView.getContext().startActivity(intent);
         });
 
@@ -96,7 +94,7 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TraderView
         TextView phoneNumberTextView;
         TextView priceTextView;
         TextView quantityTextView;
-        ImageView phoneIcon; // Add ImageView for the phone icon
+        ImageView phoneIcon;  // Add ImageView for the phone icon
 
         public TraderViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -106,7 +104,7 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TraderView
             phoneNumberTextView = itemView.findViewById(R.id.phoneNumberTextView);
             priceTextView = itemView.findViewById(R.id.priceTextView);
             quantityTextView = itemView.findViewById(R.id.quantityTextView);
-            phoneIcon = itemView.findViewById(R.id.phoneIcon); // Initialize phone icon ImageView
+            phoneIcon = itemView.findViewById(R.id.phoneIcon);  // Initialize phone icon ImageView
         }
     }
 }

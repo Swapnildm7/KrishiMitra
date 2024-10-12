@@ -4,10 +4,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,8 +34,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
 
         // Make status bar transparent
         getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
         // Retrieve data from intent
@@ -61,7 +60,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
         recyclerView.setAdapter(traderAdapter);
 
         // Fetch trader details based on crop name and location
-        fetchTraderDetails(); // This should run with the updated intent data
+        fetchTraderDetails();
     }
 
     private void fetchTraderDetails() {
@@ -69,7 +68,6 @@ public class TraderDetailsActivity extends AppCompatActivity {
         traderList.clear();
         traderAdapter.notifyDataSetChanged();
 
-        // Log the current filters for debugging
         Log.d(TAG, "Fetching traders for crop: " + cropName + ", State: " + selectedState +
                 ", District: " + selectedDistrict + ", Taluka: " + selectedTaluka);
 
@@ -85,6 +83,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
                         for (DataSnapshot traderSnapshot : stateSnapshot.getChildren()) {
                             String traderDistrict = traderSnapshot.child("district").getValue(String.class);
                             String traderTaluka = traderSnapshot.child("taluka").getValue(String.class);
+                            String traderId = traderSnapshot.getKey(); // Get the trader ID
 
                             Log.d(TAG, "Checking trader: " + traderSnapshot.child("firstName").getValue(String.class) +
                                     " from district: " + traderDistrict + ", taluka: " + traderTaluka);
@@ -106,7 +105,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
                                     if (cropListing != null && cropListing.getCropName().equals(cropName)) {
                                         traderFound = true;
 
-                                        // Create TraderModel and add to the list
+                                        // Create TraderModel and add to the list with trader ID
                                         TraderModel traderModel = new TraderModel(
                                                 traderSnapshot.child("firstName").getValue(String.class) + " " +
                                                         traderSnapshot.child("lastName").getValue(String.class),
@@ -116,9 +115,11 @@ public class TraderDetailsActivity extends AppCompatActivity {
                                                 cropListing.getMinPrice(),
                                                 cropListing.getMaxPrice(),
                                                 cropListing.getQuantity(),
+                                                cropListing.getUnit(), // Add unit here
                                                 selectedState,
                                                 selectedDistrict,
-                                                selectedTaluka
+                                                selectedTaluka,
+                                                traderId // Pass trader ID
                                         );
 
                                         traderList.add(traderModel);
@@ -131,6 +132,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
                         if (!traderFound) {
                             Toast.makeText(TraderDetailsActivity.this, "No traders found for this crop in the selected location.", Toast.LENGTH_SHORT).show();
                         }
+
                         // Notify adapter once after all traders are processed
                         traderAdapter.notifyDataSetChanged();
                     }
@@ -141,6 +143,4 @@ public class TraderDetailsActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
 }

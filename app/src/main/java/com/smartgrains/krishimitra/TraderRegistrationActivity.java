@@ -2,10 +2,12 @@ package com.smartgrains.krishimitra;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -21,6 +23,8 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.database.DataSnapshot;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 
 public class TraderRegistrationActivity extends AppCompatActivity {
@@ -42,6 +46,9 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+
+        CheckBox privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox);
+        privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
 
         // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -137,7 +144,8 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                     Toast.makeText(TraderRegistrationActivity.this, "User already registered with this phone number", Toast.LENGTH_SHORT).show();
                 } else {
                     // Save user info to Firebase
-                    saveUserInfo(firstName, lastName, phoneNumber, password, shopName, shopAddress, state, district, taluka);
+                    String hashedPassword = hashPassword(password); // Hash the password
+                    saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, shopName, shopAddress, state, district, taluka);
                 }
             }
 
@@ -169,6 +177,23 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                             Toast.makeText(TraderRegistrationActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                         }
                     });
+        }
+    }
+
+    // Method to hash the password
+    private String hashPassword(String password) {
+        try {
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+            byte[] hash = digest.digest(password.getBytes());
+            StringBuilder hexString = new StringBuilder();
+            for (byte b : hash) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) hexString.append('0');
+                hexString.append(hex);
+            }
+            return hexString.toString(); // Return the hashed password as a hexadecimal string
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,10 +1,12 @@
 package com.smartgrains.krishimitra;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,6 +39,11 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
     private List<CropImageModel> cropImageList; // List to hold crop images and names
     private Set<String> uniqueCropNames; // Set to store unique crop names
 
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "FarmerPrefs";
+    private static final String KEY_IS_LOGGED_IN = "isLoggedIn";
+    private Button buttonLogout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +54,9 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
         // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -59,18 +69,30 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
 
         // Fetch trader ID from intent
         traderId = getIntent().getStringExtra("USER_ID");
-        fetchLocationData();
-
-        // Initialize buttons and listeners
-        Button selectLocationButton = findViewById(R.id.locationFilterButton);
-        selectLocationButton.setOnClickListener(v -> showLocationBottomSheet());
+        fetchLocationData(); // This method fetches initial crop listings or location data
 
         Button cropFilterButton = findViewById(R.id.cropFilterButton);
         cropFilterButton.setOnClickListener(v -> showCropFilterBottomSheet());
+
+        // Handle user profile click
+        ImageView userProfileImage = findViewById(R.id.userProfile);
+        userProfileImage.setOnClickListener(v -> {
+            Intent intent = new Intent(FarmerDashboardActivity.this, MenuActivity.class);
+            intent.putExtra("USER_ID", traderId); // Pass traderId to MenuActivity
+            startActivity(intent);
+        });
+
+        // Initialize Refresh Button
+        Button refreshButton = findViewById(R.id.buttonRefresh);
+        refreshButton.setOnClickListener(v -> {
+            // Call the method to fetch updated data
+            fetchLocationData(); // You can replace this with your actual refresh logic
+        });
     }
 
     private void fetchLocationData() {
-        Log.d("farmerDashboardActivity", "Fetching location data for traderId: " + traderId);
+        Log.d("FarmerDashboardActivity", "Fetching location data for traderId: " + traderId);
+
         databaseReference.child(traderId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -80,79 +102,50 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
                     selectedTaluka = dataSnapshot.child("taluka").getValue(String.class);
 
                     if (selectedState != null && selectedDistrict != null && selectedTaluka != null) {
-                        Log.d("FarmerDashboardActivity", "Location fetched: " + selectedState + ", " + selectedDistrict + ", " + selectedTaluka);
-
                         cropImageAdapter = new CropImageAdapter(FarmerDashboardActivity.this, cropImageList, selectedState, selectedDistrict, selectedTaluka);
                         cropImageRecyclerView.setAdapter(cropImageAdapter);
                         fetchCropListings();
                     } else {
-                        Log.e("FarmerDashboardActivity", "Location data is incomplete");
                         Toast.makeText(FarmerDashboardActivity.this, "Location data is incomplete", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.e("FarmerDashboardActivity", "Failed to fetch location data");
-                    Toast.makeText(FarmerDashboardActivity.this, "Failed to fetch location data", Toast.LENGTH_SHORT).show();
+                    Log.e("FarmerDashboardActivity", "DataSnapshot for traderId is empty.");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Log.e("FarmerDashboardActivity", "Error fetching location data: " + databaseError.getMessage());
-                Toast.makeText(FarmerDashboardActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void fetchCropListings() {
-        // Fetch crop listings based on selected state, district, and taluka
-        Log.d("FarmerDashboardActivity", "Fetching crop listings for State: " + selectedState +
-                ", District: " + selectedDistrict + ", Taluka: " + selectedTaluka);
-
-        // Query the database for traders in the selected state
         databaseReference.orderByChild("state").equalTo(selectedState)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot stateSnapshot) {
-                        Log.d("FarmerDashboardActivity", "State snapshot retrieved: " + stateSnapshot.getChildrenCount() + " traders found.");
-
-                        cropImageList.clear(); // Clear the previous listings
-                        uniqueCropNames.clear(); // Clear the Set for unique crop names
+                        cropImageList.clear();
+                        uniqueCropNames.clear(); // Clear to avoid duplicates
                         for (DataSnapshot traderSnapshot : stateSnapshot.getChildren()) {
                             String traderDistrict = traderSnapshot.child("district").getValue(String.class);
                             String traderTaluka = traderSnapshot.child("taluka").getValue(String.class);
 
-                            // Check if district and taluka match the selected values
-                            if (selectedDistrict != null && selectedTaluka != null &&
-                                    selectedDistrict.equals(traderDistrict) && selectedTaluka.equals(traderTaluka)) {
+                            if (selectedDistrict.equals(traderDistrict) && selectedTaluka.equals(traderTaluka)) {
                                 DataSnapshot listingsSnapshot = traderSnapshot.child("Listings");
-
                                 for (DataSnapshot listing : listingsSnapshot.getChildren()) {
                                     CropListingModel cropListing = listing.getValue(CropListingModel.class);
                                     if (cropListing != null) {
-                                        // Log the crop details
-                                        String cropName = cropListing.getCropName();
-                                        String minPrice = cropListing.getMinPrice();
-                                        String maxPrice = cropListing.getMaxPrice();
-                                        String quantity = cropListing.getQuantity();
-                                        String unit = cropListing.getUnit();
-                                        Log.d("FarmerDashboardActivity", "Fetched Crop: " + cropName + ", Min Price: " + minPrice + ", Max Price: " + maxPrice + ", Quantity: " + quantity + ", Unit: " + unit);
-
-                                        // Add crop image and name to the list only if it's not already added
-                                        if (uniqueCropNames.add(cropName)) { // Add crop name to the Set
-                                            int imageResId = getImageResource(cropName); // Get image resource ID based on crop name
-                                            cropImageList.add(new CropImageModel(cropName, imageResId));
+                                        // Add unique crops
+                                        if (uniqueCropNames.add(cropListing.getCropName())) {
+                                            int imageResId = getImageResource(cropListing.getCropName());
+                                            cropImageList.add(new CropImageModel(cropListing.getCropName(), imageResId));
                                         }
-                                    } else {
-                                        Log.e("FarmerDashboardActivity", "Error: CropListing object is null for listing: " + listing.getKey());
                                     }
                                 }
-                            } else {
-                                Log.d("FarmerDashboardActivity", "Skipping listing - District/Taluka mismatch: " + traderDistrict + "/" + traderTaluka);
                             }
                         }
-
-                        cropImageAdapter.notifyDataSetChanged(); // Notify the adapter about the updated list
-                        Log.d("FarmerDashboardActivity", "Finished fetching crop listings");
+                        cropImageAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -160,11 +153,6 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
                         Log.e("FarmerDashboardActivity", "Error fetching crop listings: " + databaseError.getMessage());
                     }
                 });
-    }
-
-    private int getImageResource(String cropName) {
-        String resourceName = cropName.toLowerCase().replace(" ", "_") + "_image";
-        return getResources().getIdentifier(resourceName, "drawable", getPackageName());
     }
 
     @Override
@@ -175,38 +163,38 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
     }
 
     private void fetchFilteredCropListings() {
-        Log.d("FarmerDashboardActivity", "Fetching filtered crop listings for State: " + selectedState);
         databaseReference.orderByChild("state").equalTo(selectedState)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot stateSnapshot) {
                         cropImageList.clear();
                         uniqueCropNames.clear(); // Clear the Set for unique crop names
+
                         for (DataSnapshot traderSnapshot : stateSnapshot.getChildren()) {
                             String traderDistrict = traderSnapshot.child("district").getValue(String.class);
                             String traderTaluka = traderSnapshot.child("taluka").getValue(String.class);
 
-                            if (selectedDistrict.equals(traderDistrict) && selectedTaluka.equals(traderTaluka)) {
+                            if (selectedDistrict != null && selectedTaluka != null &&
+                                    selectedDistrict.equals(traderDistrict) && selectedTaluka.equals(traderTaluka)) {
                                 DataSnapshot listingsSnapshot = traderSnapshot.child("Listings");
+
                                 for (DataSnapshot listing : listingsSnapshot.getChildren()) {
                                     CropListingModel cropListing = listing.getValue(CropListingModel.class);
 
-                                    if (cropListing != null && (selectedCrops.isEmpty() || selectedCrops.contains(cropListing.getCropName()))) {
-                                        if (uniqueCropNames.add(cropListing.getCropName())) { // Add crop name to the Set
-                                            int imageResId = getImageResource(cropListing.getCropName());
-                                            cropImageList.add(new CropImageModel(cropListing.getCropName(), imageResId));
+                                    if (cropListing != null) {
+                                        String cropName = cropListing.getCropName();
+                                        if (selectedCrops.isEmpty() || selectedCrops.contains(cropName)) {
+                                            if (uniqueCropNames.add(cropName)) {
+                                                int imageResId = getImageResource(cropName);
+                                                cropImageList.add(new CropImageModel(cropName, imageResId));
+                                            }
                                         }
-                                    } else {
-                                        Log.e("FarmerDashboardActivity", "Error: CropListing object is null for listing: " + listing.getKey());
                                     }
                                 }
-                            } else {
-                                Log.d("FarmerDashboardActivity", "Skipping listing - District/Taluka mismatch: " + traderDistrict + "/" + traderTaluka);
                             }
                         }
 
-                        cropImageAdapter.notifyDataSetChanged(); // Notify the adapter about the updated list
-                        Log.d("FarmerDashboardActivity", "Finished fetching filtered crop listings");
+                        cropImageAdapter.notifyDataSetChanged();
                     }
 
                     @Override
@@ -215,6 +203,17 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
                     }
                 });
     }
+
+    private int getImageResource(String cropName) {
+        String resourceName = cropName.toLowerCase().replace(" ", "_") + "_image";
+        int resId = getResources().getIdentifier(resourceName, "drawable", getPackageName());
+
+        if (resId == 0) {
+            Log.e("FarmerDashboardActivity", "Error: Image resource not found for crop: " + cropName);
+        }
+        return resId;
+    }
+
     private void showCropFilterBottomSheet() {
         CropFilterBottomSheetFragment filterBottomSheet = new CropFilterBottomSheetFragment();
         filterBottomSheet.setOnCropsSelectedListener(this);
@@ -233,5 +232,3 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
         fetchCropListings();
     }
 }
-
-

@@ -14,6 +14,14 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KrishiMitra"
         tools:targetApi="31">
+        <activity android:name=".TraderSpecificDetailsActivity"
+            android:exported="false"/>
+        <activity android:name=".MenuActivity"
+            android:exported="false" />
+        <activity android:name=".FarmerProfileActivity"
+            android:exported="false" />
+        <activity android:name=".TraderProfileActivity"
+            android:exported="false" />
         <activity android:name=".TraderListingsActivity"
             android:exported="false" />
         <activity android:name=".TraderDetailsActivity"

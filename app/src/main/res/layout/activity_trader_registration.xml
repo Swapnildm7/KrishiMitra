@@ -122,6 +122,17 @@
                 android:textSize="18dp"
                 android:textColor="@color/white" />
 
+            <!-- Privacy policy checkbox -->
+            <CheckBox
+                android:id="@+id/privacy_policy_checkbox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:checked="true"
+                android:textAlignment="center"
+                android:text="@string/privacy_policy_text"
+                android:textColor="@color/black" />
+
         </LinearLayout>
 
     </ScrollView>
