@@ -53,8 +53,14 @@ public class SignupPage extends AppCompatActivity {
             String confirmPassword = editTextConfirmPassword.getText().toString().trim();
 
             // Validate inputs
-            if (firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(SignupPage.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            if (firstName.isEmpty() || phoneNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty() || selectedRole.isEmpty()) {
+                Toast.makeText(SignupPage.this, "Please fill in all compulsory fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            // Validate phone number length
+            if (phoneNumber.length() != 10) {
+                Toast.makeText(SignupPage.this, "Phone number must be 10 digits", Toast.LENGTH_SHORT).show();
                 return;
             }
 

@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@color/green"
-        android:textSize="30sp"
+        android:textSize="36sp"
         android:textStyle="bold" />
 
     <!-- Description Text -->
@@ -24,42 +24,44 @@
         android:id="@+id/textViewDescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="16dp"
         android:padding="16dp"
         android:text="@string/textViewDesc"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <!-- Logo or Illustration -->
     <ImageView
         android:id="@+id/imageViewLogo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
         android:src="@drawable/welcome" />
 
     <!-- Login Button -->
     <Button
         android:id="@+id/buttonLogin"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:backgroundTint="#43A047"
         android:text="@string/login"
+        android:textStyle="bold"
         android:textColor="@color/white" />
 
 
     <Button
         android:id="@+id/buttonSignup"
-        android:layout_width="150dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="21dp"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:backgroundTint="#43A047"
         android:text="@string/sign_up"
+        android:textStyle="bold"
         android:textColor="@color/white" />
 
 </LinearLayout>
