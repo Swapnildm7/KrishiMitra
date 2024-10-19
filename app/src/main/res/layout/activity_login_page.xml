@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context="org.smartgrains.krishimitra.MainActivity">
 
     <!-- Background image with full opacity -->
     <ImageView
@@ -52,6 +52,7 @@
             android:layout_margin="16dp"
             android:hint="Mobile Number"
             android:inputType="number"
+            android:maxLength="10"
             android:background="@drawable/edit_text_background"
             android:textColor="@color/black"
             android:textSize="18sp"

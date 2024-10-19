@@ -4,22 +4,22 @@ plugins {
 }
 
 android {
-    namespace = "com.smartgrains.krishimitra"
+    namespace = "org.smartgrains.krishimitra"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.smartgrains.krishimitra"
+        applicationId = "org.smartgrains.krishimitra"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,6 +45,7 @@ dependencies {
     // Firebase Realtime Database library will inherit version from BOM
     implementation(libs.google.firebase.database)
     implementation(libs.recyclerview)
+    implementation(libs.firebase.storage)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

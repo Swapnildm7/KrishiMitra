@@ -113,6 +113,8 @@
                 android:layout_weight="2"
                 android:background="@drawable/edit_text_background"
                 android:hint="Phone Number"
+                android:inputType="number"
+                android:maxLength="10"
                 android:padding="12dp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
@@ -265,101 +267,6 @@
                     android:text="[Current Taluka]"
                     android:textColor="@android:color/black"
                     android:textSize="16sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!-- Change Location Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="8dp"
-            android:text="Change Location:"
-            android:textAlignment="center"
-            android:textColor="@color/bred"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <!-- Change Location Spinners -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:orientation="vertical">
-
-            <!-- State Spinner -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="State"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <Spinner
-                    android:id="@+id/state_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/spinner_background"
-                    android:padding="12dp" />
-            </LinearLayout>
-
-            <!-- District Spinner -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="District"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <Spinner
-                    android:id="@+id/district_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/spinner_background"
-                    android:padding="12dp" />
-            </LinearLayout>
-
-            <!-- Taluka Spinner -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="Taluka"
-                    android:textColor="@android:color/black"
-                    android:textSize="16sp" />
-
-                <Spinner
-                    android:id="@+id/taluka_spinner"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/spinner_background"
-                    android:padding="12dp" />
             </LinearLayout>
         </LinearLayout>
 
