@@ -1,22 +1,22 @@
 {
   "project_info": {
-    "project_number": "671539658276",
-    "firebase_url": "https://smartgrains01-default-rtdb.asia-southeast1.firebasedatabase.app",
-    "project_id": "smartgrains01",
-    "storage_bucket": "smartgrains01.appspot.com"
+    "project_number": "641060822007",
+    "firebase_url": "https://krishimitra000-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "krishimitra000",
+    "storage_bucket": "krishimitra000.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:671539658276:android:4d06105e845c194db2a2b1",
+        "mobilesdk_app_id": "1:641060822007:android:8b41db0b5dc04f4f5dacf2",
         "android_client_info": {
-          "package_name": "com.smartgrains.krishimitra"
+          "package_name": "org.smartgrains.krishimitra"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBD-0qbRQ0Un4GOLFRIceqX1UNX5XYmFPc"
+          "current_key": "AIzaSyCGbiPIlemptE3CxjNyMXFjTR2k_1eaFsw"
         }
       ],
       "services": {

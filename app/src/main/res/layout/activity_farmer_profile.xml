@@ -105,6 +105,8 @@
                 android:layout_weight="2"
                 android:background="@drawable/edit_text_background"
                 android:hint="Phone Number"
+                android:inputType="number"
+                android:maxLength="10"
                 android:padding="12dp"
                 android:textColor="@android:color/black" />
         </LinearLayout>
@@ -229,90 +231,6 @@
                     android:textSize="16sp" />
             </LinearLayout>
 
-        </LinearLayout>
-
-        <!-- Change Location Section -->
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:layout_marginBottom="8dp"
-            android:text="Change Location:"
-            android:textAlignment="center"
-            android:textColor="@color/bred"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingEnd="8dp"
-                android:text="State"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/spinner_state"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_background"
-                android:padding="12dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingEnd="8dp"
-                android:text="District"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/spinner_district"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_background"
-                android:padding="12dp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingEnd="8dp"
-                android:text="Taluka"
-                android:textColor="@android:color/black"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/spinner_taluka"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="2"
-                android:background="@drawable/spinner_background"
-                android:padding="12dp" />
         </LinearLayout>
 
         <!-- Save Changes Button -->

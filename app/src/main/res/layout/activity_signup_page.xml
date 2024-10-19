@@ -21,11 +21,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="21dp"
                 android:text="ENTER DETAILS"
                 android:textAlignment="center"
                 android:textColor="#43A047"
                 android:textSize="29sp"
-                android:layout_marginBottom="21dp"
                 android:textStyle="bold" />
 
             <!-- First Name -->
@@ -34,10 +34,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="First Name (Required)"
                 android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:hint="First Name (Required)"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="18sp" />
@@ -47,10 +47,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="Last Name"
                 android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:hint="Last Name"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="18sp" />
@@ -60,12 +60,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="Phone Number (Required)"
                 android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:hint="Phone Number (Required)"
                 android:inputType="number"
                 android:maxLength="10"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="18sp" />
@@ -76,11 +76,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="Enter Password (Required)"
                 android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:hint="Enter Password (Required)"
                 android:inputType="textPassword"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="18sp" />
@@ -91,11 +91,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="Confirm Password (Required)"
                 android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:hint="Confirm Password (Required)"
                 android:inputType="textPassword"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="18sp" />
@@ -104,21 +104,42 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="25dp"
-                android:layout_marginBottom="11dp"
-                android:text="Select your role:"
+                android:layout_marginTop="40dp"
+                android:text="Select Role:"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
-            <Spinner
-                android:id="@+id/role_spinner"
+
+            <!-- Replacing spinner with RadioGroup -->
+            <RadioGroup
+                android:id="@+id/radioGroupRole"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="Select Crop"
-                android:background="@drawable/spinner_background"
-                android:padding="8dp"/>
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <RadioButton
+                    android:id="@+id/radioFarmer"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Farmer"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+                <RadioButton
+                    android:id="@+id/radioTrader"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="10dp"
+                    android:text="Trader"
+                    android:textColor="@color/black"
+                    android:textSize="18sp" />
+
+            </RadioGroup>
 
             <!-- Signup Button -->
             <Button

@@ -4,15 +4,15 @@ plugins {
 }
 
 android {
-    namespace = "com.smartgrains.krishimitra"
+    namespace = "org.smartgrains.krishimitra"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.smartgrains.krishimitra"
+        applicationId = "org.smartgrains.krishimitra"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

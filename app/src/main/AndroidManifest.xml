@@ -14,43 +14,43 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.KrishiMitra"
         tools:targetApi="31">
-        <activity android:name=".TraderSpecificDetailsActivity"
+        <activity android:name="org.smartgrains.krishimitra.TraderSpecificDetailsActivity"
             android:exported="false"/>
-        <activity android:name=".MenuActivity"
+        <activity android:name="org.smartgrains.krishimitra.MenuActivity"
             android:exported="false" />
-        <activity android:name=".FarmerProfileActivity"
+        <activity android:name="org.smartgrains.krishimitra.FarmerProfileActivity"
             android:exported="false" />
-        <activity android:name=".TraderProfileActivity"
+        <activity android:name="org.smartgrains.krishimitra.TraderProfileActivity"
             android:exported="false" />
-        <activity android:name=".TraderListingsActivity"
+        <activity android:name="org.smartgrains.krishimitra.TraderListingsActivity"
             android:exported="false" />
-        <activity android:name=".TraderDetailsActivity"
+        <activity android:name="org.smartgrains.krishimitra.TraderDetailsActivity"
             android:exported="false" />
-        <activity android:name=".CropListing"
-            android:exported="false" />
-        <activity
-            android:name=".ForgotPasswordActivity"
+        <activity android:name="org.smartgrains.krishimitra.CropListing"
             android:exported="false" />
         <activity
-            android:name=".TraderDashboardActivity"
+            android:name="org.smartgrains.krishimitra.ForgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".FarmerDashboardActivity"
+            android:name="org.smartgrains.krishimitra.TraderDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".TraderRegistrationActivity"
+            android:name="org.smartgrains.krishimitra.FarmerDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".FarmerRegistrationActivity"
+            android:name="org.smartgrains.krishimitra.TraderRegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupPage"
+            android:name="org.smartgrains.krishimitra.FarmerRegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginPage"
+            android:name="org.smartgrains.krishimitra.SignupPage"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name="org.smartgrains.krishimitra.LoginPage"
+            android:exported="false" />
+        <activity
+            android:name="org.smartgrains.krishimitra.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
