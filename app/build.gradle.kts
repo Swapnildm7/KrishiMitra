@@ -19,7 +19,7 @@ android {
 
     buildTypes {
         release {
-            isMinifyEnabled = true
+            isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -45,6 +45,7 @@ dependencies {
     // Firebase Realtime Database library will inherit version from BOM
     implementation(libs.google.firebase.database)
     implementation(libs.recyclerview)
+    implementation(libs.firebase.storage)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

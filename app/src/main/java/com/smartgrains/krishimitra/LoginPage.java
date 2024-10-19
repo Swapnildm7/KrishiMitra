@@ -99,6 +99,12 @@ public class LoginPage extends AppCompatActivity {
             return;
         }
 
+        // Validate phone number length (should not exceed 10 digits)
+        if (phoneNumber.length() != 10) {
+            Toast.makeText(LoginPage.this, "Phone number must be exactly 10 digits", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         // Check user credentials in the database
         databaseReference.orderByChild("phoneNumber").equalTo(phoneNumber).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -133,6 +139,7 @@ public class LoginPage extends AppCompatActivity {
             }
         });
     }
+
 
     private void saveLoginState(String role, String userId) {
         SharedPreferences.Editor editor = sharedPreferences.edit();

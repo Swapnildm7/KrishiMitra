@@ -10,7 +10,8 @@ activity = "1.8.0"
 constraintlayout = "2.1.4"
 googleGmsGoogleServices = "4.4.2"
 firebaseDatabase = "21.0.0"
-recyclerview = "1.3.2"  # Add the latest version for Realtime Database
+recyclerview = "1.3.2"
+firebaseStorage = "21.0.1"  # Add the latest version for Realtime Database
 
 [libraries]
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
@@ -25,6 +26,7 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 recyclerview = { group = "androidx.recyclerview", name = "recyclerview", version.ref = "recyclerview" }  # Add the Firebase Realtime Database library
 androidx-cardview = "androidx.cardview:cardview:1.0.0"
+firebase-storage = { group = "com.google.firebase", name = "firebase-storage", version.ref = "firebaseStorage" }
 
 
 
