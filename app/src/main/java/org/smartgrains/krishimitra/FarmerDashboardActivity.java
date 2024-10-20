@@ -253,12 +253,6 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
         filterBottomSheet.setOnCropsSelectedListener(this);
         filterBottomSheet.show(getSupportFragmentManager(), "CropFilterBottomSheet");
     }
-
-    private void showLocationBottomSheet() {
-        LocationBottomSheetFragment locationBottomSheet = new LocationBottomSheetFragment();
-        locationBottomSheet.show(getSupportFragmentManager(), "LocationBottomSheet");
-    }
-
     public void onLocationSelected(String state, String district, String taluka) {
         this.selectedState = state;
         this.selectedDistrict = district;

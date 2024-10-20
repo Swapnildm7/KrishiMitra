@@ -47,9 +47,10 @@ public class MenuActivity extends AppCompatActivity {
             return; // Exit the method if userId is null
         }
 
-        // Initialize buttons for profile, home, and logout
+        // Initialize buttons for profile, home, contact us, and logout
         Button profileButton = findViewById(R.id.nav_profile); // Button for profile
         Button homeButton = findViewById(R.id.nav_home); // Button for home
+        Button contactUsButton = findViewById(R.id.nav_contact_us); // Button for contact us
         Button logoutButton = findViewById(R.id.nav_logout); // Button for logout
 
         // Fetch user role from the database (consider using SharedPreferences cache)
@@ -58,6 +59,7 @@ public class MenuActivity extends AppCompatActivity {
         // Set click listeners for the buttons
         profileButton.setOnClickListener(v -> navigateToProfileActivity());
         homeButton.setOnClickListener(v -> navigateToDashboard());
+        contactUsButton.setOnClickListener(v -> navigateToContactUsActivity()); // Add Contact Us listener
         logoutButton.setOnClickListener(v -> performLogout());
     }
 
@@ -122,6 +124,12 @@ public class MenuActivity extends AppCompatActivity {
             Log.d(TAG, "User role not yet fetched. Please wait."); // Log message if role is not available
             Toast.makeText(this, "User role not available", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void navigateToContactUsActivity() {
+        // Navigate to the ContactUsActivity
+        Intent intent = new Intent(MenuActivity.this, ContactUsActivity.class);
+        startActivity(intent);
     }
 
     private void performLogout() {

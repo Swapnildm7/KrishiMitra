@@ -1,0 +1,62 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_menu"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/description_background"
+        android:layout_marginTop="70dp">
+
+        <TextView
+            android:id="@+id/about_us"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="ABOUT US"
+            android:textAlignment="center"
+            android:textColor="@color/green"
+            android:textSize="32sp"
+            android:layout_marginTop="100dp"
+            android:textStyle="bold"
+            android:layout_gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Krishi Mitra: Your Trusted Agricultural Companion"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textSize="24sp"
+            android:padding="10dp"
+            android:layout_marginTop="25dp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Krishi Mitra is an innovative mobile application designed to empower farmers and traders by bridging the gap in agricultural information and resources. Krishi Mitra aims to revolutionize the agricultural landscape by providing farmers and traders with the tools they need to succeed. Join us on this journey to enhance agricultural practices and promote sustainable farming in your community!"
+            android:textColor="@color/black"
+            android:textAlignment="center"
+            android:textSize="18sp"
+            android:padding="15dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="30dp"
+            android:elevation="4dp" />
+
+        <TextView
+            android:id="@+id/contact_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:textColor="@color/black"
+            android:paddingBottom="16dp"
+            android:layout_marginTop="30dp"
+            android:layout_gravity="center" />
+
+    </LinearLayout>
+</ScrollView>

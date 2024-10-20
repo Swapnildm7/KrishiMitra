@@ -16,7 +16,7 @@
         android:gravity="center"
         android:text="Krishi Mitra"
         android:textColor="@color/green"
-        android:textSize="25sp"
+        android:textSize="35sp"
         android:textStyle="bold" />
 
     <!-- Label for Crop Name -->
@@ -25,6 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:layout_marginBottom="5dp"
         android:text="Select Crop"
         android:textColor="@color/black"
         android:textSize="21sp"
@@ -58,7 +59,8 @@
                 android:id="@+id/tv_min_price_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Min Price : ₹"
                 android:textColor="@color/black"
                 android:textSize="21sp"
                 android:textStyle="bold" />
@@ -85,7 +87,8 @@
                 android:id="@+id/tv_max_price_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="5dp"
+                android:text="Max Price : ₹"
                 android:textColor="@color/black"
                 android:textSize="21sp"
                 android:textStyle="bold" />
@@ -109,7 +112,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="5dp"
         android:text="Quantity"
         android:textColor="@color/black"
         android:textSize="21sp"
