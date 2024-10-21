@@ -11,8 +11,8 @@ android {
         applicationId = "org.smartgrains.krishimitra"
         minSdk = 24
         targetSdk = 34
-        versionCode = 2
-        versionName = "1.2"
+        versionCode = 3
+        versionName = "1.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -33,21 +33,15 @@ android {
 }
 
 dependencies {
+
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
-    implementation(libs.androidx.cardview)
-
-    // Add Firebase BOM for version management
-    implementation(platform(libs.firebase.bom))
-
-    // Firebase Realtime Database library will inherit version from BOM
-    implementation(libs.google.firebase.database)
-    implementation(libs.recyclerview)
+    implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
-
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+    implementation(libs.picasso)
 }

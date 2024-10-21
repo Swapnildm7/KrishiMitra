@@ -52,7 +52,6 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
     private TextView textViewListingStatus, tvNoListingsFound;
     private ProgressBar progressBar;
 
-    @SuppressLint("CutPasteId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -39,9 +39,6 @@
             android:name=".CropListing"
             android:exported="false" />
         <activity
-            android:name=".ForgotPasswordActivity"
-            android:exported="false" />
-        <activity
             android:name=".TraderDashboardActivity"
             android:exported="false" />
         <activity
