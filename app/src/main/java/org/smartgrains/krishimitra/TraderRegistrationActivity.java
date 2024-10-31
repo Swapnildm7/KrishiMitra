@@ -3,24 +3,27 @@ package org.smartgrains.krishimitra;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.database.DataSnapshot;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -28,9 +31,13 @@ import java.util.List;
 
 public class TraderRegistrationActivity extends AppCompatActivity {
 
+    private static final String TAG = "TraderRegistrationActivity"; // For logging
+
     private EditText editTextShopName, editTextShopAddress;
     private Spinner stateSpinner, districtSpinner, talukaSpinner;
     private Button buttonRegister;
+    private CheckBox privacyPolicyCheckbox;
+    private ProgressBar progressBar;
 
     private DatabaseReference databaseReference;
     private String firstName, lastName, phoneNumber, password;
@@ -46,89 +53,123 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
-        CheckBox privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox);
-        privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
+        // Initialize Views
+        initializeViews();
 
         // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Initialize Views
-        editTextShopName = findViewById(R.id.editTextShopName);
-        editTextShopAddress = findViewById(R.id.editTextShopAddress);
-        stateSpinner = findViewById(R.id.state_spinner);
-        districtSpinner = findViewById(R.id.district_spinner);
-        talukaSpinner = findViewById(R.id.taluka_spinner);
-        buttonRegister = findViewById(R.id.buttonRegister);
-
         // Get Intent data
         Intent intent = getIntent();
-        firstName = intent.getStringExtra("FIRST_NAME");
-        lastName = intent.getStringExtra("LAST_NAME");
-        phoneNumber = intent.getStringExtra("PHONE_NUMBER");
-        password = intent.getStringExtra("PASSWORD"); // Get password from the previous activity
+        retrieveIntentData(intent);
 
         // Populate Location Spinners
         populateLocationSpinners();
 
         // Register Button Click Listener
         buttonRegister.setOnClickListener(v -> {
-            String shopName = editTextShopName.getText().toString().trim();
-            String shopAddress = editTextShopAddress.getText().toString().trim();
-            String selectedState = stateSpinner.getSelectedItem().toString();
-            String selectedDistrict = districtSpinner.getSelectedItem().toString();
-            String selectedTaluka = talukaSpinner.getSelectedItem().toString();
-
-            // Validate input fields
-            if (shopName.isEmpty() || shopAddress.isEmpty() ||
-                    selectedState.isEmpty() || selectedDistrict.isEmpty() || selectedTaluka.isEmpty()) {
-                Toast.makeText(TraderRegistrationActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            if (!privacyPolicyCheckbox.isChecked()) {
+                showPrivacyPolicyAlert();
                 return;
             }
 
-            // Check if the user is already registered
-            checkUserExists(phoneNumber, shopName, shopAddress, selectedState, selectedDistrict, selectedTaluka);
+            if (validateInputs()) {
+                startLoadingProcess();
+                checkUserExists(phoneNumber, editTextShopName.getText().toString().trim(),
+                        editTextShopAddress.getText().toString().trim(),
+                        stateSpinner.getSelectedItem().toString(),
+                        districtSpinner.getSelectedItem().toString(),
+                        talukaSpinner.getSelectedItem().toString());
+            }
         });
+    }
+
+    private void initializeViews() {
+        editTextShopName = findViewById(R.id.editTextShopName);
+        editTextShopAddress = findViewById(R.id.editTextShopAddress);
+        stateSpinner = findViewById(R.id.state_spinner);
+        districtSpinner = findViewById(R.id.district_spinner);
+        talukaSpinner = findViewById(R.id.taluka_spinner);
+        buttonRegister = findViewById(R.id.buttonRegister);
+        privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox);
+        progressBar = findViewById(R.id.progressBar);
+        privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
+    }
+
+    private void retrieveIntentData(Intent intent) {
+        firstName = intent.getStringExtra("FIRST_NAME");
+        lastName = intent.getStringExtra("LAST_NAME");
+        phoneNumber = intent.getStringExtra("PHONE_NUMBER");
+        password = intent.getStringExtra("PASSWORD");
+    }
+
+    private boolean validateInputs() {
+        String shopName = editTextShopName.getText().toString().trim();
+        String shopAddress = editTextShopAddress.getText().toString().trim();
+        String selectedState = stateSpinner.getSelectedItem().toString();
+        String selectedDistrict = districtSpinner.getSelectedItem().toString();
+        String selectedTaluka = talukaSpinner.getSelectedItem().toString();
+
+        if (shopName.isEmpty() || shopAddress.isEmpty() || selectedState.isEmpty() ||
+                selectedDistrict.isEmpty() || selectedTaluka.isEmpty()) {
+            showToast("Please fill in all fields");
+            return false;
+        }
+        return true;
+    }
+
+    private void startLoadingProcess() {
+        buttonRegister.setEnabled(false);
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void showPrivacyPolicyAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle("Privacy Policy")
+                .setMessage("You must agree to the privacy policy to register.")
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void populateLocationSpinners() {
         List<String> states = LocationData.getStates();
-        String[] statesArray = states.toArray(new String[0]); // Convert List to String[]
+        String[] statesArray = states.toArray(new String[0]);
         CustomSpinnerAdapter stateAdapter = new CustomSpinnerAdapter(this, statesArray);
         stateSpinner.setAdapter(stateAdapter);
 
         stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedState = states.get(position);
-                populateDistrictSpinner(selectedState);
+                populateDistrictSpinner(states.get(position));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
     private void populateDistrictSpinner(String state) {
         List<String> districts = LocationData.getDistricts(state);
-        String[] districtsArray = districts.toArray(new String[0]); // Convert List to String[]
+        String[] districtsArray = districts.toArray(new String[0]);
         CustomSpinnerAdapter districtAdapter = new CustomSpinnerAdapter(this, districtsArray);
         districtSpinner.setAdapter(districtAdapter);
 
         districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedDistrict = districts.get(position);
-                populateTalukaSpinner(selectedDistrict);
+                populateTalukaSpinner(districts.get(position));
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
     private void populateTalukaSpinner(String district) {
         List<String> talukas = LocationData.getTalukas(district);
-        String[] talukasArray = talukas.toArray(new String[0]); // Convert List to String[]
+        String[] talukasArray = talukas.toArray(new String[0]);
         CustomSpinnerAdapter talukaAdapter = new CustomSpinnerAdapter(this, talukasArray);
         talukaSpinner.setAdapter(talukaAdapter);
     }
@@ -139,20 +180,23 @@ public class TraderRegistrationActivity extends AppCompatActivity {
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                progressBar.setVisibility(View.GONE);
+                buttonRegister.setEnabled(true);
                 if (dataSnapshot.exists()) {
-                    Toast.makeText(TraderRegistrationActivity.this, "User already registered with this phone number", Toast.LENGTH_SHORT).show();
+                    showToast("User already registered with this phone number");
                 } else {
-                    // Save user info to Firebase
-                    String hashedPassword = hashPassword(password); // Hash the password
+                    String hashedPassword = hashPassword(password);
                     saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, shopName, shopAddress, state, district, taluka);
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(TraderRegistrationActivity.this, "Error checking user registration", Toast.LENGTH_SHORT).show();
+                progressBar.setVisibility(View.GONE);
+                buttonRegister.setEnabled(true);
+                showToast("Error checking user registration: " + error.getMessage());
+                logError("checkUserExists", error.toException());
             }
-
         });
     }
 
@@ -164,19 +208,27 @@ public class TraderRegistrationActivity extends AppCompatActivity {
         if (userId != null) {
             databaseReference.child(userId).setValue(user)
                     .addOnCompleteListener(task -> {
+                        progressBar.setVisibility(View.GONE);
+                        buttonRegister.setEnabled(true);
                         if (task.isSuccessful()) {
-                            Toast.makeText(TraderRegistrationActivity.this, "Trader registered successfully", Toast.LENGTH_SHORT).show();
-
-                            // Navigate to TraderDashboardActivity
-                            Intent intent = new Intent(TraderRegistrationActivity.this, TraderDashboardActivity.class);
-                            intent.putExtra("USER_ID", userId); // Pass the user ID
-                            startActivity(intent);
-                            finish(); // Close the activity
+                            showToast("Trader registered successfully");
+                            navigateToDashboard(userId);
                         } else {
-                            Toast.makeText(TraderRegistrationActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                            showToast("Registration failed: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"));
+                            logError("saveUserInfo", task.getException());
                         }
                     });
+        } else {
+            showToast("Error creating user ID. Please try again.");
+            logError("saveUserInfo", new Exception("User ID is null"));
         }
+    }
+
+    private void navigateToDashboard(String userId) {
+        Intent intent = new Intent(TraderRegistrationActivity.this, TraderDashboardActivity.class);
+        intent.putExtra("USER_ID", userId);
+        startActivity(intent);
+        finish();
     }
 
     // Method to hash the password
@@ -190,9 +242,20 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                 if (hex.length() == 1) hexString.append('0');
                 hexString.append(hex);
             }
-            return hexString.toString(); // Return the hashed password as a hexadecimal string
+            return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            logError("hashPassword", e);
+            showToast("Error hashing password. Please try again.");
+            return null; // Handle password hashing failure gracefully
         }
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(TraderRegistrationActivity.this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    private void logError(String methodName, Exception e) {
+        Log.e(TAG, "Method: " + methodName, e); // Log error with method name
+        e.printStackTrace(); // For simplicity, we also print the stack trace
     }
 }

@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pngtree"
+    android:background="@drawable/bg_leafy"
     android:fitsSystemWindows="false">
 
+    <!-- Registration content -->
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,11 +21,11 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="ADDRESS"
+                android:layout_marginBottom="21dp"
+                android:text="@string/address"
                 android:textAlignment="center"
                 android:textColor="#43A047"
                 android:textSize="29sp"
-                android:layout_marginBottom="21dp"
                 android:textStyle="bold" />
 
             <EditText
@@ -33,10 +33,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="Enter Address (Required)"
-                android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:background="@drawable/bg_edittext"
+                android:hint="@string/enterAddress"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="19sp" />
@@ -44,15 +44,15 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="11dp"
-                    android:text="Select your state:"
+                    android:text="@string/state"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="21sp"
@@ -62,15 +62,14 @@
                     android:id="@+id/state_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="Select Crop"
-                    android:background="@drawable/spinner_background" />
+                    android:background="@drawable/bg_spinner" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="11dp"
-                    android:text="Select your district:"
+                    android:text="@string/district"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="21sp"
@@ -80,15 +79,14 @@
                     android:id="@+id/district_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="Select Crop"
-                    android:background="@drawable/spinner_background" />
+                    android:background="@drawable/bg_spinner" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="18dp"
                     android:layout_marginBottom="11dp"
-                    android:text="Select your taluka:"
+                    android:text="@string/taluka"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="21sp"
@@ -98,8 +96,7 @@
                     android:id="@+id/taluka_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:autofillHints="Select Crop"
-                    android:background="@drawable/spinner_background" />
+                    android:background="@drawable/bg_spinner" />
 
             </LinearLayout>
 
@@ -109,7 +106,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:backgroundTint="#43A047"
-                android:text="REGISTER"
+                android:text="@string/register"
                 android:textColor="@color/white" />
 
             <!-- Privacy policy checkbox -->
@@ -119,12 +116,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:checked="true"
-                android:textAlignment="center"
                 android:text="@string/privacy_policy_text"
+                android:textAlignment="center"
                 android:textColor="@color/black" />
 
         </LinearLayout>
-
     </ScrollView>
+
+    <!-- Progress bar for loading indication -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </FrameLayout>

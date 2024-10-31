@@ -9,52 +9,58 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="Krishi Mitra"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.KrishiMitra"
         tools:targetApi="31">
         <activity
-            android:name=".ContactUsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".TraderSpecificDetailsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MenuActivity"
+            android:name=".TraderProfileActivity"
             android:exported="false" />
         <activity
             android:name=".FarmerProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".TraderProfileActivity"
+            android:name=".ContactUsActivity"
             android:exported="false" />
         <activity
-            android:name=".TraderListingsActivity"
+            android:name=".MenuActivity"
             android:exported="false" />
         <activity
             android:name=".TraderDetailsActivity"
             android:exported="false" />
         <activity
-            android:name=".CropListing"
+            android:name=".TraderListActivity"
             android:exported="false" />
         <activity
-            android:name=".TraderDashboardActivity"
+            android:name=".EditCropListingActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListCropActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CropUploadActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AdminDashboardActivity"
             android:exported="false" />
         <activity
             android:name=".FarmerDashboardActivity"
             android:exported="false" />
         <activity
-            android:name=".TraderRegistrationActivity"
+            android:name=".TraderDashboardActivity"
             android:exported="false" />
         <activity
             android:name=".FarmerRegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".SignupPage"
+            android:name=".TraderRegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginPage"
+            android:name=".SignupActivity"
+            android:exported="false" />
+        <activity
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

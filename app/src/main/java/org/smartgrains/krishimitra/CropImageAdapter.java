@@ -1,80 +1,102 @@
 package org.smartgrains.krishimitra;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log; // Import Log for logging
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class CropImageAdapter extends RecyclerView.Adapter<CropImageAdapter.CropViewHolder> {
+    private Context context;
+    private List<CropListing> cropListingList;
+    private CropClickListener cropClickListener;
 
-    private List<CropImageModel> cropImageList;
-    private Context context; // Context to start new activities
-    private String selectedState;
-    private String selectedDistrict;
-    private String selectedTaluka;
+    // Interface for handling clicks
+    public interface CropClickListener {
+        void onCropClick(CropListing cropListing);
+    }
 
-    // Constructor to accept context and location details
-    public CropImageAdapter(Context context, List<CropImageModel> cropImageList,
-                            String selectedState, String selectedDistrict, String selectedTaluka) {
+    // Constructor now includes a CropClickListener parameter
+    public CropImageAdapter(Context context, List<CropListing> cropListingList, CropClickListener cropClickListener) {
         this.context = context;
-        this.cropImageList = cropImageList;
-        this.selectedState = selectedState;
-        this.selectedDistrict = selectedDistrict;
-        this.selectedTaluka = selectedTaluka;
+        this.cropListingList = cropListingList;
+        this.cropClickListener = cropClickListener;
     }
 
     @NonNull
     @Override
     public CropViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_crop_image, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_crop_image, parent, false);
         return new CropViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull CropViewHolder holder, int position) {
-        CropImageModel cropImage = cropImageList.get(position);
-        holder.cropImageView.setImageResource(cropImage.getImageResource());
-        holder.cropNameTextView.setText(cropImage.getCropName());
+        if (position < 0 || position >= cropListingList.size()) {
+            Log.e("CropImageAdapter", "Invalid position: " + position);
+            return;
+        }
 
-        // Handle item click to start TraderDetailsActivity
-        holder.itemView.setOnClickListener(v -> {
-            Log.d("CropImageAdapter", "Crop Name: " + cropImage.getCropName());
-            Log.d("CropImageAdapter", "State: " + selectedState);
-            Log.d("CropImageAdapter", "District: " + selectedDistrict);
-            Log.d("CropImageAdapter", "Taluka: " + selectedTaluka);
+        CropListing cropListing = cropListingList.get(position);
+        if (cropListing != null) {
+            holder.cropNameTextView.setText(cropListing.getCropName());
 
-            Intent intent = new Intent(context, TraderDetailsActivity.class);
-            intent.putExtra("CROP_NAME", cropImage.getCropName());
-            intent.putExtra("STATE", selectedState); // Ensure these variables hold the updated values
-            intent.putExtra("DISTRICT", selectedDistrict);
-            intent.putExtra("TALUKA", selectedTaluka);
-            context.startActivity(intent);
-        });
+            // Load image using Picasso with error handling
+            Picasso.get()
+                    .load(cropListing.getImageUrl())
+                    .placeholder(R.drawable.placeholder_image) // Placeholder while loading
+                    .error(R.drawable.error_image) // Image if there's an error
+                    .into(holder.cropImageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            Log.d("CropImageAdapter", "Image loaded successfully");
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            Log.e("CropImageAdapter", "Error loading image: " + e.getMessage());
+                            Toast.makeText(context, "Failed to load image", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+            // Set click listener for the item with error handling
+            holder.itemView.setOnClickListener(v -> {
+                try {
+                    cropClickListener.onCropClick(cropListing);
+                } catch (Exception e) {
+                    Log.e("CropImageAdapter", "Error on crop click: " + e.getMessage());
+                    Toast.makeText(context, "Error handling crop click", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Log.e("CropImageAdapter", "Null CropListing at position " + position);
+        }
     }
-
 
     @Override
     public int getItemCount() {
-        return cropImageList.size();
+        return cropListingList != null ? cropListingList.size() : 0;
     }
 
     static class CropViewHolder extends RecyclerView.ViewHolder {
-        ImageView cropImageView;
         TextView cropNameTextView;
+        ImageView cropImageView;
 
         public CropViewHolder(@NonNull View itemView) {
             super(itemView);
-            cropImageView = itemView.findViewById(R.id.cropImageView);
             cropNameTextView = itemView.findViewById(R.id.cropNameTextView);
+            cropImageView = itemView.findViewById(R.id.cropImageView);
         }
     }
 }

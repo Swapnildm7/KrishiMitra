@@ -1,64 +1,60 @@
 package org.smartgrains.krishimitra;
 
 import android.os.Bundle;
-import android.util.Log; // Import for logging
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TimeZone;
 
 public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
 
-    private static final String ARG_CROP = "crop";
-    private static final String ARG_USER_ID = "userId";
-    private static final String ARG_LISTING_ID = "listingId"; // New constant for listingId
-
-    private CropListingModel crop;
-    private String userId; // Store userId passed from the activity
-    private String listingId; // Store the listingId to be updated
-
-    private EditText minPriceEditText;
-    private EditText maxPriceEditText;
-    private EditText quantityEditText;
+    private TextView cropNameTextView;
+    private EditText minPriceEditText, maxPriceEditText, quantityEditText;
     private Spinner unitSpinner;
-    private Button updateButton;
-    private Button deleteButton;
+    private Button updateButton, deleteButton;
 
-    private static final String TAG = "UpdateCropDetailsFragment"; // Tag for logging
+    private String userId, listingId;
+    private DatabaseReference listingsRef, historyRef;
 
-    // Static method to create a new instance of the fragment
-    public static UpdateCropDetailsFragment newInstance(CropListingModel crop, String listingId, String userId) {
+    public static UpdateCropDetailsFragment newInstance(String userId, String listingId) {
         UpdateCropDetailsFragment fragment = new UpdateCropDetailsFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_CROP, crop); // Use Parcelable to pass CropListingModel
-        args.putString(ARG_USER_ID, userId);
-        args.putString(ARG_LISTING_ID, listingId); // Pass the listingId to the fragment
+        args.putString("USER_ID", userId);
+        args.putString("LISTING_ID", listingId);
         fragment.setArguments(args);
         return fragment;
     }
 
+    @Nullable
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            crop = getArguments().getParcelable(ARG_CROP); // Retrieve crop from arguments
-            userId = getArguments().getString(ARG_USER_ID); // Retrieve userId from arguments
-            listingId = getArguments().getString(ARG_LISTING_ID); // Retrieve listingId from arguments
-            Log.d(TAG, "onCreate - userId: " + userId + ", listingId: " + listingId); // Log userId and listingId
-        }
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_update_crop_details, container, false);
 
+        cropNameTextView = view.findViewById(R.id.cropNameTextView);
         minPriceEditText = view.findViewById(R.id.minPriceEditText);
         maxPriceEditText = view.findViewById(R.id.maxPriceEditText);
         quantityEditText = view.findViewById(R.id.quantityEditText);
@@ -66,128 +62,148 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
         updateButton = view.findViewById(R.id.updateButton);
         deleteButton = view.findViewById(R.id.deleteButton);
 
-        // Set the existing crop details
-        minPriceEditText.setText(crop.getMinPrice());
-        maxPriceEditText.setText(crop.getMaxPrice());
-        quantityEditText.setText(crop.getQuantity());
+        if (getArguments() != null) {
+            userId = getArguments().getString("USER_ID");
+            listingId = getArguments().getString("LISTING_ID");
+        }
 
-        // Get the units array from resources
+        listingsRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Listings").child(listingId);
+        historyRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("ListingHistory").child(listingId);
+
         String[] unitsArray = getResources().getStringArray(R.array.quantity_units_array);
-
-        // Set up the custom spinner adapter using the String array
         CustomSpinnerAdapter customAdapter = new CustomSpinnerAdapter(getContext(), unitsArray);
         unitSpinner.setAdapter(customAdapter);
 
-        // Set the current unit in the spinner
-        int unitPosition = customAdapter.getPosition(crop.getUnit());
-        unitSpinner.setSelection(unitPosition);
+        fetchCropDetails();
 
-        // Set up the update button
-        updateButton.setOnClickListener(v -> {
-            updateCropDetails(listingId); // Directly use listingId passed from arguments
-        });
-
-        // Set up the delete button
-        deleteButton.setOnClickListener(v -> {
-            deleteCropDetails(listingId); // Directly use listingId passed from arguments
-        });
+        updateButton.setOnClickListener(v -> updateCropDetails());
+        deleteButton.setOnClickListener(v -> showDeleteConfirmationDialog());
 
         return view;
     }
 
-    private void updateCropDetails(String listingId) {
-        // Get updated values
-        String newMinPrice = minPriceEditText.getText().toString();
-        String newMaxPrice = maxPriceEditText.getText().toString();
-        String newQuantity = quantityEditText.getText().toString();
-        String newUnit = unitSpinner.getSelectedItem().toString();
+    private void fetchCropDetails() {
+        listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    CropListing cropListing = snapshot.getValue(CropListing.class);
+                    if (cropListing != null) {
+                        cropNameTextView.setText(cropListing.getCropName());
+                        minPriceEditText.setText(cropListing.getMinPrice());
+                        maxPriceEditText.setText(cropListing.getMaxPrice());
+                        quantityEditText.setText(cropListing.getQuantity());
 
-        // Validate input
-        if (newMinPrice.isEmpty() || newMaxPrice.isEmpty() || newQuantity.isEmpty()) {
-            Toast.makeText(getContext(), "Please fill in all fields", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Ensure max price is greater than min price
-        if (Double.parseDouble(newMaxPrice) <= Double.parseDouble(newMinPrice)) {
-            Toast.makeText(getContext(), "Max price must be greater than Min price", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-        // Get a reference to the database for the current listing
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(userId)
-                .child("Listings")
-                .child(listingId);
-
-        // Get a reference to the history node where old data will be stored
-        DatabaseReference historyReference = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(userId)
-                .child("ListingsHistory")
-                .child(listingId)
-                .push(); // Generate a unique key for each history entry
-
-        // Move the current crop details to the history node
-        historyReference.setValue(crop).addOnCompleteListener(historyTask -> {
-            if (historyTask.isSuccessful()) {
-                // Successfully moved the current crop to history
-
-                // Now, update the crop object with new values
-                crop.setMinPrice(newMinPrice);
-                crop.setMaxPrice(newMaxPrice);
-                crop.setQuantity(newQuantity);
-                crop.setUnit(newUnit);
-
-                // Write the updated crop object to the database
-                databaseReference.setValue(crop).addOnCompleteListener(updateTask -> {
-                    if (updateTask.isSuccessful()) {
-                        Toast.makeText(getContext(), "Crop updated successfully!", Toast.LENGTH_SHORT).show();
-                        dismiss(); // Close the bottom sheet
-                    } else {
-                        Toast.makeText(getContext(), "Update failed: " + updateTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        String unit = cropListing.getUnit();
+                        ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) unitSpinner.getAdapter();
+                        int spinnerPosition = adapter.getPosition(unit);
+                        unitSpinner.setSelection(spinnerPosition);
                     }
-                });
-            } else {
-                Toast.makeText(getContext(), "Failed to move old listing to history: " + historyTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getContext(), "Crop details not found.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(getContext(), "Failed to fetch crop details.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void deleteCropDetails(String listingId) {
-        // Get a reference to the database
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(userId)
-                .child("Listings")
-                .child(listingId); // Use the fetched listing ID
+    private void updateCropDetails() {
+        saveCropToHistory();
 
-        // Get a reference to the history node where old data will be stored
-        DatabaseReference historyReference = FirebaseDatabase.getInstance()
-                .getReference("Users")
-                .child(userId)
-                .child("ListingsHistory")
-                .child(listingId)
-                .push(); // Generate a unique key for each history entry
+        String minPriceStr = minPriceEditText.getText().toString();
+        String maxPriceStr = maxPriceEditText.getText().toString();
+        String quantity = quantityEditText.getText().toString();
+        String unit = unitSpinner.getSelectedItem().toString();
 
-        // Move the current crop details to the history node
-        historyReference.setValue(crop).addOnCompleteListener(historyTask -> {
-            if (historyTask.isSuccessful()) {
-                // Successfully moved the current crop to history
+        if (minPriceStr.isEmpty() || maxPriceStr.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter both min and max prices.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
-                // Remove the crop from the database
-                databaseReference.removeValue().addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(getContext(), "Crop deleted successfully!", Toast.LENGTH_SHORT).show();
-                        dismiss(); // Close the bottom sheet
-                    } else {
-                        Toast.makeText(getContext(), "Deletion failed: " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+        try {
+            double minPrice = Double.parseDouble(minPriceStr);
+            double maxPrice = Double.parseDouble(maxPriceStr);
+
+            if (maxPrice < minPrice) {
+                Toast.makeText(getContext(), "Max price cannot be less than min price.", Toast.LENGTH_SHORT).show();
+                return;
+            }
+        } catch (NumberFormatException e) {
+            Toast.makeText(getContext(), "Invalid price format.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("minPrice", minPriceStr);
+        updates.put("maxPrice", maxPriceStr);
+        updates.put("quantity", quantity);
+        updates.put("unit", unit);
+        updates.put("timestamp", getReadableTimestamp());
+
+        listingsRef.updateChildren(updates).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getContext(), "Crop details updated successfully.", Toast.LENGTH_SHORT).show();
+                dismiss();
             } else {
-                Toast.makeText(getContext(), "Failed to move old listing to history: " + historyTask.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Failed to update crop details.", Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private void showDeleteConfirmationDialog() {
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Delete Confirmation")
+                .setMessage("Are you sure you want to delete this crop listing?")
+                .setPositiveButton("Yes", (dialog, which) -> deleteCropListing())
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void deleteCropListing() {
+        saveCropToHistory();
+
+        listingsRef.removeValue().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Toast.makeText(getContext(), "Crop listing deleted successfully.", Toast.LENGTH_SHORT).show();
+                dismiss();
+            } else {
+                Toast.makeText(getContext(), "Failed to delete crop listing.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void saveCropToHistory() {
+        listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Map<String, Object> cropDetails = (Map<String, Object>) snapshot.getValue();
+                    if (cropDetails != null) {
+                        String historyId = historyRef.push().getKey();
+                        if (historyId != null) {
+                            cropDetails.put("endTimestamp", getReadableTimestamp());
+                            historyRef.child(historyId).setValue(cropDetails)
+                                    .addOnSuccessListener(aVoid -> Log.d("History", "Crop details saved to history"))
+                                    .addOnFailureListener(e -> Log.e("History", "Failed to save crop details to history", e));
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("History", "Failed to retrieve crop details for history", error.toException());
+            }
+        });
+    }
+
+    private String getReadableTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        return sdf.format(new Date());
     }
 }

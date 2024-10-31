@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pngtree"
+    android:background="@drawable/bg_leafy"
     android:fitsSystemWindows="false">
 
     <ScrollView
@@ -21,9 +21,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="SHOP DETAILS"
-                android:textAlignment="center"
                 android:layout_marginBottom="21dp"
+                android:text="@string/shopDetails"
+                android:textAlignment="center"
                 android:textColor="#43A047"
                 android:textSize="29sp"
                 android:textStyle="bold" />
@@ -33,10 +33,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="Enter Shop Name (Required)"
-                android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:background="@drawable/bg_edittext"
+                android:hint="@string/shopName"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="19sp" />
@@ -46,10 +46,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:hint="Enter Shop Address (Required)"
-                android:background="@drawable/edit_text_background"
-                android:textAlignment="center"
+                android:background="@drawable/bg_edittext"
+                android:hint="@string/shopAddress"
                 android:padding="11dp"
+                android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textColorHint="#91918e"
                 android:textSize="19sp" />
@@ -57,14 +57,14 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="8dp"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Select your State:"
+                    android:text="@string/state"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="21sp"
@@ -74,13 +74,13 @@
                     android:id="@+id/state_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/spinner_background" />
+                    android:background="@drawable/bg_spinner" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Select your Distrcit:"
+                    android:text="@string/district"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="21sp"
@@ -90,13 +90,13 @@
                     android:id="@+id/district_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/spinner_background" />
+                    android:background="@drawable/bg_spinner" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="32dp"
-                    android:text="Select your Taluka:"
+                    android:text="@string/taluka"
                     android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="21sp"
@@ -106,7 +106,7 @@
                     android:id="@+id/taluka_spinner"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@drawable/spinner_background" />
+                    android:background="@drawable/bg_spinner" />
 
             </LinearLayout>
 
@@ -114,13 +114,13 @@
                 android:id="@+id/buttonRegister"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginRight="50dp"
-                android:layout_marginLeft="50dp"
                 android:backgroundTint="#43A047"
-                android:text="REGISTER"
-                android:textSize="18dp"
-                android:textColor="@color/white" />
+                android:text="@string/register"
+                android:textColor="@color/white"
+                android:textSize="18dp" />
 
             <!-- Privacy policy checkbox -->
             <CheckBox
@@ -129,12 +129,19 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:checked="true"
-                android:textAlignment="center"
                 android:text="@string/privacy_policy_text"
+                android:textAlignment="center"
                 android:textColor="@color/black" />
 
         </LinearLayout>
-
     </ScrollView>
+
+    <!-- Progress bar for loading indication -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:visibility="gone" />
 
 </FrameLayout>

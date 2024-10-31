@@ -7,4 +7,6 @@
     <color name="htext">#545754</color>
     <color name="bred">#f2786d</color>
     <color name="blue">#0a57d1</color>
+    <color name="ripple_color">#B0BEC5</color> <!-- Light gray -->
+
 </resources>

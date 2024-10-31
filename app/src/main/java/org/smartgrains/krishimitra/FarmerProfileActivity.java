@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,10 +24,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class FarmerProfileActivity extends AppCompatActivity {
+
+    private static final String TAG = "FarmerProfileActivity";
 
     private EditText firstNameEditText, lastNameEditText, phoneNumberEditText, addressEditText;
     private Spinner stateSpinner, districtSpinner, talukaSpinner;
@@ -39,21 +40,20 @@ public class FarmerProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_farmer_profile); // Update layout name as needed
+        setContentView(R.layout.activity_farmer_profile);
 
-        // Make status bar transparent
+        // Transparent status bar setup
         getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        initUI();
+        initFirebase();
+        fetchUserDetails();
+        setupListeners();
+    }
 
-        // Fetch user ID from intent
-        userId = getIntent().getStringExtra("USER_ID");
-
-        // Initialize UI elements
+    private void initUI() {
         firstNameEditText = findViewById(R.id.edit_first_name);
         lastNameEditText = findViewById(R.id.edit_last_name);
         phoneNumberEditText = findViewById(R.id.edit_phone_number);
@@ -64,141 +64,186 @@ public class FarmerProfileActivity extends AppCompatActivity {
         currentDistrictTextView = findViewById(R.id.current_district);
         currentTalukaTextView = findViewById(R.id.current_taluka);
         privacyPolicyTextView = findViewById(R.id.tv_privacy_policy);
+    }
 
-        // Fetch and display user details
-        fetchUserDetails();
-
-        // Set up update button listener
-        updateButton.setOnClickListener(v -> updateUserDetails());
-
-        // Set up delete button listener
-        deleteButton.setOnClickListener(v -> deleteAccount());
-
-        privacyPolicyTextView.setOnClickListener(v -> {
-            String privacyPolicyUrl = "https://smartgrains.org/PrivacyPolicyKrishiMitra.html";
-            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl));
-            startActivity(intent);
-        });
+    private void initFirebase() {
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        userId = getIntent().getStringExtra("USER_ID");
+        if (userId == null) {
+            Toast.makeText(this, "User ID not found.", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "User ID is null.");
+            finish();
+        }
     }
 
     private void fetchUserDetails() {
+        if (userId == null) return;
+
         databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    firstNameEditText.setText(dataSnapshot.child("firstName").getValue(String.class));
-                    lastNameEditText.setText(dataSnapshot.child("lastName").getValue(String.class));
-                    phoneNumberEditText.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
-                    addressEditText.setText(dataSnapshot.child("address").getValue(String.class));
-
-                    String state = dataSnapshot.child("state").getValue(String.class);
-                    String district = dataSnapshot.child("district").getValue(String.class);
-                    String taluka = dataSnapshot.child("taluka").getValue(String.class);
-
-                    currentStateTextView.setText(state != null ? state : "[Current State]");
-                    currentDistrictTextView.setText(district != null ? district : "[Current District]");
-                    currentTalukaTextView.setText(taluka != null ? taluka : "[Current Taluka]");
-
+                    setProfileData(dataSnapshot);
                 } else {
-                    Toast.makeText(FarmerProfileActivity.this, "User details not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FarmerProfileActivity.this, "User details not found.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(FarmerProfileActivity.this, "Error fetching user details", Toast.LENGTH_SHORT).show();
+                showError("Error fetching user details", databaseError);
             }
         });
     }
 
+    private void setProfileData(DataSnapshot dataSnapshot) {
+        try {
+            firstNameEditText.setText(dataSnapshot.child("firstName").getValue(String.class));
+            lastNameEditText.setText(dataSnapshot.child("lastName").getValue(String.class));
+            phoneNumberEditText.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
+            addressEditText.setText(dataSnapshot.child("address").getValue(String.class));
+
+            currentStateTextView.setText(getDataOrPlaceholder(dataSnapshot, "state", "[Current State]"));
+            currentDistrictTextView.setText(getDataOrPlaceholder(dataSnapshot, "district", "[Current District]"));
+            currentTalukaTextView.setText(getDataOrPlaceholder(dataSnapshot, "taluka", "[Current Taluka]"));
+        } catch (Exception e) {
+            Log.e(TAG, "Error parsing user details", e);
+            Toast.makeText(this, "Error loading user details.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private String getDataOrPlaceholder(DataSnapshot snapshot, String key, String placeholder) {
+        String value = snapshot.child(key).getValue(String.class);
+        return value != null ? value : placeholder;
+    }
+
+    private void setupListeners() {
+        updateButton.setOnClickListener(v -> updateUserDetails());
+        deleteButton.setOnClickListener(v -> confirmDeleteAccount());
+        privacyPolicyTextView.setOnClickListener(v -> openPrivacyPolicy());
+    }
+
     private void updateUserDetails() {
-        String firstName = firstNameEditText.getText().toString();
-        String lastName = lastNameEditText.getText().toString();
-        String phoneNumber = phoneNumberEditText.getText().toString();
-        String address = addressEditText.getText().toString();
+        String firstName = firstNameEditText.getText().toString().trim();
+        String phoneNumber = phoneNumberEditText.getText().toString().trim();
+        String address = addressEditText.getText().toString().trim();
+
+        // Check if required fields are filled
+        if (firstName.isEmpty()) {
+            Toast.makeText(this, "First name is required.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (phoneNumber.isEmpty()) {
+            Toast.makeText(this, "Phone number is required.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (address.isEmpty()) {
+            Toast.makeText(this, "Address is required.", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         Map<String, Object> updates = new HashMap<>();
         updates.put("firstName", firstName);
-        updates.put("lastName", lastName);
+        updates.put("lastName", lastNameEditText.getText().toString());
         updates.put("phoneNumber", phoneNumber);
         updates.put("address", address);
+
+        if (userId == null) return;
 
         databaseReference.child(userId).updateChildren(updates)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Toast.makeText(FarmerProfileActivity.this, "User details updated successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "User details updated successfully.", Toast.LENGTH_SHORT).show();
                         fetchUserDetails();
                     } else {
-                        Toast.makeText(FarmerProfileActivity.this, "Failed to update user details", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Failed to update user details.", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e(TAG, "Error updating user details", e);
+                    Toast.makeText(this, "Error updating user details.", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private void confirmDeleteAccount() {
+        new AlertDialog.Builder(this)
+                .setTitle("Delete Account")
+                .setMessage("Are you sure you want to delete your account?")
+                .setPositiveButton("Yes", (dialog, which) -> deleteAccount())
+                .setNegativeButton("No", null)
+                .show();
+    }
+
+    private void deleteAccount() {
+        if (userId == null) return;
+
+        DatabaseReference userRef = databaseReference.child(userId);
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    moveUserToPastUsers(dataSnapshot, userRef);
+                } else {
+                    Toast.makeText(FarmerProfileActivity.this, "User not found.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                showError("Error deleting account", databaseError);
+            }
+        });
+    }
+
+    private void moveUserToPastUsers(DataSnapshot dataSnapshot, DatabaseReference userRef) {
+        Map<String, Object> pastUserData = new HashMap<>((Map<String, Object>) dataSnapshot.getValue());
+        clearSensitiveData(pastUserData);
+
+        DatabaseReference pastUsersRef = FirebaseDatabase.getInstance().getReference("pastUsers").child(userId);
+        pastUsersRef.setValue(pastUserData)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        deleteUserFromCurrentUsers(userRef);
+                    } else {
+                        Toast.makeText(this, "Failed to move account details.", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
 
-    private void deleteAccount() {
-        new AlertDialog.Builder(this)
-                .setTitle("Clear Account Details")
-                .setMessage("Are you sure you want to delete your account?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+    private void clearSensitiveData(Map<String, Object> data) {
+        data.put("firstName", "");
+        data.put("lastName", "");
+        data.put("phoneNumber", "");
+        data.put("address", "");
+    }
 
-                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                Map<String, Object> userData = (Map<String, Object>) dataSnapshot.getValue();
+    private void deleteUserFromCurrentUsers(DatabaseReference userRef) {
+        userRef.removeValue()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        clearSharedPreferencesAndRedirect();
+                    } else {
+                        Toast.makeText(this, "Failed to delete account.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
-                                if (userData != null) {
-                                    // Prepare data for pastUsers node
-                                    Map<String, Object> pastUserData = new HashMap<>(userData);
-                                    // Set personal details to blank
-                                    pastUserData.put("firstName", "");
-                                    pastUserData.put("lastName", "");
-                                    pastUserData.put("phoneNumber", "");
-                                    pastUserData.put("address", "");
+    private void clearSharedPreferencesAndRedirect() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        sharedPreferences.edit().clear().apply();
 
-                                    // Move data to the pastUsers node
-                                    DatabaseReference pastUsersRef = FirebaseDatabase.getInstance().getReference("pastUsers");
-                                    pastUsersRef.child(userId).setValue(pastUserData)
-                                            .addOnCompleteListener(task -> {
-                                                if (task.isSuccessful()) {
-                                                    // If moved successfully, now delete from Users node
-                                                    userRef.removeValue().addOnCompleteListener(removeTask -> {
-                                                        if (removeTask.isSuccessful()) {
-                                                            Toast.makeText(FarmerProfileActivity.this, "Account deleted successfully.", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, SignupActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+    }
 
-                                                            // Clear Shared Preferences
-                                                            SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-                                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                            editor.clear();
-                                                            editor.apply();
+    private void openPrivacyPolicy() {
+        String privacyPolicyUrl = "https://smartgrains.org/PrivacyPolicyKrishiMitra.html";
+        startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl)));
+    }
 
-                                                            // Redirect to Signup page
-                                                            Intent intent = new Intent(FarmerProfileActivity.this, SignupPage.class);
-                                                            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                                            startActivity(intent);
-                                                        } else {
-                                                            Toast.makeText(FarmerProfileActivity.this, "Failed to delete account.", Toast.LENGTH_SHORT).show();
-                                                        }
-                                                    });
-                                                } else {
-                                                    Toast.makeText(FarmerProfileActivity.this, "Failed to move account details.", Toast.LENGTH_SHORT).show();
-                                                }
-                                            });
-                                } else {
-                                    Toast.makeText(FarmerProfileActivity.this, "No user data found.", Toast.LENGTH_SHORT).show();
-                                }
-                            } else {
-                                Toast.makeText(FarmerProfileActivity.this, "User does not exist.", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Toast.makeText(FarmerProfileActivity.this, "Error fetching user data.", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                })
-                .setNegativeButton("No", null)
-                .show();
+    private void showError(String message, DatabaseError error) {
+        Log.e(TAG, message + ": " + error.getMessage(), error.toException());
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 }

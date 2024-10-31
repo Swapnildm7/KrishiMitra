@@ -19,10 +19,5 @@ public class ContactUsActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
-        TextView contactDetails = findViewById(R.id.contact_details);
-        String contactInfo = "For any inquiries, please contact us:\n\n"
-                + "Email: support@smartgrains.org\n"
-                + "We look forward to assisting you!";
-        contactDetails.setText(contactInfo);
     }
 }

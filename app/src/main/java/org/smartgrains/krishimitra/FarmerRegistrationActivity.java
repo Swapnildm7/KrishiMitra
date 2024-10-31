@@ -1,5 +1,6 @@
 package org.smartgrains.krishimitra;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
@@ -9,10 +10,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.firebase.database.DataSnapshot;
@@ -30,9 +33,10 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
     private EditText editTextAddress;
     private Spinner stateSpinner, districtSpinner, talukaSpinner;
     private Button buttonRegister;
-
+    private ProgressBar progressBar;
     private DatabaseReference databaseReference;
     private String firstName, lastName, phoneNumber, password;
+    private CheckBox privacyPolicyCheckbox; // Declare the checkbox
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -45,18 +49,18 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
-        CheckBox privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox);
-        privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
-
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
-
         // Initialize Views
         editTextAddress = findViewById(R.id.editTextAddress);
         stateSpinner = findViewById(R.id.state_spinner);
         districtSpinner = findViewById(R.id.district_spinner);
         talukaSpinner = findViewById(R.id.taluka_spinner);
         buttonRegister = findViewById(R.id.buttonRegister);
+        progressBar = findViewById(R.id.progressBar); // Initialize progress bar
+        privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox); // Initialize the checkbox
+        privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
+
+        // Initialize Firebase Database reference
+        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
         // Get Intent data
         Intent intent = getIntent();
@@ -70,6 +74,11 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
 
         // Register Button Click Listener
         buttonRegister.setOnClickListener(v -> {
+            if (!privacyPolicyCheckbox.isChecked()) {
+                showPrivacyPolicyAlert(); // Show alert if checkbox is not checked
+                return;
+            }
+
             String address = editTextAddress.getText().toString().trim();
             String selectedState = stateSpinner.getSelectedItem().toString();
             String selectedDistrict = districtSpinner.getSelectedItem().toString();
@@ -81,9 +90,21 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                 return;
             }
 
+            // Disable the button and show progress bar
+            buttonRegister.setEnabled(false);
+            progressBar.setVisibility(View.VISIBLE);
+
             // Check if user is already registered before saving
             checkIfUserRegistered(phoneNumber, firstName, lastName, password, address, selectedState, selectedDistrict, selectedTaluka);
         });
+    }
+
+    private void showPrivacyPolicyAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle("Privacy Policy")
+                .setMessage("You must agree to the privacy policy to register.")
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .show();
     }
 
     private void populateLocationSpinners() {
@@ -100,7 +121,8 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -118,7 +140,8 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -129,7 +152,6 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
         talukaSpinner.setAdapter(talukaAdapter);
     }
 
-    // Method to check if user is already registered by phone number
     private void checkIfUserRegistered(String phoneNumber, String firstName, String lastName, String password,
                                        String address, String state, String district, String taluka) {
         databaseReference.orderByChild("phoneNumber").equalTo(phoneNumber)
@@ -137,10 +159,9 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            // User already registered
                             Toast.makeText(FarmerRegistrationActivity.this, "User already registered with this phone number", Toast.LENGTH_SHORT).show();
+                            resetProgress();
                         } else {
-                            // User not registered, proceed with registration
                             String hashedPassword = hashPassword(password); // Hash the password
                             saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, address, state, district, taluka);
                         }
@@ -150,11 +171,11 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                     public void onCancelled(DatabaseError databaseError) {
                         Log.e("FirebaseError", databaseError.getMessage());
                         Toast.makeText(FarmerRegistrationActivity.this, "Error checking registration", Toast.LENGTH_SHORT).show();
+                        resetProgress();
                     }
                 });
     }
 
-    // Method to hash the password using SHA-256
     private String hashPassword(String password) {
         try {
             MessageDigest digest = MessageDigest.getInstance("SHA-256");
@@ -170,7 +191,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
             Log.e("HashError", "Error hashing password: " + e.getMessage());
-            return password; // Fallback to plain password in case of error
+            return password;
         }
     }
 
@@ -182,19 +203,22 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
         if (userId != null) {
             databaseReference.child(userId).setValue(user)
                     .addOnCompleteListener(task -> {
+                        resetProgress();
                         if (task.isSuccessful()) {
                             Toast.makeText(FarmerRegistrationActivity.this, "Farmer registered successfully", Toast.LENGTH_SHORT).show();
-
-                            // Navigate to TraderDashboardActivity
                             Intent intent = new Intent(FarmerRegistrationActivity.this, FarmerDashboardActivity.class);
-                            intent.putExtra("USER_ID", userId); // Pass the user ID or any other needed data
+                            intent.putExtra("USER_ID", userId);
                             startActivity(intent);
-                            finish(); // Close the activity
-
+                            finish();
                         } else {
                             Toast.makeText(FarmerRegistrationActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
                         }
                     });
         }
+    }
+
+    private void resetProgress() {
+        progressBar.setVisibility(View.GONE); // Hide the progress bar
+        buttonRegister.setEnabled(true); // Re-enable the button
     }
 }

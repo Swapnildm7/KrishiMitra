@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,22 +16,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class TraderDashboardActivity extends AppCompatActivity {
 
-    private String selectedState;
-    private String selectedDistrict;
-    private String selectedTaluka;
+    private ImageView userProfile;
+    private TextView appName;
+    private LinearLayout listCropLayout, viewListingsLayout; // Change to LinearLayout
 
-    private List<String> selectedCrops = new ArrayList<>(); // List to store selected crops
     private DatabaseReference databaseReference;
-    private String traderId; // Trader ID from login session
-    private CropImageAdapter cropImageAdapter;
-    private List<CropImageModel> cropImageList = new ArrayList<>(); // Initialize the list to hold crop images and names
+    private String userId;
+
+    // Variables to store user details
+    private String state, district, taluka;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,81 +40,100 @@ public class TraderDashboardActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
-        // Initialize Firebase Database reference
-        databaseReference = FirebaseDatabase.getInstance().getReference("Users");
+        try {
+            // Initialize Views
+            userProfile = findViewById(R.id.userProfile);
+            appName = findViewById(R.id.appName);
+            listCropLayout = findViewById(R.id.listCropLayout); // Update to reference LinearLayout
+            viewListingsLayout = findViewById(R.id.viewListingsLayout); // Update to reference LinearLayout
 
-        // Fetch trader ID from intent
-        traderId = getIntent().getStringExtra("USER_ID");
+            // Get User ID from Intent
+            userId = getIntent().getStringExtra("USER_ID");
 
-        // Initialize UI elements
-        ImageView userProfile = findViewById(R.id.userProfile);
-        TextView appName = findViewById(R.id.appName);
+            if (userId == null) {
+                throw new NullPointerException("User ID is missing in the intent extras.");
+            }
 
-        Button listCropButton = findViewById(R.id.listCropButton);
-        Button viewListingButton = findViewById(R.id.viewListingButton);
+            // Initialize Firebase Database reference
+            databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Set click listeners for buttons
-        listCropButton.setOnClickListener(v -> openCropListing());
-        viewListingButton.setOnClickListener(v -> openViewListings());
+            // Fetch user details from the database
+            fetchUserDetails(userId);
 
-        // Handle user profile image click to navigate to MenuActivity
-        userProfile.setOnClickListener(v -> {
-            Intent intent = new Intent(TraderDashboardActivity.this, MenuActivity.class);
-            intent.putExtra("USER_ID", traderId);  // Pass the trader ID to the MenuActivity
-            startActivity(intent);
-        });
+            // Set onClickListener for List Crop Layout
+            listCropLayout.setOnClickListener(v -> openListCropActivity());
 
-        // Fetch location data after initializing buttons
-        fetchLocationData();
+            // Set onClickListener for View Listings Layout
+            viewListingsLayout.setOnClickListener(v -> openEditCropListingActivity());
+
+            // Set onClickListener for User Profile
+            userProfile.setOnClickListener(v -> openMenuActivity());
+
+        } catch (Exception e) {
+            Log.e("TraderDashboard", "Initialization error: " + e.getMessage());
+            Toast.makeText(this, "Error initializing dashboard. Please try again.", Toast.LENGTH_SHORT).show();
+        }
     }
-
-    private void fetchLocationData() {
-        Log.d("TraderDashboardActivity", "Fetching location data for traderId: " + traderId);
-        databaseReference.child(traderId).addListenerForSingleValueEvent(new ValueEventListener() {
+    private void fetchUserDetails(String userId) {
+        databaseReference.child(userId).addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()) {
-                    selectedState = dataSnapshot.child("state").getValue(String.class);
-                    selectedDistrict = dataSnapshot.child("district").getValue(String.class);
-                    selectedTaluka = dataSnapshot.child("taluka").getValue(String.class);
+                try {
+                    if (dataSnapshot.exists()) {
+                        state = dataSnapshot.child("state").getValue(String.class);
+                        district = dataSnapshot.child("district").getValue(String.class);
+                        taluka = dataSnapshot.child("taluka").getValue(String.class);
 
-                    if (selectedState != null && selectedDistrict != null && selectedTaluka != null) {
-                        Log.d("TraderDashboardActivity", "Location fetched: " + selectedState + ", " + selectedDistrict + ", " + selectedTaluka);
                     } else {
-                        Log.e("TraderDashboardActivity", "Location data is incomplete");
-                        Toast.makeText(TraderDashboardActivity.this, "Location data is incomplete", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(TraderDashboardActivity.this, "User details not found", Toast.LENGTH_SHORT).show();
                     }
-                } else {
-                    Log.e("TraderDashboardActivity", "Failed to fetch location data");
-                    Toast.makeText(TraderDashboardActivity.this, "Failed to fetch location data", Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Log.e("TraderDashboard", "Data processing error: " + e.getMessage());
+                    Toast.makeText(TraderDashboardActivity.this, "Error processing user details.", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
-                Log.e("TraderDashboardActivity", "Error fetching location data: " + databaseError.getMessage());
-                Toast.makeText(TraderDashboardActivity.this, "Error: " + databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+                Log.e("TraderDashboard", "Database error: " + databaseError.getMessage());
+                Toast.makeText(TraderDashboardActivity.this, "Error fetching user details. Please check your connection.", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void openCropListing() {
-        if (selectedState != null && selectedDistrict != null && selectedTaluka != null) {
-            Intent intent = new Intent(TraderDashboardActivity.this, CropListing.class);
-            intent.putExtra("USER_ID", traderId);  // Pass the trader ID
-            intent.putExtra("State", selectedState);
-            intent.putExtra("District", selectedDistrict);
-            intent.putExtra("Taluka", selectedTaluka);
-            intent.putStringArrayListExtra("SelectedCrops", new ArrayList<>(selectedCrops));
+    private void openListCropActivity() {
+        try {
+            Intent intent = new Intent(TraderDashboardActivity.this, ListCropActivity.class);
+            intent.putExtra("USER_ID", userId);
+            intent.putExtra("STATE", state);
+            intent.putExtra("DISTRICT", district);
+            intent.putExtra("TALUKA", taluka);
             startActivity(intent);
-        } else {
-            Toast.makeText(this, "Location data is incomplete", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e("TraderDashboard", "Error opening List Crop activity: " + e.getMessage());
+            Toast.makeText(this, "Error opening List Crop page.", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void openViewListings() {
-        Intent intent = new Intent(TraderDashboardActivity.this, TraderListingsActivity.class);
-        intent.putExtra("USER_ID", traderId);  // Pass the trader ID
-        startActivity(intent);
+    private void openEditCropListingActivity() {
+        try {
+            Intent intent = new Intent(TraderDashboardActivity.this, EditCropListingActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e("TraderDashboard", "Error opening Edit Crop Listing activity: " + e.getMessage());
+            Toast.makeText(this, "Error opening Edit Crop Listing page.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openMenuActivity() {
+        try {
+            Intent intent = new Intent(TraderDashboardActivity.this, MenuActivity.class);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        } catch (Exception e) {
+            Log.e("TraderDashboard", "Error opening Menu activity: " + e.getMessage());
+            Toast.makeText(this, "Error opening Menu page.", Toast.LENGTH_SHORT).show();
+        }
     }
 }

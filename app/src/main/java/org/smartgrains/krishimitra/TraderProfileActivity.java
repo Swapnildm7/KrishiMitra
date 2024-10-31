@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -24,7 +24,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class TraderProfileActivity extends AppCompatActivity {
@@ -49,8 +48,12 @@ public class TraderProfileActivity extends AppCompatActivity {
         // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Fetch user ID from intent
         userId = getIntent().getStringExtra("USER_ID");
+        if (userId == null) {
+            Toast.makeText(this, "User ID is missing", Toast.LENGTH_SHORT).show();
+            finish(); // Exit the activity if userId is not found
+            return;
+        }
 
         // Initialize UI elements
         firstNameEditText = findViewById(R.id.edit_first_name);
@@ -86,26 +89,28 @@ public class TraderProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
-
     private void fetchUserDetails() {
         databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    firstNameEditText.setText(dataSnapshot.child("firstName").getValue(String.class));
-                    lastNameEditText.setText(dataSnapshot.child("lastName").getValue(String.class));
-                    phoneNumberEditText.setText(dataSnapshot.child("phoneNumber").getValue(String.class));
-                    shopNameEditText.setText(dataSnapshot.child("shopName").getValue(String.class));
-                    shopAddressEditText.setText(dataSnapshot.child("shopAddress").getValue(String.class));
-
-                    // Fetch state, district, and taluka from the data
+                    // Safely fetch user data
+                    String firstName = dataSnapshot.child("firstName").getValue(String.class);
+                    String lastName = dataSnapshot.child("lastName").getValue(String.class);
+                    String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
+                    String shopName = dataSnapshot.child("shopName").getValue(String.class);
+                    String shopAddress = dataSnapshot.child("shopAddress").getValue(String.class);
                     String state = dataSnapshot.child("state").getValue(String.class);
                     String district = dataSnapshot.child("district").getValue(String.class);
                     String taluka = dataSnapshot.child("taluka").getValue(String.class);
 
-                    // Display the current state, district, and taluka in TextViews
+                    // Set text to EditTexts and TextViews
+                    firstNameEditText.setText(firstName != null ? firstName : "");
+                    lastNameEditText.setText(lastName != null ? lastName : "");
+                    phoneNumberEditText.setText(phoneNumber != null ? phoneNumber : "");
+                    shopNameEditText.setText(shopName != null ? shopName : "");
+                    shopAddressEditText.setText(shopAddress != null ? shopAddress : "");
                     currentStateTextView.setText(state != null ? state : "[Current State]");
                     currentDistrictTextView.setText(district != null ? district : "[Current District]");
                     currentTalukaTextView.setText(taluka != null ? taluka : "[Current Taluka]");
@@ -117,16 +122,23 @@ public class TraderProfileActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
                 Toast.makeText(TraderProfileActivity.this, "Error fetching user details", Toast.LENGTH_SHORT).show();
+                Log.e("TraderProfileActivity", "Database error: " + databaseError.getMessage());
             }
         });
     }
 
     private void updateUserDetails() {
-        String firstName = firstNameEditText.getText().toString();
-        String lastName = lastNameEditText.getText().toString();
-        String phoneNumber = phoneNumberEditText.getText().toString();
-        String shopName = shopNameEditText.getText().toString();
-        String shopAddress = shopAddressEditText.getText().toString();
+        String firstName = firstNameEditText.getText().toString().trim();
+        String lastName = lastNameEditText.getText().toString().trim();
+        String phoneNumber = phoneNumberEditText.getText().toString().trim();
+        String shopName = shopNameEditText.getText().toString().trim();
+        String shopAddress = shopAddressEditText.getText().toString().trim();
+
+        // Validate input data
+        if (firstName.isEmpty() || phoneNumber.isEmpty() || shopName.isEmpty() || shopAddress.isEmpty()) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         // Create a map to update user details
         Map<String, Object> updates = new HashMap<>();
@@ -141,10 +153,12 @@ public class TraderProfileActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Toast.makeText(TraderProfileActivity.this, "User details updated successfully", Toast.LENGTH_SHORT).show();
-                        // Fetch updated details from the database to refresh UI
-                        fetchUserDetails(); // This fetches the latest user details
+                        fetchUserDetails(); // Refresh UI with updated details
                     } else {
                         Toast.makeText(TraderProfileActivity.this, "Failed to update user details", Toast.LENGTH_SHORT).show();
+                        Exception exception = task.getException();
+                        String errorMessage = (exception != null) ? exception.getMessage() : "Unknown error occurred";
+                        Log.e("TraderProfileActivity", "Update error: " + errorMessage);
                     }
                 });
     }
@@ -166,14 +180,14 @@ public class TraderProfileActivity extends AppCompatActivity {
                                 Map<String, Object> userData = (Map<String, Object>) dataSnapshot.getValue();
 
                                 if (userData != null) {
-                                    // Modify the personal details to be blank
+                                    // Clear personal details
                                     userData.put("firstName", "");
                                     userData.put("lastName", "");
                                     userData.put("phoneNumber", "");
                                     userData.put("shopName", "");
                                     userData.put("shopAddress", "");
 
-                                    // Move the modified data to the 'pastUsers' node
+                                    // Move modified data to the 'pastUsers' node
                                     DatabaseReference pastUsersRef = FirebaseDatabase.getInstance().getReference("pastUsers");
                                     pastUsersRef.child(userId).setValue(userData)
                                             .addOnCompleteListener(task -> {
@@ -182,44 +196,46 @@ public class TraderProfileActivity extends AppCompatActivity {
                                                     userRef.removeValue()
                                                             .addOnCompleteListener(deleteTask -> {
                                                                 if (deleteTask.isSuccessful()) {
-                                                                    Toast.makeText(TraderProfileActivity.this, "Account deleted Successfully", Toast.LENGTH_SHORT).show();
-
-                                                                    // Clear Shared Preferences
-                                                                    SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-                                                                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                                                                    editor.clear(); // Clear all saved data
-                                                                    editor.apply();
-
-                                                                    // Redirect to Signup page
-                                                                    Intent intent = new Intent(TraderProfileActivity.this, SignupPage.class);
-                                                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear the activity stack
-                                                                    startActivity(intent); // Start the SignupActivity
-
+                                                                    Toast.makeText(TraderProfileActivity.this, "Account deleted successfully", Toast.LENGTH_SHORT).show();
+                                                                    clearUserPreferences(); // Clear Shared Preferences
+                                                                    redirectToSignup();
                                                                 } else {
-                                                                    // Handle failure in deleting user data from 'Users'
-                                                                    Toast.makeText(TraderProfileActivity.this, "Failed to delete Account", Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(TraderProfileActivity.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
+                                                                    Log.e("TraderProfileActivity", "Delete error: " + deleteTask.getException().getMessage());
                                                                 }
                                                             });
                                                 } else {
-                                                    // Handle failure in moving data to 'pastUsers'
                                                     Toast.makeText(TraderProfileActivity.this, "Failed to move data to past users", Toast.LENGTH_SHORT).show();
+                                                    Log.e("TraderProfileActivity", "Move to past users error: " + task.getException().getMessage());
                                                 }
                                             });
                                 }
                             } else {
-                                // Handle case where user data does not exist
                                 Toast.makeText(TraderProfileActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onCancelled(@NonNull DatabaseError databaseError) {
-                            // Handle database error
                             Toast.makeText(TraderProfileActivity.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
+                            Log.e("TraderProfileActivity", "Database error: " + databaseError.getMessage());
                         }
                     });
                 })
                 .setNegativeButton("No", null)
                 .show();
+    }
+
+    private void clearUserPreferences() {
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.clear(); // Clear all saved data
+        editor.apply();
+    }
+
+    private void redirectToSignup() {
+        Intent intent = new Intent(TraderProfileActivity.this, SignupActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear the activity stack
+        startActivity(intent); // Start the SignupActivity
     }
 }

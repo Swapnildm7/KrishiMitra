@@ -1,7 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pngtree">
+    android:alpha="0.85"
+    android:background="@drawable/bg_profile_activity">
 
     <!-- Scrollable content -->
     <ScrollView
@@ -36,7 +37,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="Personal Details"
                 android:textColor="@android:color/holo_green_dark"
-                android:textSize="18sp"
+                android:textSize="21sp"
                 android:textStyle="bold" />
 
             <!-- First Name -->
@@ -53,7 +54,7 @@
                     android:paddingEnd="8dp"
                     android:text="First Name"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -61,7 +62,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@drawable/edit_text_background"
+                    android:background="@drawable/bg_edittext"
                     android:hint="First Name"
                     android:padding="12dp"
                     android:textColor="@android:color/black" />
@@ -81,7 +82,7 @@
                     android:paddingEnd="8dp"
                     android:text="Last Name"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -89,7 +90,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@drawable/edit_text_background"
+                    android:background="@drawable/bg_edittext"
                     android:hint="Last Name"
                     android:padding="12dp"
                     android:textColor="@android:color/black" />
@@ -108,9 +109,9 @@
                     android:layout_weight="1"
                     android:inputType="number"
                     android:paddingEnd="8dp"
-                    android:text="Phone Number"
+                    android:text="Phone No"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -118,7 +119,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@drawable/edit_text_background"
+                    android:background="@drawable/bg_edittext"
                     android:hint="Phone Number"
                     android:inputType="number"
                     android:maxLength="10"
@@ -140,7 +141,7 @@
                     android:paddingEnd="8dp"
                     android:text="Shop Name"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -148,7 +149,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@drawable/edit_text_background"
+                    android:background="@drawable/bg_edittext"
                     android:hint="Shop Name"
                     android:padding="12dp"
                     android:textColor="@android:color/black" />
@@ -168,7 +169,7 @@
                     android:paddingEnd="8dp"
                     android:text="Shop Address"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <EditText
@@ -176,7 +177,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:background="@drawable/edit_text_background"
+                    android:background="@drawable/bg_edittext"
                     android:hint="Shop Address"
                     android:padding="12dp"
                     android:textColor="@android:color/black" />
@@ -190,7 +191,7 @@
                 android:layout_marginBottom="8dp"
                 android:text="Location Details"
                 android:textColor="@android:color/holo_green_dark"
-                android:textSize="18sp"
+                android:textSize="21sp"
                 android:textStyle="bold" />
 
             <!-- State, District, Taluka -->
@@ -301,6 +302,20 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <!-- Privacy Policy -->
+        <TextView
+            android:id="@+id/tv_privacy_policy"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:text="Privacy Policy"
+            android:textColor="@color/htext"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
         <!-- Delete Account Button -->
         <Button
             android:id="@+id/button_delete_account"
@@ -313,19 +328,6 @@
             android:text="Delete Account"
             android:textColor="@android:color/white" />
 
-        <!-- Privacy Policy -->
-        <TextView
-            android:id="@+id/tv_privacy_policy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="Privacy Policy"
-            android:textColor="#0000FF"
-            android:textSize="18sp"
-            android:textStyle="bold" />
     </LinearLayout>
 
 </RelativeLayout>

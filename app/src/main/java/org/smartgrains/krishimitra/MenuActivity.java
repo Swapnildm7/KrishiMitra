@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log; // Import Log for logging
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -143,7 +143,7 @@ public class MenuActivity extends AppCompatActivity {
         editor.apply();
 
         // Redirect to Login Page
-        Intent loginIntent = new Intent(MenuActivity.this, LoginPage.class);
+        Intent loginIntent = new Intent(MenuActivity.this, LoginActivity.class);
         loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear back stack
         startActivity(loginIntent);
 

@@ -1,56 +1,53 @@
 package org.smartgrains.krishimitra;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 public class CropAdapter extends RecyclerView.Adapter<CropAdapter.CropViewHolder> {
-    private List<CropListingModel> cropList;
-    private OnItemClickListener itemClickListener;
-    private boolean isClickable; // Variable to check if items should be clickable
+    private List<Crop> cropList; // Change to List<Crop>
 
-    // Constructor
-    public CropAdapter(List<CropListingModel> cropList, OnItemClickListener itemClickListener, boolean isClickable) {
+    public CropAdapter(List<Crop> cropList) {
         this.cropList = cropList;
-        this.itemClickListener = itemClickListener;
-        this.isClickable = isClickable;
     }
 
     @NonNull
     @Override
     public CropViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_crop, parent, false);
+        View view = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.activity_trader_crop_listing, parent, false);
         return new CropViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull CropViewHolder holder, int position) {
-        CropListingModel crop = cropList.get(position);
+        Crop crop = cropList.get(position);
 
-        // Set crop details to the views
-        holder.cropNameTextView.setText(crop.getCropName());
-        holder.minPriceTextView.setText("Min Price: " + crop.getMinPrice());
-        holder.maxPriceTextView.setText("Max Price: " + crop.getMaxPrice());
-        holder.quantityTextView.setText("Quantity: " + crop.getQuantity());
-        holder.unitTextView.setText("Unit: " + crop.getUnit());
+        if (crop != null) {
+            holder.cropNameTextView.setText(crop.getCropName() != null ? crop.getCropName() : "N/A");
+            holder.minPriceTextView.setText("Min Price: ₹" + (crop.getMinPrice() != null ? crop.getMinPrice() : "N/A"));
+            holder.maxPriceTextView.setText("Max Price: ₹" + (crop.getMaxPrice() != null ? crop.getMaxPrice() : "N/A"));
+            holder.quantityTextView.setText("Quantity: " + (crop.getQuantity() != null ? crop.getQuantity() : "N/A"));
+            holder.unitTextView.setText("Unit: " + (crop.getUnit() != null ? crop.getUnit() : "N/A"));
+        }
 
-        // Set click listener based on whether items should be clickable
-        holder.itemView.setOnClickListener(v -> {
-            if (isClickable) {
-                // If items are clickable, notify the listener
-                itemClickListener.onItemClick(crop, crop.getListingId());
-            }
-        });
-
-        // If not clickable, ensure that no interaction is possible
-        holder.itemView.setClickable(isClickable);
-        holder.itemView.setFocusable(isClickable);
+        // Load image from imageUrl using Picasso
+        Picasso.get()
+                .load(crop.getImageUrl())
+                .placeholder(R.drawable.placeholder_image) // Placeholder while loading
+                .error(R.drawable.error_image) // Image if there's an error
+                .into(holder.cropImageView);
     }
 
     @Override
@@ -58,9 +55,13 @@ public class CropAdapter extends RecyclerView.Adapter<CropAdapter.CropViewHolder
         return cropList.size();
     }
 
-    // ViewHolder class
-    static class CropViewHolder extends RecyclerView.ViewHolder {
-        TextView cropNameTextView, minPriceTextView, maxPriceTextView, quantityTextView, unitTextView;
+    public static class CropViewHolder extends RecyclerView.ViewHolder {
+        TextView cropNameTextView;
+        TextView minPriceTextView;
+        TextView maxPriceTextView;
+        TextView quantityTextView;
+        TextView unitTextView;
+        ImageView cropImageView; // Declare the ImageView
 
         public CropViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,11 +70,7 @@ public class CropAdapter extends RecyclerView.Adapter<CropAdapter.CropViewHolder
             maxPriceTextView = itemView.findViewById(R.id.maxPriceTextView);
             quantityTextView = itemView.findViewById(R.id.quantityTextView);
             unitTextView = itemView.findViewById(R.id.unitTextView);
+            cropImageView = itemView.findViewById(R.id.cropImageView); // Initialize the ImageView
         }
-    }
-
-    // Interface for item click listener
-    public interface OnItemClickListener {
-        void onItemClick(CropListingModel crop, String listingId);
     }
 }

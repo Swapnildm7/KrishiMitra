@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/pngtree"
+    android:background="@drawable/bg_leafy"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp">
@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:padding="16dp"
-        android:text="@string/textViewDesc"
+        android:text="@string/main_desc"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="18sp" />
@@ -36,32 +36,36 @@
         android:id="@+id/imageViewLogo"
         android:layout_width="250dp"
         android:layout_height="250dp"
-        android:src="@drawable/welcome" />
+        android:src="@drawable/ic_plough" />
 
     <!-- Login Button -->
     <Button
         android:id="@+id/buttonLogin"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="25dp"
+        android:padding="7dp"
         android:backgroundTint="#43A047"
-        android:text="@string/login"
-        android:textStyle="bold"
-        android:textColor="@color/white" />
+        android:text="@string/main_login"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        android:textStyle="bold" />
 
 
     <Button
         android:id="@+id/buttonSignup"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="21dp"
         android:layout_marginLeft="25dp"
+        android:layout_marginTop="21dp"
         android:layout_marginRight="25dp"
+        android:padding="7dp"
         android:backgroundTint="#43A047"
-        android:text="@string/sign_up"
-        android:textStyle="bold"
-        android:textColor="@color/white" />
+        android:text="@string/main_sign_up"
+        android:textColor="@color/white"
+        android:textSize="19sp"
+        android:textStyle="bold" />
 
 </LinearLayout>

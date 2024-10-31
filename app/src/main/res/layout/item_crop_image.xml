@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?>
+<!-- item_crop_image.xml -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/rounded_background"
+    android:background="@drawable/bg_bordercurved"
     android:clipToPadding="false"
     android:elevation="4dp"
     android:orientation="vertical">
@@ -18,10 +18,13 @@
         android:id="@+id/cropNameTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:padding="3dp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:textSize="18sp"
+        android:textSize="21sp"
         android:textStyle="bold" />
 
 </LinearLayout>
+
+
+
