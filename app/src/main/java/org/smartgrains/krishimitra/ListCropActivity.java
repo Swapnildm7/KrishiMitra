@@ -176,26 +176,30 @@ public class ListCropActivity extends AppCompatActivity {
     }
 
     private void submitCropListing(String selectedCrop, String listingId) {
-        String minPriceStr = etMinPrice.getText().toString();
-        String maxPriceStr = etMaxPrice.getText().toString();
-        String quantity = etQuantity.getText().toString();
+        String minPriceStr = etMinPrice.getText().toString().trim();
+        String maxPriceStr = etMaxPrice.getText().toString().trim();
+        String quantity = etQuantity.getText().toString().trim();
         String unit = unitSpinner.getSelectedItem().toString();
 
-        if (minPriceStr.isEmpty() || maxPriceStr.isEmpty()) {
-            Toast.makeText(ListCropActivity.this, "Please enter both min and max prices.", Toast.LENGTH_SHORT).show();
+        // Check if all fields are entered
+        if (minPriceStr.isEmpty() || maxPriceStr.isEmpty() || quantity.isEmpty()) {
+            Toast.makeText(ListCropActivity.this, "Please enter Min Price, Max Price, and Quantity.", Toast.LENGTH_SHORT).show();
             resetButtonAndProgressBar();
             return;
         }
 
+        // Convert price strings to double for comparison
         double minPrice = Double.parseDouble(minPriceStr);
         double maxPrice = Double.parseDouble(maxPriceStr);
 
+        // Validate that max price is not less than min price
         if (maxPrice < minPrice) {
             Toast.makeText(ListCropActivity.this, "Max price cannot be less than min price.", Toast.LENGTH_SHORT).show();
             resetButtonAndProgressBar();
             return;
         }
 
+        // Prepare listing details for database
         HashMap<String, Object> listingDetails = new HashMap<>();
         listingDetails.put("listingId", listingId);
         listingDetails.put("cropName", selectedCrop);
@@ -209,9 +213,11 @@ public class ListCropActivity extends AppCompatActivity {
         listingDetails.put("userId", traderId);
         listingDetails.put("imageUrl", cropImageUrl);
 
+        // Add timestamp
         long currentTimestamp = System.currentTimeMillis();
         listingDetails.put("timestamp", getReadableTimestamp(currentTimestamp));
 
+        // Save listing in database
         listingsRef.child(listingId).setValue(listingDetails).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(ListCropActivity.this, "Crop listed successfully!", Toast.LENGTH_SHORT).show();

@@ -35,9 +35,10 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:padding="5dp"
+                android:layout_gravity="center_vertical"
                 android:paddingBottom="8dp"
                 android:text="Crop Name"
-                android:textAlignment="center"
                 android:textAllCaps="true"
                 android:textColor="@color/green"
                 android:textSize="22sp"
@@ -108,8 +109,9 @@
     <!-- Crop Image placed on the right side below the Crop Name -->
     <ImageView
         android:id="@+id/cropImageView"
-        android:layout_width="140dp"
-        android:layout_height="140dp"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginRight="7dp"
         android:layout_gravity="end|bottom"
         android:layout_marginTop="8dp"
         android:contentDescription="Crop image"

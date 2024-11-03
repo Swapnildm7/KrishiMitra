@@ -81,6 +81,16 @@ public class TraderDetailsActivity extends AppCompatActivity {
             }
         });
 
+        // Set up click listener for phone number text view
+        phoneNumberTextView.setOnClickListener(v -> {
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                copyToClipboard(phoneNumber);
+                openDialer(phoneNumber);
+            } else {
+                Toast.makeText(this, "Phone number is not available", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         // Initialize RecyclerView
         cropList = new ArrayList<>();
         cropAdapter = new CropAdapter(cropList);

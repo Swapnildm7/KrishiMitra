@@ -50,7 +50,8 @@ public class CropImageAdapter extends RecyclerView.Adapter<CropImageAdapter.Crop
 
         CropListing cropListing = cropListingList.get(position);
         if (cropListing != null) {
-            holder.cropNameTextView.setText(cropListing.getCropName());
+            // Set crop name in uppercase
+            holder.cropNameTextView.setText(cropListing.getCropName().toUpperCase());
 
             // Load image using Picasso with error handling
             Picasso.get()

@@ -38,8 +38,8 @@
     <string name="refresh">Refresh</string>
 
     <!--    Trader Dashboard-->
-    <string name="listCrop">List Crops</string>
-    <string name="viewCropList">Edit Listing</string>
+    <string name="listCrop">LIST CROP</string>
+    <string name="viewCropList">EDIT LISTING</string>
 
 
     <!--    Common Fields-->

@@ -54,6 +54,7 @@ public class CropListingAdapter extends RecyclerView.Adapter<CropListingAdapter.
             // Load image with error handling using Picasso
             Picasso.get()
                     .load(cropListing.getImageUrl())
+                    .placeholder(R.drawable.placeholder_image) // Placeholder while loading
                     .error(R.drawable.error_image) // Fallback image on error
                     .into(holder.cropImageView, new Callback() {
                         @Override

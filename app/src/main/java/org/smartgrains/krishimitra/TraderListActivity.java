@@ -62,7 +62,7 @@ public class TraderListActivity extends AppCompatActivity {
         }
 
         // Set the crop name at the top
-        cropNameTextView.setText(cropName);
+        cropNameTextView.setText(cropName.toUpperCase());
 
         // Set up the RecyclerView
         traderAdapter = new TraderAdapter(this, traderList);

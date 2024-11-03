@@ -46,17 +46,22 @@ public class TraderAdapter extends RecyclerView.Adapter<TraderAdapter.TraderView
 
         // Set up click listener for the phone icon
         holder.phoneIcon.setOnClickListener(v -> {
-            try {
-                String phoneNumber = trader.getPhoneNumber();
-                if (phoneNumber != null && !phoneNumber.isEmpty()) {
-                    copyToClipboard(phoneNumber);
-                    openDialer(phoneNumber);
-                } else {
-                    Toast.makeText(context, "Phone number is not available", Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                Log.e("TraderAdapter", "Error copying phone number: " + e.getMessage());
-                Toast.makeText(context, "Failed to copy phone number", Toast.LENGTH_SHORT).show();
+            String phoneNumber = trader.getPhoneNumber();
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                copyToClipboard(phoneNumber);
+                openDialer(phoneNumber);
+            } else {
+                Toast.makeText(context, "Phone number is not available", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        // Set up click listener for the phone number TextView
+        holder.phoneNumberTextView.setOnClickListener(v -> {
+            String phoneNumber = trader.getPhoneNumber();
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                openDialer(phoneNumber);
+            } else {
+                Toast.makeText(context, "Phone number is not available", Toast.LENGTH_SHORT).show();
             }
         });
 

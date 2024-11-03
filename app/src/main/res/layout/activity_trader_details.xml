@@ -7,12 +7,22 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="15dp"
+        android:text="TRADER DETAIL"
+        android:textAlignment="center"
+        android:textColor="@color/green"
+        android:textSize="32dp"
+        android:textStyle="bold" />
+
     <!-- CardView for Trader Details -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="16dp"
+        android:layout_marginBottom="11dp"
         app:cardBackgroundColor="@android:color/white"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp">
@@ -22,16 +32,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:padding="11dp">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="15dp"
-                android:text="TRADER DETAIL:"
-                android:textAlignment="center"
-                android:textColor="@color/green"
-                android:textSize="21dp"
-                android:textStyle="bold" />
 
             <!-- Trader Name -->
             <LinearLayout
@@ -136,9 +136,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
-        android:text="Trader Listing:"
+        android:text="TRADER'S LISTING"
+        android:textStyle="italic"
         android:textAlignment="center"
-        android:textColor="@color/green"
+        android:textColor="@color/white"
         android:textSize="21sp" />
 
     <!-- RecyclerView for crops listed by the trader -->
