@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
 
-    <solid android:color="#CCFFFFFF" /> <!-- Background color with 80% opacity -->
+    <solid android:color="#F4F0F0" /> <!-- Background color with 80% opacity -->
 
     <corners android:radius="16dp" /> <!-- Adjust the radius as needed -->
 

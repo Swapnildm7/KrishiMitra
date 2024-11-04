@@ -42,6 +42,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
+        Button buttonListCrops = findViewById(R.id.buttonListCrops);
+        buttonListCrops.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboardActivity.this, CropLanguage.class);
+            startActivity(intent);
+        });
+
         // Set click listener for "Logout" button
         buttonLogout.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -30,16 +30,18 @@ public class LocationData {
     // Hardcoded districts map
     public static Map<String, List<String>> getDistrictMap() {
         Map<String, List<String>> districtMap = new HashMap<>();
-        districtMap.put("Maharashtra", List.of("Latur")); // Added more example districts
-        districtMap.put("Karnataka", List.of("Bidar")); // Added more example districts
+        districtMap.put("Maharashtra", List.of("Latur", "Nanded")); // Added more example districts
+        districtMap.put("Karnataka", List.of("Bidar", "Kalaburgi")); // Added more example districts
         return districtMap;
     }
 
     // Hardcoded talukas map
     public static Map<String, List<String>> getTalukaMap() {
         Map<String, List<String>> talukaMap = new HashMap<>();
-        talukaMap.put("Latur", List.of("Latur","Udgir"));
+        talukaMap.put("Latur", List.of("Ausa", "Chakur", "Latur", "Udgir"));
+        talukaMap.put("Nanded", List.of("Bhokar", "Deglur", "Nanded"));
         talukaMap.put("Bidar", List.of("Aurad", "Bidar", "Bhalki"));
+        talukaMap.put("Kalaburgi", List.of("Aland", "Chincholi", "Jevargi", "Kalaburgi"));
         return talukaMap;
     }
 }

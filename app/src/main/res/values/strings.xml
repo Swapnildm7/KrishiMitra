@@ -1,4 +1,10 @@
 <resources>
+    <string name="openDrawer">Open Navigation Drawer</string>
+    <string name="closeDrawer">Close Navigation Drawer</string>
+
+    <!-- Splash Screen -->
+    <string name="slogan">Grow Dreams, Empower Farmers And Strengthen Agricultire</string>
+
     <!--    Main Activity-->
     <string name="app_name">KRISHI MITRA</string>
     <string name="main_desc">The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips</string>

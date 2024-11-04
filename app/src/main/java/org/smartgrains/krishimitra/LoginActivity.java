@@ -25,6 +25,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -70,9 +71,6 @@ public class LoginActivity extends AppCompatActivity {
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
-        // Check if the user is already logged in
-        checkLoginState();
-
         // Set Click Listener for Login Button
         buttonLogin.setOnClickListener(v -> loginUser());
 
@@ -81,16 +79,6 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
             startActivity(intent);
         });
-    }
-
-    private void checkLoginState() {
-        String role = sharedPreferences.getString(KEY_ROLE, null);
-        String userId = sharedPreferences.getString(KEY_USER_ID, null);
-
-        if (role != null && userId != null) {
-            // User is already logged in, navigate to the respective dashboard
-            navigateToDashboard(role, userId);
-        }
     }
 
     private void loginUser() {
@@ -137,6 +125,9 @@ public class LoginActivity extends AppCompatActivity {
             String adminId = adminSnapshot.getKey(); // Get the Admin User ID (key)
 
             if (storedPassword != null && storedPassword.equals(hashPassword(password))) {
+                // Save user role and ID in SharedPreferences
+                saveLoginState("Admin", adminId);
+
                 // Navigate to Admin Dashboard
                 navigateToDashboard("Admin", adminId);
                 return; // Exit after successful login
@@ -278,13 +269,8 @@ public class LoginActivity extends AppCompatActivity {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(timestamp);
 
-        // Create a SimpleDateFormat for the desired date format
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
-
-        // Set the time zone to IST (Indian Standard Time)
+        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
         sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-
-        // Format the timestamp into a readable date string
-        return sdf.format(calendar.getTime());
+        return sdf.format(new Date());
     }
 }

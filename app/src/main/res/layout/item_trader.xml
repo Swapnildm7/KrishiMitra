@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    android:background="@drawable/bg_cropfilter"
+    android:background="@drawable/item_selector"
     android:clipToPadding="false"
     android:elevation="4dp"
     android:orientation="vertical"
-    android:padding="11dp"
-    android:paddingBottom="20dp">
+    android:padding="5dp"
+    android:paddingStart="15dp"
+    android:paddingEnd="15dp">
 
-    <!-- Trader's Name -->
+    <!-- Trader's Info Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,35 +20,31 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
-            android:text="Trader's Name:"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:textStyle="bold" />
-
-        <TextView
             android:id="@+id/traderNameTextView"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:ellipsize="end"
+            android:letterSpacing="0.1"
+            android:maxLines="1"
+            android:text="Trader's Name"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="21sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!-- Shop Name -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="3dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="Shop Name:"
+            android:text="SHOP NAME:"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -56,22 +54,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="ABC Traders"
+            android:textColor="#4CAF50"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <!-- Shop Address -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="3dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="Shop Address:"
+            android:text="SHOP ADDRESS:"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -81,22 +80,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="123 Market Road, City"
+            android:textColor="#9C27B0"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <!-- Price (Min - Max) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="3dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="Price ₹:"
+            android:text="PRICE ₹:"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -106,22 +106,23 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="100 - 500"
+            android:textColor="#FF9800"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <!-- Quantity -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
+        android:layout_marginBottom="3dp"
         android:orientation="horizontal">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.4"
-            android:text="Quantity:"
+            android:text="QUANTITY:"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -131,9 +132,18 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.6"
-            android:textColor="@color/black"
-            android:textSize="16sp" />
+            android:text="10 Units"
+            android:textColor="#03A9F4"
+            android:textSize="18sp" />
     </LinearLayout>
+
+    <!-- Divider Line -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:background="@android:color/darker_gray" />
 
     <!-- Phone Number -->
     <LinearLayout
@@ -146,15 +156,17 @@
             android:id="@+id/callIcon"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:layout_marginRight="11dp"
+            android:layout_marginRight="5dp"
             android:contentDescription="Call Icon"
-            android:src="@drawable/ic_phone" />
+            android:src="@drawable/ic_phone"
+            app:tint="#4CAF50" />
 
         <TextView
             android:id="@+id/phoneNumberTextView"
-            android:layout_width="170dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/black"
+            android:text="9876543210"
+            android:textColor="#009688"
             android:textSize="21sp" />
     </LinearLayout>
 

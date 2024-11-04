@@ -5,40 +5,46 @@
     android:layout_height="match_parent"
     android:background="@drawable/bg_trader_dash"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:paddingStart="11dp"
+    android:paddingEnd="11dp"
+    android:paddingTop="11dp">
 
+    <!-- Title Text: Trader Details -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="15dp"
+        android:letterSpacing="0.1"
+        android:lineSpacingExtra="6dp"
         android:text="TRADER DETAIL"
         android:textAlignment="center"
         android:textColor="@color/green"
-        android:textSize="32dp"
+        android:textSize="32sp"
         android:textStyle="bold" />
 
-    <!-- CardView for Trader Details -->
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="11dp"
         app:cardBackgroundColor="@android:color/white"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="4dp">
+        app:cardCornerRadius="16dp"
+        app:cardElevation="10dp"
+        app:cardUseCompatPadding="true">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="11dp">
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
             <!-- Trader Name -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="7dp">
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -46,7 +52,7 @@
                     android:layout_weight="0.4"
                     android:text="Trader Name:"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -54,16 +60,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:lineSpacingExtra="4dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="@color/green"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- Shop Name -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="7dp">
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -71,7 +79,7 @@
                     android:layout_weight="0.4"
                     android:text="Shop Name:"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -79,16 +87,18 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:lineSpacingExtra="4dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="#9C27B0"
+                    android:textSize="18sp" />
             </LinearLayout>
 
             <!-- Shop Address -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="7dp">
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="0dp"
@@ -96,7 +106,7 @@
                     android:layout_weight="0.4"
                     android:text="Shop Address:"
                     android:textColor="@color/black"
-                    android:textSize="16sp"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -104,9 +114,19 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.6"
-                    android:textColor="@color/black"
-                    android:textSize="16sp" />
+                    android:lineSpacingExtra="4dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="#FF5722"
+                    android:textSize="18sp" />
             </LinearLayout>
+
+            <!-- Divider Line -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="@android:color/darker_gray" />
 
             <!-- Phone Number -->
             <LinearLayout
@@ -117,35 +137,45 @@
 
                 <ImageView
                     android:id="@+id/callIcon"
-                    android:layout_width="50dp"
-                    android:layout_height="50dp"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="5dp"
                     android:contentDescription="Call Icon"
                     android:src="@drawable/ic_phone" />
 
                 <TextView
                     android:id="@+id/phoneNumberTextView"
-                    android:layout_width="170dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:textSize="21sp" />
+                    android:lineSpacingExtra="4dp"
+                    android:paddingEnd="10dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="#009688"
+                    android:textSize="20sp" />
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+    <!-- Subtitle: Trader's Listing -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-medium"
+        android:background="@drawable/bg_edittext"
         android:text="TRADER'S LISTING"
-        android:textStyle="italic"
         android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="21sp" />
+        android:textColor="#A89506"
+        android:textSize="22sp"/>
 
-    <!-- RecyclerView for crops listed by the trader -->
+    <!-- RecyclerView for Crops -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/cropsRecyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="7dp" />
+        android:layout_height="0dp"
+        android:layout_marginTop="5dp"
+        android:layout_weight="1"
+        android:paddingEnd="5dp"
+        android:paddingStart="5dp"
+        android:paddingTop="5dp"
+        android:scrollbars="vertical" />
+
 </LinearLayout>

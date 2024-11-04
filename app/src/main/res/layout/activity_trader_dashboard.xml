@@ -1,117 +1,163 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawerLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_trader_dash"
     android:fitsSystemWindows="false">
 
     <!-- Main content of the activity -->
-    <LinearLayout
-        android:id="@+id/fixedTopLayout"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:background="@drawable/bg_trader_dash"
+        android:fitsSystemWindows="false">
 
-        <!-- App name and user profile image -->
+        <!-- Main content layout -->
         <LinearLayout
+            android:id="@+id/fixedTopLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/userProfile"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginEnd="12dp"
-                android:background="@drawable/bg_profile"
-                android:clipToOutline="true"
-                android:elevation="4dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_trader_profile" />
-
-            <TextView
-                android:id="@+id/appName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:letterSpacing="0.05"
-                android:text="@string/app_name"
-                android:textColor="@android:color/holo_green_dark"
-                android:textSize="26sp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <!-- Filter buttons with icons -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="9dp"
-            android:layout_marginRight="40dp"
-            android:gravity="center"
+            android:layout_marginTop="50dp"
             android:orientation="vertical">
 
-            <!-- List Crop Image -->
+            <!-- App name and user profile image -->
             <LinearLayout
-                android:id="@+id/listCropLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="11dp"
-                android:background="@drawable/bg_button"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp">
 
                 <ImageView
-                    android:id="@+id/listCropImage"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:contentDescription="@string/listCrop"
-                    android:src="@drawable/ic_crop_filter" />
+                    android:id="@+id/userProfile"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_marginEnd="12dp"
+                    android:background="@drawable/bg_profile"
+                    android:clipToOutline="true"
+                    android:elevation="4dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/ic_trader_profile" />
 
                 <TextView
-                    android:id="@+id/listCropText"
+                    android:id="@+id/appName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/listCrop"
-                    android:textColor="@color/white"
-                    android:textSize="21sp"
+                    android:layout_gravity="center_vertical"
+                    android:letterSpacing="0.05"
+                    android:text="@string/app_name"
+                    android:textColor="@android:color/holo_green_dark"
+                    android:textSize="26sp"
                     android:textStyle="bold" />
             </LinearLayout>
 
-            <!-- View Listings Image -->
+            <!-- Filter buttons with icons -->
             <LinearLayout
-                android:id="@+id/viewListingsLayout"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginBottom="11dp"
-                android:background="@drawable/bg_button"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="40dp"
+                android:layout_marginTop="9dp"
+                android:layout_marginRight="40dp"
                 android:gravity="center"
-                android:orientation="horizontal">
+                android:orientation="vertical">
 
-                <ImageView
-                    android:id="@+id/viewListingsImage"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:contentDescription="@string/viewCropList"
-                    android:src="@drawable/ic_edit" />
+                <!-- List Crop Image -->
+                <LinearLayout
+                    android:id="@+id/listCropLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="11dp"
+                    android:background="@drawable/button_selector"
+                    android:gravity="center"
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/viewListingsText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:text="@string/viewCropList"
-                    android:textColor="@color/white"
-                    android:textSize="21sp"
-                    android:textStyle="bold" />
+                    <ImageView
+                        android:id="@+id/listCropImage"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:contentDescription="@string/listCrop"
+                        android:src="@drawable/ic_crop_filter" />
+
+                    <TextView
+                        android:id="@+id/listCropText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/listCrop"
+                        android:textColor="@color/white"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <!-- View Listings Image -->
+                <LinearLayout
+                    android:id="@+id/viewListingsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginBottom="11dp"
+                    android:background="@drawable/button_selector"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:id="@+id/viewListingsImage"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:contentDescription="@string/viewCropList"
+                        android:src="@drawable/ic_edit" />
+
+                    <TextView
+                        android:id="@+id/viewListingsText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:text="@string/viewCropList"
+                        android:textColor="@color/white"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-    </LinearLayout>
-</FrameLayout>
+    </FrameLayout>
+
+    <!-- Navigation Drawer -->
+    <com.google.android.material.navigation.NavigationView
+        android:id="@+id/navigationView"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:layout_marginEnd="50dp"
+        android:background="#F5F5F5"
+        android:fitsSystemWindows="true"
+        app:headerLayout="@layout/header_layout"
+        app:itemTextColor="@color/green"
+        app:menu="@menu/nav_items">
+
+        <!-- Footer Section -->
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/copyrightText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:padding="16dp"
+                android:text="© 2024 SmartGrains. All Rights Reserved."
+                android:textColor="@android:color/black"
+                android:textStyle="bold"
+                android:textSize="14sp" />
+        </FrameLayout>
+
+    </com.google.android.material.navigation.NavigationView>
+</androidx.drawerlayout.widget.DrawerLayout>

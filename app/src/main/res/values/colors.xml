@@ -9,4 +9,12 @@
     <color name="blue">#0a57d1</color>
     <color name="ripple_color">#B0BEC5</color> <!-- Light gray -->
 
+    <color name="colorDefault">#43A047</color> <!-- Default button color -->
+    <color name="colorPressed">#388E3C</color> <!-- Darker shade when pressed -->
+    <color name="colorFocused">#66BB6A</color> <!-- Lighter shade when focused -->
+
+    <color name="colorItemDefault">#FBF8F8</color> <!-- Darker light grey -->
+    <color name="colorItemPressed">#F2EDEDF3</color> <!-- Darker silver -->
+    <color name="colorItemFocused">#FFFFFF</color> <!-- Very light grey -->
+
 </resources>

@@ -54,16 +54,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/bg_edittext"
             android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="5dp">
 
             <!-- Spinner for Crop Name taking 90% of space -->
             <Spinner
                 android:id="@+id/spinner_crop_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="11dp"
                 android:layout_weight="0.9"
                 android:background="@drawable/bg_spinner" />
 

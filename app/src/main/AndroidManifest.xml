@@ -15,6 +15,9 @@
         android:theme="@style/Theme.KrishiMitra"
         tools:targetApi="31">
         <activity
+            android:name=".CropLanguage"
+            android:exported="false" />
+        <activity
             android:name=".TraderProfileActivity"
             android:exported="false" />
         <activity
@@ -22,9 +25,6 @@
             android:exported="false" />
         <activity
             android:name=".ContactUsActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MenuActivity"
             android:exported="false" />
         <activity
             android:name=".TraderDetailsActivity"
@@ -64,6 +64,9 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
+            android:exported="true" />
+        <activity
+            android:name=".SplashActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

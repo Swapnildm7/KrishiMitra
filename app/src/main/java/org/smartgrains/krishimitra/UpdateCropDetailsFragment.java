@@ -112,18 +112,27 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
     }
 
     private void updateCropDetails() {
-        saveCropToHistory();
-
-        String minPriceStr = minPriceEditText.getText().toString();
-        String maxPriceStr = maxPriceEditText.getText().toString();
-        String quantity = quantityEditText.getText().toString();
+        // Retrieve input values
+        String minPriceStr = minPriceEditText.getText().toString().trim();
+        String maxPriceStr = maxPriceEditText.getText().toString().trim();
+        String quantity = quantityEditText.getText().toString().trim();
         String unit = unitSpinner.getSelectedItem().toString();
 
-        if (minPriceStr.isEmpty() || maxPriceStr.isEmpty()) {
-            Toast.makeText(getContext(), "Please enter both min and max prices.", Toast.LENGTH_SHORT).show();
+        // Check if all required fields are filled
+        if (minPriceStr.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter the minimum price.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (maxPriceStr.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter the maximum price.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (quantity.isEmpty()) {
+            Toast.makeText(getContext(), "Please enter the quantity.", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Validate price values
         try {
             double minPrice = Double.parseDouble(minPriceStr);
             double maxPrice = Double.parseDouble(maxPriceStr);
@@ -137,6 +146,10 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
             return;
         }
 
+        // Save current crop details to history before updating
+        saveCropToHistory();
+
+        // Prepare the data to update
         Map<String, Object> updates = new HashMap<>();
         updates.put("minPrice", minPriceStr);
         updates.put("maxPrice", maxPriceStr);
@@ -144,6 +157,7 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
         updates.put("unit", unit);
         updates.put("timestamp", getReadableTimestamp());
 
+        // Update the crop listing in the database
         listingsRef.updateChildren(updates).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getContext(), "Crop details updated successfully.", Toast.LENGTH_SHORT).show();

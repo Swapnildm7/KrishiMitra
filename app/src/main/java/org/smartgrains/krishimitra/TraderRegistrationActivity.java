@@ -1,6 +1,8 @@
 package org.smartgrains.krishimitra;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -41,6 +43,10 @@ public class TraderRegistrationActivity extends AppCompatActivity {
 
     private DatabaseReference databaseReference;
     private String firstName, lastName, phoneNumber, password;
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "UserPrefs";
+    private static final String KEY_ROLE = "USER_ROLE";
+    private static final String KEY_USER_ID = "USER_ID";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +58,8 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                 View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         // Initialize Views
         initializeViews();
@@ -212,6 +220,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                         buttonRegister.setEnabled(true);
                         if (task.isSuccessful()) {
                             showToast("Trader registered successfully");
+                            saveLoginState("Farmer", userId);
                             navigateToDashboard(userId);
                         } else {
                             showToast("Registration failed: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"));
@@ -222,6 +231,13 @@ public class TraderRegistrationActivity extends AppCompatActivity {
             showToast("Error creating user ID. Please try again.");
             logError("saveUserInfo", new Exception("User ID is null"));
         }
+    }
+
+    private void saveLoginState(String role, String userId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_ROLE, role);
+        editor.putString(KEY_USER_ID, userId);
+        editor.apply();
     }
 
     private void navigateToDashboard(String userId) {

@@ -50,8 +50,26 @@ public class CropImageAdapter extends RecyclerView.Adapter<CropImageAdapter.Crop
 
         CropListing cropListing = cropListingList.get(position);
         if (cropListing != null) {
-            // Set crop name in uppercase
-            holder.cropNameTextView.setText(cropListing.getCropName().toUpperCase());
+            String cropName = cropListing.getCropName();
+
+            // Fetch translations from CropTranslation
+            CropTranslation.getTranslation(cropName, new CropTranslation.TranslationCallback() {
+                @Override
+                public void onTranslationFetched(String[] translations) {
+                    if (translations != null && translations.length >= 3) {
+                        String hindiName = translations[0];
+                        String kannadaName = translations[1];
+                        String marathiName = translations[2];
+
+                        // Combine crop names in all three languages
+                        String combinedText = cropName.toUpperCase() + " (" + hindiName + ", " + kannadaName + ", " + marathiName + ")";
+                        holder.cropNameTextView.setText(combinedText);
+                    } else {
+                        // In case of no translations, set a fallback text
+                        holder.cropNameTextView.setText(cropName);
+                    }
+                }
+            });
 
             // Load image using Picasso with error handling
             Picasso.get()

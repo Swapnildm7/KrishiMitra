@@ -24,7 +24,8 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="25dp"
                 android:gravity="center"
-                android:text="Profile Update"
+                android:letterSpacing="0.175"
+                android:text="UPDATE DETAILS"
                 android:textColor="@color/green"
                 android:textSize="27sp"
                 android:textStyle="bold" />
@@ -34,11 +35,12 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="8dp"
-                android:text="Personal Details"
+                android:text="USER DETAILS"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
+            <!-- First Name -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -66,6 +68,7 @@
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
+            <!-- Last Name -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -93,6 +96,7 @@
                     android:textColor="@android:color/black" />
             </LinearLayout>
 
+            <!-- Phone Number -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -120,9 +124,9 @@
                     android:maxLength="10"
                     android:padding="12dp"
                     android:textColor="@android:color/black" />
-
             </LinearLayout>
 
+            <!-- Address -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,7 +152,6 @@
                     android:hint="Address"
                     android:padding="12dp"
                     android:textColor="@android:color/black" />
-
             </LinearLayout>
 
             <!-- Current Location Section -->
@@ -157,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
-                android:text="Location Details"
+                android:text="USER LOCATION"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="21sp"
                 android:textStyle="bold" />
@@ -255,7 +258,7 @@
                 android:layout_marginTop="50dp"
                 android:backgroundTint="@color/green"
                 android:padding="12dp"
-                android:text="Save"
+                android:text="SAVE"
                 android:textColor="@android:color/white" />
 
         </LinearLayout>
@@ -293,7 +296,7 @@
             android:layout_marginTop="10dp"
             android:backgroundTint="@android:color/holo_red_light"
             android:padding="12dp"
-            android:text="Delete Account"
+            android:text="DELETE ACCOUNT"
             android:textColor="@android:color/white" />
 
     </LinearLayout>

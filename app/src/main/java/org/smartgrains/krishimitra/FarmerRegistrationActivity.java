@@ -1,7 +1,9 @@
 package org.smartgrains.krishimitra;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -37,6 +39,10 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
     private DatabaseReference databaseReference;
     private String firstName, lastName, phoneNumber, password;
     private CheckBox privacyPolicyCheckbox; // Declare the checkbox
+    private SharedPreferences sharedPreferences;
+    private static final String PREFS_NAME = "UserPrefs";
+    private static final String KEY_ROLE = "USER_ROLE";
+    private static final String KEY_USER_ID = "USER_ID";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,6 +64,10 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar); // Initialize progress bar
         privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox); // Initialize the checkbox
         privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
+
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
 
         // Initialize Firebase Database reference
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
@@ -205,7 +215,12 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         resetProgress();
                         if (task.isSuccessful()) {
+                            // Save user role and ID in SharedPreferences
+                            saveLoginState("Farmer", userId);
+
                             Toast.makeText(FarmerRegistrationActivity.this, "Farmer registered successfully", Toast.LENGTH_SHORT).show();
+
+                            // Navigate to the Farmer Dashboard
                             Intent intent = new Intent(FarmerRegistrationActivity.this, FarmerDashboardActivity.class);
                             intent.putExtra("USER_ID", userId);
                             startActivity(intent);
@@ -217,8 +232,16 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
         }
     }
 
+    private void saveLoginState(String role, String userId) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(KEY_ROLE, role);
+        editor.putString(KEY_USER_ID, userId);
+        editor.apply();
+    }
+
     private void resetProgress() {
         progressBar.setVisibility(View.GONE); // Hide the progress bar
         buttonRegister.setEnabled(true); // Re-enable the button
     }
+
 }

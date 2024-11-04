@@ -9,43 +9,44 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:elevation="4dp"
         android:layout_marginTop="50dp"
-        android:gravity="center_horizontal">
+        android:elevation="4dp"
+        android:gravity="center_horizontal"
+        android:orientation="vertical">
 
         <!-- Main Title -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.2"
             android:text="KRISHI MITRA"
             android:textColor="@color/green"
             android:textSize="28sp"
-            android:textStyle="bold"
-            android:letterSpacing="0.1"
-            android:fontFamily="sans-serif-medium" />
+            android:textStyle="bold" />
 
         <!-- Subtitle -->
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Crop Listings"
-            android:textStyle="bold"
-            android:textColor="@color/green"
-            android:textSize="21sp"
+            android:layout_marginTop="7dp"
             android:fontFamily="sans-serif-light"
-            android:layout_marginTop="7dp" />
+            android:letterSpacing="0.1"
+            android:text="Crop Listings"
+            android:textColor="#F8F3BA"
+            android:textSize="21sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!-- Content Area -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:padding="5dp"
-        android:elevation="4dp"
         android:layout_margin="3dp"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        android:orientation="vertical"
+        android:padding="5dp">
 
         <!-- RecyclerView for displaying listings -->
         <androidx.recyclerview.widget.RecyclerView
@@ -53,8 +54,8 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:paddingVertical="5dp"
-            android:clipToPadding="false" />
+            android:clipToPadding="false"
+            android:paddingVertical="5dp" />
     </LinearLayout>
 
 </LinearLayout>
