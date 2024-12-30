@@ -11,8 +11,8 @@ android {
         applicationId = "org.smartgrains.krishimitra"
         minSdk = 24
         targetSdk = 34
-        versionCode = 10
-        versionName = "2.0"
+        versionCode = 13
+        versionName = "2.3"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -40,6 +40,9 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.firebase.database)
     implementation(libs.firebase.storage)
+    implementation(libs.volley)
+    implementation(libs.play.services.location)
+    implementation(libs.firebase.firestore)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)

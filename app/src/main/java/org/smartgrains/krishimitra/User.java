@@ -16,10 +16,11 @@ public class User implements Parcelable {
     private String state;
     private String district;
     private String taluka;
+    private String locality;
 
     // Constructor for Trader
     public User(String userId, String firstName, String lastName, String phoneNumber, String password, String role,
-                String shopName, String shopAddress, String state, String district, String taluka) {
+                String shopName, String shopAddress, String state, String district, String taluka, String locality) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -31,12 +32,13 @@ public class User implements Parcelable {
         this.state = state;
         this.district = district;
         this.taluka = taluka;
+        this.locality = locality;
         this.address = null; // Initialize address to null for Traders
     }
 
     // Constructor for Farmer
     public User(String userId, String firstName, String lastName, String phoneNumber, String password, String role,
-                String address, String state, String district, String taluka) {
+                String address, String state, String district, String taluka, String locality) {
         this.userId = userId;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -49,6 +51,7 @@ public class User implements Parcelable {
         this.state = state;
         this.district = district;
         this.taluka = taluka;
+        this.locality = locality;
     }
 
     // Getters and Setters
@@ -148,6 +151,14 @@ public class User implements Parcelable {
         this.taluka = taluka;
     }
 
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
+    }
+
     // Parcelable implementation
     protected User(Parcel in) {
         userId = in.readString();
@@ -159,6 +170,7 @@ public class User implements Parcelable {
         state = in.readString();
         district = in.readString();
         taluka = in.readString();
+        locality = in.readString();
 
         // Read based on role
         if ("Trader".equals(role)) {
@@ -183,6 +195,7 @@ public class User implements Parcelable {
         dest.writeString(state);
         dest.writeString(district);
         dest.writeString(taluka);
+        dest.writeString(locality);
 
         // Write based on role
         if ("Trader".equals(role)) {

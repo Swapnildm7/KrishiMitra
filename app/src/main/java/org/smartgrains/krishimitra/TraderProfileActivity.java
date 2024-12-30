@@ -28,9 +28,8 @@ import java.util.Map;
 
 public class TraderProfileActivity extends AppCompatActivity {
     private EditText firstNameEditText, lastNameEditText, phoneNumberEditText, shopNameEditText, shopAddressEditText;
-    private Spinner stateSpinner, districtSpinner, talukaSpinner;
-    private Button updateButton, deleteButton;
-    private TextView currentStateTextView, currentDistrictTextView, currentTalukaTextView, privacyPolicyTextView; // TextViews to show current location
+    private Button updateButton;
+    private TextView currentStateTextView, currentDistrictTextView, currentTalukaTextView; // TextViews to show current location
     private DatabaseReference databaseReference;
     private String userId;
 
@@ -62,11 +61,9 @@ public class TraderProfileActivity extends AppCompatActivity {
         shopNameEditText = findViewById(R.id.edit_shop_name);
         shopAddressEditText = findViewById(R.id.edit_shop_address);
         updateButton = findViewById(R.id.button_save);
-        deleteButton = findViewById(R.id.button_delete_account);
         currentStateTextView = findViewById(R.id.current_state); // Initialize TextViews
         currentDistrictTextView = findViewById(R.id.current_district);
         currentTalukaTextView = findViewById(R.id.current_taluka);
-        privacyPolicyTextView = findViewById(R.id.tv_privacy_policy);
 
         // Fetch and display user details
         fetchUserDetails();
@@ -74,22 +71,8 @@ public class TraderProfileActivity extends AppCompatActivity {
         // Set up update button listener
         updateButton.setOnClickListener(v -> updateUserDetails());
 
-        // Set up delete button listener
-        deleteButton.setOnClickListener(v -> deleteAccount());
-
-        // Set OnClickListener to open the privacy policy link
-        privacyPolicyTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Define the privacy policy URL
-                String privacyPolicyUrl = "https://smartgrains.org/PrivacyPolicyKrishiMitra.html";
-
-                // Create an Intent to open the URL in a browser
-                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl));
-                startActivity(intent);
-            }
-        });
     }
+
     private void fetchUserDetails() {
         databaseReference.child(userId).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -161,81 +144,5 @@ public class TraderProfileActivity extends AppCompatActivity {
                         Log.e("TraderProfileActivity", "Update error: " + errorMessage);
                     }
                 });
-    }
-
-    private void deleteAccount() {
-        // Confirmation dialog before deletion
-        new AlertDialog.Builder(this)
-                .setTitle("Delete Account")
-                .setMessage("Are you sure you want to delete your account?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    // Fetch current user data from the 'Users' node
-                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
-
-                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            if (dataSnapshot.exists()) {
-                                // Get user data as a Map
-                                Map<String, Object> userData = (Map<String, Object>) dataSnapshot.getValue();
-
-                                if (userData != null) {
-                                    // Clear personal details
-                                    userData.put("firstName", "");
-                                    userData.put("lastName", "");
-                                    userData.put("phoneNumber", "");
-                                    userData.put("shopName", "");
-                                    userData.put("shopAddress", "");
-
-                                    // Move modified data to the 'pastUsers' node
-                                    DatabaseReference pastUsersRef = FirebaseDatabase.getInstance().getReference("pastUsers");
-                                    pastUsersRef.child(userId).setValue(userData)
-                                            .addOnCompleteListener(task -> {
-                                                if (task.isSuccessful()) {
-                                                    // If data is successfully moved, delete the user data from 'Users'
-                                                    userRef.removeValue()
-                                                            .addOnCompleteListener(deleteTask -> {
-                                                                if (deleteTask.isSuccessful()) {
-                                                                    Toast.makeText(TraderProfileActivity.this, "Account deleted successfully", Toast.LENGTH_SHORT).show();
-                                                                    clearUserPreferences(); // Clear Shared Preferences
-                                                                    redirectToSignup();
-                                                                } else {
-                                                                    Toast.makeText(TraderProfileActivity.this, "Failed to delete account", Toast.LENGTH_SHORT).show();
-                                                                    Log.e("TraderProfileActivity", "Delete error: " + deleteTask.getException().getMessage());
-                                                                }
-                                                            });
-                                                } else {
-                                                    Toast.makeText(TraderProfileActivity.this, "Failed to move data to past users", Toast.LENGTH_SHORT).show();
-                                                    Log.e("TraderProfileActivity", "Move to past users error: " + task.getException().getMessage());
-                                                }
-                                            });
-                                }
-                            } else {
-                                Toast.makeText(TraderProfileActivity.this, "User data not found", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Toast.makeText(TraderProfileActivity.this, "Error fetching user data", Toast.LENGTH_SHORT).show();
-                            Log.e("TraderProfileActivity", "Database error: " + databaseError.getMessage());
-                        }
-                    });
-                })
-                .setNegativeButton("No", null)
-                .show();
-    }
-
-    private void clearUserPreferences() {
-        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // Clear all saved data
-        editor.apply();
-    }
-
-    private void redirectToSignup() {
-        Intent intent = new Intent(TraderProfileActivity.this, SignupActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK); // Clear the activity stack
-        startActivity(intent); // Start the SignupActivity
     }
 }

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--    Language Activity-->
+    <string name="languages_title">ಭಾಷೆಗಳು</string>
+    <string name="language_selection">ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="save_settings">ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸಿ</string>
+    <string name="all_languages_title">ಎಲ್ಲ ಭಾಷೆಗಳು</string>
+    <string name="welcome_message">ಕೃಷಿ ಮಿತ್ರಕ್ಕೆ ಸ್ವಾಗತ</string>
+
+    <!--    Main Activity-->
+    <string name="app_name">ಕೃಷಿ ಮಿತ್ರ</string>
+    <string name="main_desc">The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips</string>
+    <string name="main_login">ಲಾಗಿನ್</string>
+    <string name="main_sign_up">ಸೈನ್ ಅಪ್</string>
+
+    <!--    Login Activity-->
+    <string name="welcome">ಸ್ವಾಗತ</string>
+    <string name="mobile">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</string>
+    <string name="password">ಪಾಸ್ವರ್ಡ್</string>
+    <string name="login">ಲಾಗಿನ್</string>
+    <string name="signup">ನೋಂದಣಿ ಮಾಡಿಲ್ಲವೇ? ಸೈನ್ ಅಪ್</string>
+    <string name="empty_fields_error">ದಯವಿಟ್ಟು ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ</string>
+    <string name="invalid_phone_number_error">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಸರಿಯಾಗಿ 10 ಅಂಕೆಗಳು ಇರಬೇಕು</string>
+    <string name="incorrect_admin_password">ತಪ್ಪಾದ ಅಡ್ಮಿನ್ ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="incorrect_password">ತಪ್ಪಾದ ಪಾಸ್‌ವರ್ಡ್</string>
+    <string name="user_not_found">ಬಳಕೆದಾರರು ಕಾಣಿಸಿಲ್ಲ</string>
+    <string name="database_error">ಡೇಟಾಬೇಸ್ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</string>
+    <string name="invalid_role">ದೋಷಪೂರಿತ ಪಾತ್ರ</string>
+
+</resources>

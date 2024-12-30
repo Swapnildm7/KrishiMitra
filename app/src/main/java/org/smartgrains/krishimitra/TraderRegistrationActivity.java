@@ -35,12 +35,11 @@ public class TraderRegistrationActivity extends AppCompatActivity {
 
     private static final String TAG = "TraderRegistrationActivity"; // For logging
 
-    private EditText editTextShopName, editTextShopAddress;
+    private EditText editTextShopName, editTextShopAddress, editTextLocality;
     private Spinner stateSpinner, districtSpinner, talukaSpinner;
     private Button buttonRegister;
     private CheckBox privacyPolicyCheckbox;
     private ProgressBar progressBar;
-
     private DatabaseReference databaseReference;
     private String firstName, lastName, phoneNumber, password;
     private SharedPreferences sharedPreferences;
@@ -87,7 +86,8 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                         editTextShopAddress.getText().toString().trim(),
                         stateSpinner.getSelectedItem().toString(),
                         districtSpinner.getSelectedItem().toString(),
-                        talukaSpinner.getSelectedItem().toString());
+                        talukaSpinner.getSelectedItem().toString(),
+                        editTextLocality.getText().toString().trim());
             }
         });
     }
@@ -95,6 +95,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
     private void initializeViews() {
         editTextShopName = findViewById(R.id.editTextShopName);
         editTextShopAddress = findViewById(R.id.editTextShopAddress);
+        editTextLocality = findViewById(R.id.editTextLocality);
         stateSpinner = findViewById(R.id.state_spinner);
         districtSpinner = findViewById(R.id.district_spinner);
         talukaSpinner = findViewById(R.id.taluka_spinner);
@@ -140,50 +141,77 @@ public class TraderRegistrationActivity extends AppCompatActivity {
     }
 
     private void populateLocationSpinners() {
-        List<String> states = LocationData.getStates();
-        String[] statesArray = states.toArray(new String[0]);
-        CustomSpinnerAdapter stateAdapter = new CustomSpinnerAdapter(this, statesArray);
-        stateSpinner.setAdapter(stateAdapter);
-
-        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        LocationData.getStates(new LocationData.Callback<List<String>>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                populateDistrictSpinner(states.get(position));
+            public void onSuccess(List<String> states) {
+                String[] statesArray = states.toArray(new String[0]);
+                CustomSpinnerAdapter stateAdapter = new CustomSpinnerAdapter(TraderRegistrationActivity.this, statesArray);
+                stateSpinner.setAdapter(stateAdapter);
+
+                stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        populateDistrictSpinner(states.get(position));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onFailure(String error) {
+                showToast("Failed to load states: " + error);
             }
         });
     }
 
     private void populateDistrictSpinner(String state) {
-        List<String> districts = LocationData.getDistricts(state);
-        String[] districtsArray = districts.toArray(new String[0]);
-        CustomSpinnerAdapter districtAdapter = new CustomSpinnerAdapter(this, districtsArray);
-        districtSpinner.setAdapter(districtAdapter);
-
-        districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        LocationData.getDistricts(state, new LocationData.Callback<List<String>>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                populateTalukaSpinner(districts.get(position));
+            public void onSuccess(List<String> districts) {
+                String[] districtsArray = districts.toArray(new String[0]);
+                CustomSpinnerAdapter districtAdapter = new CustomSpinnerAdapter(TraderRegistrationActivity.this, districtsArray);
+                districtSpinner.setAdapter(districtAdapter);
+
+                districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        populateTalukaSpinner(districts.get(position));
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onFailure(String error) {
+                showToast("Failed to load districts: " + error);
             }
         });
     }
 
     private void populateTalukaSpinner(String district) {
-        List<String> talukas = LocationData.getTalukas(district);
-        String[] talukasArray = talukas.toArray(new String[0]);
-        CustomSpinnerAdapter talukaAdapter = new CustomSpinnerAdapter(this, talukasArray);
-        talukaSpinner.setAdapter(talukaAdapter);
+        LocationData.getTalukas(stateSpinner.getSelectedItem().toString(), district, new LocationData.Callback<List<String>>() {
+            @Override
+            public void onSuccess(List<String> talukas) {
+                String[] talukasArray = talukas.toArray(new String[0]);
+                CustomSpinnerAdapter talukaAdapter = new CustomSpinnerAdapter(TraderRegistrationActivity.this, talukasArray);
+                talukaSpinner.setAdapter(talukaAdapter);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                showToast("Failed to load talukas: " + error);
+            }
+        });
     }
 
     private void checkUserExists(String phoneNumber, String shopName, String shopAddress,
-                                 String state, String district, String taluka) {
+                                 String state, String district, String taluka, String locality) {
         Query query = databaseReference.orderByChild("phoneNumber").equalTo(phoneNumber);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -194,7 +222,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                     showToast("User already registered with this phone number");
                 } else {
                     String hashedPassword = hashPassword(password);
-                    saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, shopName, shopAddress, state, district, taluka);
+                    saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, shopName, shopAddress, state, district, taluka, locality);
                 }
             }
 
@@ -209,9 +237,9 @@ public class TraderRegistrationActivity extends AppCompatActivity {
     }
 
     private void saveUserInfo(String firstName, String lastName, String phoneNumber, String password,
-                              String shopName, String shopAddress, String state, String district, String taluka) {
+                              String shopName, String shopAddress, String state, String district, String taluka, String locality) {
         String userId = databaseReference.push().getKey();
-        User user = new User(userId, firstName, lastName, phoneNumber, password, "Trader", shopName, shopAddress, state, district, taluka);
+        User user = new User(userId, firstName, lastName, phoneNumber, password, "Trader", shopName, shopAddress, state, district, taluka, locality);
 
         if (userId != null) {
             databaseReference.child(userId).setValue(user)

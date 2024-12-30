@@ -25,6 +25,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,7 +43,7 @@ import java.util.Set;
 
 public class FarmerDashboardActivity extends AppCompatActivity implements CropFilterBottomSheetFragment.OnCropsSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "FarmerDashboardActivity";
-    private static final String CURRENT_VERSION = "2.0";
+    private static final String CURRENT_VERSION = "2.3";
     private RecyclerView cropImageRecyclerView;
     private ProgressBar progressBar;
     private CropImageAdapter cropImageAdapter;
@@ -50,9 +51,10 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
     private Map<String, CropListing> allCropsMap;
     private DatabaseReference databaseReference;
     private String farmerState, farmerDistrict, farmerTaluka;
-    private LinearLayout cropFilterButtonLayout, refreshButtonLayout;
-    private ImageView cropFilterButtonIcon, refreshButtonIcon, userProfile, headerProfile;
-    private TextView cropFilterButtonText, refreshButtonText;
+    private LinearLayout cropFilterButtonLayout, buttonTrader;
+    private ImageView cropFilterButtonIcon, userProfile, headerProfile, icon_trader;
+    private TextView cropFilterButtonText;
+    private FloatingActionButton fabRefresh;
     private int previousCropCount = 0;
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -78,16 +80,17 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
         cropImageRecyclerView = findViewById(R.id.cropImageRecyclerView);
         progressBar = findViewById(R.id.progressBar);
         cropFilterButtonLayout = findViewById(R.id.cropFilterButton); // Crop filter button layout
-        refreshButtonLayout = findViewById(R.id.buttonRefresh); // Refresh button layout
+        fabRefresh = findViewById(R.id.fabRefresh); // Refresh button layout
+        buttonTrader = findViewById(R.id.buttonTraders); // Trader button layout)
         userProfile = findViewById(R.id.userProfile); // User profile ImageView
 
         // Initialize TextView and ImageView within crop filter button
         cropFilterButtonIcon = cropFilterButtonLayout.findViewById(R.id.icon_crop_filter);
         cropFilterButtonText = cropFilterButtonLayout.findViewById(R.id.text_crop_filter);
 
-        // Initialize TextView and ImageView within refresh button
-        refreshButtonIcon = refreshButtonLayout.findViewById(R.id.icon_refresh);
-        refreshButtonText = refreshButtonLayout.findViewById(R.id.text_refresh);
+        // Initialize TextView and ImageView within trader button
+        icon_trader = buttonTrader.findViewById(R.id.icon_trader);
+        cropFilterButtonText = buttonTrader.findViewById(R.id.text_trader);
 
         cropListingList = new ArrayList<>();
         allCropsMap = new HashMap<>();
@@ -98,6 +101,7 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
             intent.putExtra("FARMER_STATE", farmerState);
             intent.putExtra("FARMER_DISTRICT", farmerDistrict);
             intent.putExtra("FARMER_TALUKA", farmerTaluka);
+            intent.putExtra("USER_ID", userId);
             startActivity(intent);
         });
 
@@ -133,7 +137,17 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
         cropFilterButtonLayout.setOnClickListener(v -> showCropFilterBottomSheet());
 
         // Set onClickListener for refresh button
-        refreshButtonLayout.setOnClickListener(v -> fetchCropListings());
+        fabRefresh.setOnClickListener(v -> fetchCropListings());
+
+        // Set onClickListener for Trader button
+        buttonTrader.setOnClickListener(v -> {
+            Intent intent = new Intent(FarmerDashboardActivity.this, TradersDetailsList.class);
+            intent.putExtra("FARMER_STATE", farmerState);
+            intent.putExtra("FARMER_DISTRICT", farmerDistrict);
+            intent.putExtra("FARMER_TALUKA", farmerTaluka);
+            intent.putExtra("USER_ID", userId);
+            startActivity(intent);
+        });
 
         // Set onClickListener for User Profile (to open the Drawer)
         userProfile.setOnClickListener(v -> drawerLayout.openDrawer(GravityCompat.START));
@@ -153,6 +167,14 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
             closeDrawerAndNavigate(() -> navigateToContactUsActivity());
         } else if (id == R.id.nav_logout) {
             closeDrawerAndNavigate(() -> performLogout());
+        } else if (id == R.id.nav_privacy_policy) {
+            String privacyPolicyUrl = "https://smartgrains.org/PrivacyPolicyKrishiMitra.html";
+
+            // Create an Intent to open the URL in a browser
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl));
+            startActivity(intent);
+            // Set OnClickListener to open the privacy policy link
+
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
@@ -235,6 +257,7 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
 
     private void fetchFarmerDetails() {
         String userId = getIntent().getStringExtra("USER_ID");
+        progressBar.setVisibility(View.VISIBLE);
         if (userId == null) {
             Log.e(TAG, "User ID is null");
             Toast.makeText(this, "User ID is missing.", Toast.LENGTH_SHORT).show();
@@ -276,6 +299,13 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
                 Set<String> uniqueCropNames = new HashSet<>();
                 allCropsMap.clear();
 
+                // Separate lists for hierarchical fallback
+                List<DataSnapshot> talukaListings = new ArrayList<>();
+                List<DataSnapshot> districtListings = new ArrayList<>();
+                List<DataSnapshot> stateListings = new ArrayList<>();
+                List<DataSnapshot> allListings = new ArrayList<>();
+
+                // Organize listings into hierarchical buckets
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     String role = userSnapshot.child("role").getValue(String.class);
                     if ("Trader".equals(role)) {
@@ -285,50 +315,87 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
                             String taluka = listingSnapshot.child("taluka").getValue(String.class);
                             String cropName = listingSnapshot.child("cropName").getValue(String.class);
 
-                            // Null checks for all location and crop fields
+                            // Skip incomplete data
                             if (state == null || district == null || taluka == null || cropName == null) {
-                                Log.w(TAG, "Incomplete listing data for a trader. Skipping listing.");
+                                Log.w(TAG, "Incomplete listing data for trader: " + userSnapshot.getKey() + ". Skipping this listing.");
                                 continue;
                             }
 
-                            // Only add crop if it matches farmer's location and hasn't been added yet
-                            if (farmerState.equals(state) && farmerDistrict.equals(district) && farmerTaluka.equals(taluka) && !uniqueCropNames.contains(cropName)) {
-                                CropListing cropListing = new CropListing();
-                                cropListing.setCropName(cropName);
-                                cropListing.setImageUrl(listingSnapshot.child("imageUrl").getValue(String.class));
-                                cropListing.setUserId(userSnapshot.getKey());
-
-                                uniqueCropNames.add(cropName);
-                                allCropsMap.put(cropName, cropListing);
+                            // Categorize listings by location
+                            if (farmerTaluka.equals(taluka) && farmerDistrict.equals(district) && farmerState.equals(state)) {
+                                talukaListings.add(listingSnapshot);
+                            } else if (farmerDistrict.equals(district) && farmerState.equals(state)) {
+                                districtListings.add(listingSnapshot);
+                            } else if (farmerState.equals(state)) {
+                                stateListings.add(listingSnapshot);
+                            } else {
+                                allListings.add(listingSnapshot);
                             }
                         }
                     }
                 }
 
+                // Update the TextView with appropriate messages based on listings
+                TextView textMessageCrop = findViewById(R.id.textMessageCrop);
+
+                boolean listingsFound = processListings(talukaListings, uniqueCropNames, "Crop listings in: " + farmerTaluka, textMessageCrop);
+                if (!listingsFound) {
+                    listingsFound = processListings(districtListings, uniqueCropNames, "No listings found in your Location. Crop listings in your District: " + farmerDistrict, textMessageCrop);
+                }
+                if (!listingsFound) {
+                    listingsFound = processListings(stateListings, uniqueCropNames, "No listings found in your District. Crop listings in your State: " + farmerState, textMessageCrop);
+                }
+                if (!listingsFound) {
+                    processListings(allListings, uniqueCropNames, "No listings found for your State. Showing all available listings.", textMessageCrop);
+                }
+
+                // Update UI
                 cropListingList.clear();
                 cropListingList.addAll(allCropsMap.values());
                 cropImageAdapter.notifyDataSetChanged();
 
-                int newCropCount = cropListingList.size();
-                int newlyListedCrops = newCropCount - previousCropCount;
-
-                if (newlyListedCrops > 0) {
-                    Toast.makeText(FarmerDashboardActivity.this, newlyListedCrops + " new listings found!", Toast.LENGTH_SHORT).show();
+                if (cropListingList.isEmpty()) {
+                    textMessageCrop.setText("No crop listings available at the moment.");
+                    Toast.makeText(FarmerDashboardActivity.this, "No crop listings available at the moment.", Toast.LENGTH_LONG).show();
                 } else {
-                    Toast.makeText(FarmerDashboardActivity.this, "No new listings found.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FarmerDashboardActivity.this, cropListingList.size() + " unique crop listings displayed.", Toast.LENGTH_SHORT).show();
                 }
 
-                previousCropCount = newCropCount;
+                previousCropCount = cropListingList.size();
                 progressBar.setVisibility(View.GONE);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Log.e(TAG, "Failed to load crop listings: " + error.getMessage());
-                Toast.makeText(FarmerDashboardActivity.this, "Failed to load crop listings.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FarmerDashboardActivity.this, "An error occurred while fetching crop listings. Please try again later.", Toast.LENGTH_SHORT).show();
                 progressBar.setVisibility(View.GONE);
             }
         });
+    }
+
+    // Helper function to process listings and update the TextView
+    private boolean processListings(List<DataSnapshot> listings, Set<String> uniqueCropNames, String message, TextView textMessageCrop) {
+        boolean addedListings = false;
+
+        for (DataSnapshot listingSnapshot : listings) {
+            String cropName = listingSnapshot.child("cropName").getValue(String.class);
+            if (!uniqueCropNames.contains(cropName)) {
+                CropListing cropListing = new CropListing();
+                cropListing.setCropName(cropName);
+                cropListing.setImageUrl(listingSnapshot.child("imageUrl").getValue(String.class));
+                cropListing.setUserId(listingSnapshot.child("userId").getValue(String.class));
+
+                uniqueCropNames.add(cropName);
+                allCropsMap.put(cropName, cropListing);
+                addedListings = true;
+            }
+        }
+
+        if (addedListings) {
+            textMessageCrop.setText(message);
+        }
+        return addedListings;
     }
 
     @Override
@@ -391,6 +458,8 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
         closeOptionsMenu();
         // Navigate to the ContactUsActivity
         Intent intent = new Intent(FarmerDashboardActivity.this, ContactUsActivity.class);
+        intent.putExtra("USER_ID", userId);
+        intent.putExtra("USER_ROLE", userRole);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }

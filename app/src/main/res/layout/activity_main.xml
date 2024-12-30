@@ -1,7 +1,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_leafy"
+    android:background="@drawable/bg_profile_activity"
     android:gravity="center"
     android:orientation="vertical"
     android:padding="16dp">
@@ -46,14 +46,14 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="25dp"
-        android:padding="7dp"
         android:backgroundTint="#43A047"
+        android:padding="7dp"
         android:text="@string/main_login"
         android:textColor="@color/white"
         android:textSize="19sp"
         android:textStyle="bold" />
 
-
+    <!-- Signup Button -->
     <Button
         android:id="@+id/buttonSignup"
         android:layout_width="250dp"
@@ -61,11 +61,10 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="21dp"
         android:layout_marginRight="25dp"
-        android:padding="7dp"
         android:backgroundTint="#43A047"
+        android:padding="7dp"
         android:text="@string/main_sign_up"
         android:textColor="@color/white"
         android:textSize="19sp"
         android:textStyle="bold" />
-
 </LinearLayout>

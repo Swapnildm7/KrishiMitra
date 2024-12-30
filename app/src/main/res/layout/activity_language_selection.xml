@@ -1,0 +1,92 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_profile_activity"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Title: Languages -->
+    <TextView
+        android:id="@+id/tvLanguagesTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="32dp"
+        android:letterSpacing="0.2"
+        android:text="@string/languages_title"
+        android:textAlignment="center"
+        android:textColor="@color/colorPrimary"
+        android:textSize="27sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/tvPreferredLang"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="7dp"
+        android:text="@string/language_selection"
+        android:textColor="#089FE4"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
+    <!-- Selected Language Card -->
+    <LinearLayout
+        android:id="@+id/selectedLanguageCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="7dp"
+        android:layout_marginBottom="16dp"
+        android:background="@drawable/rounded_corner"
+        android:elevation="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/selectedLanguageFlag"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_english" />
+
+        <TextView
+            android:id="@+id/selectedLanguageName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <!-- All Languages Section Title -->
+    <TextView
+        android:id="@+id/tvAllLanguagesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="8dp"
+        android:text="@string/all_languages_title"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <!-- RecyclerView for All Languages -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewLanguages"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="16dp"
+        android:layout_weight="1" />
+
+    <!-- Save Button -->
+    <Button
+        android:id="@+id/btnSaveSettings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/colorPrimary"
+        android:paddingVertical="12dp"
+        android:text="@string/save_settings"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+</LinearLayout>

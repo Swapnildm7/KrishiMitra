@@ -1,158 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_leafy"
-    android:fitsSystemWindows="false">
+    android:background="@drawable/bg_profile_activity"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:gravity="center"
+        android:padding="16dp"
+        android:text="@string/details"
+        android:textColor="#43A047"
+        android:textSize="28sp"
+        android:textStyle="bold" />
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:paddingTop="0dp">
+        android:fillViewport="true"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="50dp"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="21dp"
-                android:text="@string/details"
-                android:textAlignment="center"
-                android:textColor="#43A047"
-                android:textSize="29sp"
-                android:textStyle="bold" />
+            android:orientation="vertical"
+            android:padding="16dp">
 
             <!-- First Name -->
-            <EditText
-                android:id="@+id/editTextFirstName"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/firstName"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="18sp" />
+                android:textColorHint="#B0BEC5">
 
-            <EditText
-                android:id="@+id/editTextLastName"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextFirstName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Last Name -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
+                android:layout_marginTop="8dp"
                 android:hint="@string/lastName"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="18sp" />
+                android:textColorHint="#B0BEC5">
 
-            <EditText
-                android:id="@+id/editTextPhoneNumber"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextLastName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Phone Number -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
+                android:layout_marginTop="8dp"
                 android:hint="@string/phoneNumber"
-                android:inputType="number"
-                android:maxLength="10"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="18sp" />
+                android:textColorHint="#B0BEC5">
 
-            <!-- Enter Password -->
-            <EditText
-                android:id="@+id/editTextPassword"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="phone"
+                    android:maxLength="10"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Password -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
+                android:layout_marginTop="8dp"
                 android:hint="@string/enterPassword"
-                android:inputType="textPassword"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="18sp" />
+                android:textColorHint="#B0BEC5"
+                app:endIconMode="password_toggle">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Confirm Password -->
-            <EditText
-                android:id="@+id/editTextConfirmPassword"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
+                android:layout_marginTop="8dp"
                 android:hint="@string/confirmPassword"
-                android:inputType="textPassword"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="18sp" />
+                android:textColorHint="#B0BEC5"
+                app:endIconMode="password_toggle">
 
-            <!-- Farmer or Trader Selection -->
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textPassword"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Select Role -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="24dp"
+                android:gravity="center"
                 android:text="@string/selectRole"
-                android:textAlignment="center"
                 android:textColor="@color/black"
-                android:textSize="21sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
-
-            <!-- Replacing spinner with RadioGroup -->
             <RadioGroup
                 android:id="@+id/radioGroupRole"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radioFarmer"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:layout_marginTop="8dp"
                     android:text="@string/farmer"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
-                <RadioButton
+                <com.google.android.material.radiobutton.MaterialRadioButton
                     android:id="@+id/radioTrader"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
                     android:text="@string/trader"
                     android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    android:textSize="16sp" />
 
             </RadioGroup>
 
             <!-- Signup Button -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/buttonNext"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="24dp"
                 android:backgroundTint="#43A047"
-                android:text="PROCEED"
+                android:text="NEXT"
                 android:textColor="@color/white" />
 
         </LinearLayout>
 
     </ScrollView>
 
-</FrameLayout>
+</LinearLayout>

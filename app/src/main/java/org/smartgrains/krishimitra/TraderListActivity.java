@@ -25,10 +25,10 @@ public class TraderListActivity extends AppCompatActivity {
     private static final String TAG = "TraderListActivity";
     private RecyclerView traderRecyclerView;
     private ProgressBar progressBar;
-    private TextView cropNameTextView; // New TextView for displaying crop name
+    private TextView cropNameTextView, textMessageCrop; // Reference to crop name TextView and message TextView
     private TraderAdapter traderAdapter;
     private List<Trader> traderList;
-    private String cropName, farmerState, farmerDistrict, farmerTaluka;
+    private String cropName, farmerState, farmerDistrict, farmerTaluka, farmerUserId;
     private DatabaseReference databaseReference;
 
     @Override
@@ -46,6 +46,7 @@ public class TraderListActivity extends AppCompatActivity {
         traderRecyclerView = findViewById(R.id.traderRecyclerView);
         progressBar = findViewById(R.id.progressBar);
         cropNameTextView = findViewById(R.id.cropNameTextView); // Reference to crop name TextView
+        textMessageCrop = findViewById(R.id.textMessageCrop); // Reference to message TextView
         traderList = new ArrayList<>();
 
         // Get data from the Intent and validate it
@@ -53,6 +54,7 @@ public class TraderListActivity extends AppCompatActivity {
         farmerState = getIntent().getStringExtra("FARMER_STATE");
         farmerDistrict = getIntent().getStringExtra("FARMER_DISTRICT");
         farmerTaluka = getIntent().getStringExtra("FARMER_TALUKA");
+        farmerUserId = getIntent().getStringExtra("USER_ID");
 
         if (cropName == null || farmerState == null || farmerDistrict == null || farmerTaluka == null) {
             Toast.makeText(this, "Incomplete information provided.", Toast.LENGTH_SHORT).show();
@@ -65,7 +67,7 @@ public class TraderListActivity extends AppCompatActivity {
         cropNameTextView.setText(cropName.toUpperCase());
 
         // Set up the RecyclerView
-        traderAdapter = new TraderAdapter(this, traderList);
+        traderAdapter = new TraderAdapter(this, traderList, farmerUserId);
         traderRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         traderRecyclerView.setAdapter(traderAdapter);
 
@@ -77,57 +79,67 @@ public class TraderListActivity extends AppCompatActivity {
         progressBar.setVisibility(View.VISIBLE);
         databaseReference = FirebaseDatabase.getInstance().getReference("Users");
 
-        // Query all users to find traders
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 traderList.clear(); // Clear previous listings
 
-                // Loop through all users to find traders and their crop listings
+                // Separate lists for hierarchical fallback
+                List<DataSnapshot> talukaListings = new ArrayList<>();
+                List<DataSnapshot> districtListings = new ArrayList<>();
+                List<DataSnapshot> stateListings = new ArrayList<>();
+                List<DataSnapshot> allListings = new ArrayList<>();
+
+                // Organize listings into hierarchical buckets
                 for (DataSnapshot userSnapshot : snapshot.getChildren()) {
                     String role = userSnapshot.child("role").getValue(String.class);
                     if ("Trader".equals(role)) {
-                        // Check if this trader has listings
                         for (DataSnapshot listingSnapshot : userSnapshot.child("Listings").getChildren()) {
                             String listingCropName = listingSnapshot.child("cropName").getValue(String.class);
                             String state = listingSnapshot.child("state").getValue(String.class);
                             String district = listingSnapshot.child("district").getValue(String.class);
                             String taluka = listingSnapshot.child("taluka").getValue(String.class);
 
-                            // Check if the crop name and location match
-                            if (cropName.equals(listingCropName) && farmerState.equals(state)
-                                    && farmerDistrict.equals(district) && farmerTaluka.equals(taluka)) {
+                            // Ensure required fields are present
+                            if (listingCropName == null || state == null || district == null || taluka == null) {
+                                Log.w(TAG, "Incomplete trader data: " + userSnapshot.getKey() + ". Skipping this listing.");
+                                continue;
+                            }
 
-                                Trader trader = new Trader();
-                                // Fetch trader details safely
-                                trader.setTraderName(userSnapshot.child("firstName").getValue(String.class));
-                                trader.setShopName(userSnapshot.child("shopName").getValue(String.class));
-                                trader.setShopAddress(userSnapshot.child("shopAddress").getValue(String.class));
-                                trader.setMinPrice(listingSnapshot.child("minPrice").getValue(String.class));
-                                trader.setMaxPrice(listingSnapshot.child("maxPrice").getValue(String.class));
-                                trader.setQuantity(listingSnapshot.child("quantity").getValue(String.class));
-                                trader.setUnit(listingSnapshot.child("unit").getValue(String.class));
-                                trader.setPhoneNumber(userSnapshot.child("phoneNumber").getValue(String.class));
-
-                                // Set the user ID (key of the userSnapshot)
-                                trader.setUserId(userSnapshot.getKey());
-
-                                // Log trader details
-                                Log.d(TAG, "Trader Found: " + trader.getTraderName() + ", Shop: " + trader.getShopName());
-
-                                traderList.add(trader); // Add the trader to the list
+                            // Categorize listings by location
+                            if (cropName.equals(listingCropName) && farmerTaluka.equals(taluka) && farmerDistrict.equals(district) && farmerState.equals(state)) {
+                                talukaListings.add(userSnapshot);
+                            } else if (cropName.equals(listingCropName) && farmerDistrict.equals(district) && farmerState.equals(state)) {
+                                districtListings.add(userSnapshot);
+                            } else if (cropName.equals(listingCropName) && farmerState.equals(state)) {
+                                stateListings.add(userSnapshot);
+                            } else if (cropName.equals(listingCropName)) {
+                                allListings.add(userSnapshot);
                             }
                         }
                     }
+                }
+
+                // Process listings in fallback order and display relevant messages
+                boolean listingsFound = processTraderListings(talukaListings, "Traders in " + farmerTaluka);
+                if (!listingsFound) {
+                    listingsFound = processTraderListings(districtListings, "No Traders found in your Location. Traders in your District " + farmerDistrict);
+                }
+                if (!listingsFound) {
+                    listingsFound = processTraderListings(stateListings, "No Traders found in your District. Traders in your State " + farmerState);
+                }
+                if (!listingsFound) {
+                    processTraderListings(allListings, "No traders found in your state. Showing all available traders.");
                 }
 
                 // Notify the adapter of the data change
                 traderAdapter.notifyDataSetChanged();
                 progressBar.setVisibility(View.GONE);
 
-                // Check if trader list is empty and show a message
+                // Display message if no traders were found
                 if (traderList.isEmpty()) {
-                    Toast.makeText(TraderListActivity.this, "No traders found for this crop in your area.", Toast.LENGTH_SHORT).show();
+                    textMessageCrop.setText("No traders found for this crop.");
+                    Toast.makeText(TraderListActivity.this, "No traders found for this crop.", Toast.LENGTH_LONG).show();
                 }
             }
 
@@ -139,4 +151,43 @@ public class TraderListActivity extends AppCompatActivity {
             }
         });
     }
+
+    // Helper function to process trader listings and display a message
+    private boolean processTraderListings(List<DataSnapshot> listings, String message) {
+        boolean addedListings = false;
+
+        for (DataSnapshot userSnapshot : listings) {
+            Trader trader = new Trader();
+            trader.setTraderName(userSnapshot.child("firstName").getValue(String.class));
+            trader.setShopName(userSnapshot.child("shopName").getValue(String.class));
+            trader.setShopAddress(userSnapshot.child("shopAddress").getValue(String.class));
+            trader.setPhoneNumber(userSnapshot.child("phoneNumber").getValue(String.class));
+            trader.setUserId(userSnapshot.getKey());
+
+            // Loop through trader listings for crop-specific details
+            for (DataSnapshot listingSnapshot : userSnapshot.child("Listings").getChildren()) {
+                String listingCropName = listingSnapshot.child("cropName").getValue(String.class);
+                if (cropName.equals(listingCropName)) {
+                    trader.setMinPrice(listingSnapshot.child("minPrice").getValue(String.class));
+                    trader.setMaxPrice(listingSnapshot.child("maxPrice").getValue(String.class));
+                    trader.setQuantity(listingSnapshot.child("quantity").getValue(String.class));
+                    trader.setUnit(listingSnapshot.child("unit").getValue(String.class));
+                    break; // We only need one relevant listing per trader
+                }
+            }
+
+            // Add trader to the list if not already present
+            if (!traderList.contains(trader)) {
+                traderList.add(trader);
+                addedListings = true;
+            }
+        }
+
+        if (addedListings) {
+            textMessageCrop.setText(message); // Update message TextView with appropriate message
+            Toast.makeText(TraderListActivity.this, message, Toast.LENGTH_SHORT).show();
+        }
+        return addedListings;
+    }
 }
+

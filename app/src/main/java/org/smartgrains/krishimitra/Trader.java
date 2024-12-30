@@ -2,6 +2,8 @@ package org.smartgrains.krishimitra;
 
 public class Trader {
     private String traderName;
+
+    private String traderLastName;
     private String shopName;
     private String shopAddress;
     private String minPrice;

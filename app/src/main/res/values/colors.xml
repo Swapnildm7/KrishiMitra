@@ -17,4 +17,15 @@
     <color name="colorItemPressed">#F2EDEDF3</color> <!-- Darker silver -->
     <color name="colorItemFocused">#FFFFFF</color> <!-- Very light grey -->
 
+    <color name="grey">#CCCCCC</color>
+    <color name="colorPrimary">#4CAF50</color>
+
+    <!-- Primary Colors -->
+    <color name="primaryColor">#4CAF50</color> <!-- Adjust if needed -->
+    <color name="secondaryColor">#03A9F4</color>
+    <color name="silver">#E8EBE4</color>
+
+    <color name="cardBackgroundColor">#F9F9F9</color>
+    <color name="secondaryLightColor">#DADADA</color>
+
 </resources>

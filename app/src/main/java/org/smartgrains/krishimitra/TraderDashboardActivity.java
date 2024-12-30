@@ -35,7 +35,7 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
     private static final String TAG = "TraderDashboardActivity";
     private ImageView userProfile, headerProfile;
     private TextView appName;
-    private static final String CURRENT_VERSION = "2.0";
+    private static final String CURRENT_VERSION = "2.3";
     private LinearLayout listCropLayout, viewListingsLayout; // Update to LinearLayout
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -251,6 +251,14 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
         } else if (id == R.id.nav_logout) {
             drawerLayout.closeDrawer(GravityCompat.START);
             closeDrawerAndNavigate(() -> performLogout());
+        } else if (id == R.id.nav_privacy_policy) {
+            String privacyPolicyUrl = "https://smartgrains.org/PrivacyPolicyKrishiMitra.html";
+
+            // Create an Intent to open the URL in a browser
+            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl));
+            startActivity(intent);
+            // Set OnClickListener to open the privacy policy link
+
         }
         return true;
     }
@@ -305,6 +313,8 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
         closeOptionsMenu();
         // Navigate to the ContactUsActivity
         Intent intent = new Intent(TraderDashboardActivity.this, ContactUsActivity.class);
+        intent.putExtra("USER_ID", userId);
+        intent.putExtra("USER_ROLE", userRole);
         startActivity(intent);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }

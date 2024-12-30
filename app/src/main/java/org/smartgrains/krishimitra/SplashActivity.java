@@ -63,7 +63,7 @@ public class SplashActivity extends AppCompatActivity {
             navigateToDashboard(role, userId);
         } else {
             // User is not logged in, navigate to the LoginActivity
-            Intent intent = new Intent(SplashActivity.this, MainActivity.class);
+            Intent intent = new Intent(SplashActivity.this, LanguageSelectionActivity.class);
             startActivity(intent);
             finish();
         }

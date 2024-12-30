@@ -2,19 +2,20 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_leafy"
+    android:alpha="0.95"
+    android:background="@drawable/bg_profile_activity"
     android:fitsSystemWindows="false">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"
+        android:fillViewport="true"
         android:paddingTop="0dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:gravity="center"
             android:layout_margin="50dp"
             android:orientation="vertical">
 
@@ -28,31 +29,56 @@
                 android:textSize="29sp"
                 android:textStyle="bold" />
 
-            <EditText
-                android:id="@+id/editTextShopName"
+            <!-- Shop Name -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/shopName"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="19sp" />
+                android:textColorHint="#B0BEC5">
 
-            <EditText
-                android:id="@+id/editTextShopAddress"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextShopName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Shop Address -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/shopAddress"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="19sp" />
+                android:textColorHint="#B0BEC5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextShopAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Locality -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="11dp"
+                android:hint="Locality/Village/Town"
+                android:textColorHint="#B0BEC5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextLocality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -203,7 +229,8 @@
                 android:checked="true"
                 android:text="@string/privacy_policy_text"
                 android:textAlignment="center"
-                android:textColor="@color/black" />
+                android:textColor="#9C27B0"
+                android:textStyle="bold" />
 
         </LinearLayout>
     </ScrollView>

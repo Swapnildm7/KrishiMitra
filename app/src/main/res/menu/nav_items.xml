@@ -22,6 +22,12 @@
         android:title="Contact Us" />
 
     <item
+        android:id="@+id/nav_privacy_policy"
+        android:icon="@drawable/ic_privacy_policy"
+        android:iconTint="@color/black"
+        android:title="Privacy Policy" />
+
+    <item
         android:id="@+id/nav_logout"
         android:icon="@drawable/ic_logout"
         android:iconTint="@color/black"

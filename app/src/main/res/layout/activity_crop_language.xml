@@ -1,61 +1,71 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@drawable/bg_profile_activity"
+    android:orientation="vertical"
     android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="CROPS LIST"
+        android:textColor="@color/green"
+        android:textSize="21sp"
+        android:textStyle="bold" />
 
     <!-- Dropdown for Crop Names -->
     <Spinner
         android:id="@+id/spinnerCrops"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:backgroundTint="#4CAF50"
-        android:padding="12dp" />
+        android:background="@drawable/bg_edittext"
+        android:layout_marginTop="5dp"
+        android:padding="3dp" />
 
     <!-- EditText for Hindi -->
     <EditText
         android:id="@+id/editTextHindi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/spinnerCrops"
         android:layout_marginTop="20dp"
         android:hint="Enter crop name in Hindi"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:textColorHint="@color/green"
+        android:textStyle="bold" />
 
     <!-- EditText for Kannada -->
     <EditText
         android:id="@+id/editTextKannada"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextHindi"
         android:layout_marginTop="20dp"
         android:hint="Enter crop name in Kannada"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:textColorHint="@color/green"
+        android:textStyle="bold" />
 
     <!-- EditText for Marathi -->
     <EditText
         android:id="@+id/editTextMarathi"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextKannada"
         android:layout_marginTop="20dp"
         android:hint="Enter crop name in Marathi"
-        android:padding="12dp" />
+        android:padding="12dp"
+        android:textColorHint="@color/green"
+        android:textStyle="bold" />
 
     <!-- Save Button -->
     <Button
         android:id="@+id/buttonSaveCrop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextMarathi"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="30dp"
         android:backgroundTint="#4CAF50"
         android:padding="12dp"
-        android:text="Save Crop"
+        android:text="SAVE TRANSLATION"
         android:textColor="#FFFFFF"
         android:textSize="18sp" />
 
-</RelativeLayout>
+</LinearLayout>

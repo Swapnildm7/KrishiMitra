@@ -3,47 +3,55 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="7dp"
     android:background="@drawable/item_selector"
-    android:clipToPadding="false"
-    android:elevation="4dp"
+    android:elevation="6dp"
     android:orientation="vertical"
-    android:padding="5dp"
-    android:paddingStart="15dp"
-    android:paddingEnd="15dp">
+    android:paddingStart="11dp"
+    android:paddingTop="9dp"
+    android:paddingEnd="11dp"
+    android:paddingBottom="5dp">
 
     <!-- Trader's Info Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="7dp"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_edittext"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:text="TRADER NAME:"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/traderNameTextView"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:letterSpacing="0.1"
-            android:maxLines="1"
-            android:text="Trader's Name"
-            android:textAlignment="center"
-            android:textColor="#000000"
-            android:textSize="21sp"
-            android:textStyle="bold" />
+            android:layout_weight="0.55"
+            android:text="ABC"
+            android:textColor="#4CAF50"
+            android:textSize="18sp" />
     </LinearLayout>
 
     <!-- Shop Name -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_edittext"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.35"
             android:text="SHOP NAME:"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -53,9 +61,9 @@
             android:id="@+id/shopNameTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
+            android:layout_weight="0.55"
             android:text="ABC Traders"
-            android:textColor="#4CAF50"
+            android:textColor="#03A9F4"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -63,13 +71,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_edittext"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.35"
             android:text="SHOP ADDRESS:"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -79,23 +88,24 @@
             android:id="@+id/shopAddressTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
+            android:layout_weight="0.55"
             android:text="123 Market Road, City"
-            android:textColor="#9C27B0"
+            android:textColor="#03A9F4"
             android:textSize="18sp" />
     </LinearLayout>
 
-    <!-- Price (Min - Max) -->
+    <!-- Price -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_edittext"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.35"
             android:text="PRICE ₹:"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -105,9 +115,9 @@
             android:id="@+id/priceTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
+            android:layout_weight="0.55"
             android:text="100 - 500"
-            android:textColor="#FF9800"
+            android:textColor="#03A9F4"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -115,13 +125,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="3dp"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_edittext"
+        android:orientation="horizontal"
+        android:padding="5dp">
 
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+            android:layout_weight="0.35"
             android:text="QUANTITY:"
             android:textColor="@color/black"
             android:textSize="16sp"
@@ -131,43 +142,160 @@
             android:id="@+id/quantityTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="0.6"
+            android:layout_weight="0.55"
             android:text="10 Units"
             android:textColor="#03A9F4"
             android:textSize="18sp" />
     </LinearLayout>
 
-    <!-- Divider Line -->
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        android:background="@android:color/darker_gray" />
-
-    <!-- Phone Number -->
+    <!-- Phone Number Section -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:background="@drawable/bg_edittext"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.35"
+            android:gravity="start"
+            android:text="PHONE NUMBER"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/phoneNumberTextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.37"
+            android:text="9876543210"
+            android:textColor="#009688"
+            android:textSize="21sp" />
 
         <ImageView
             android:id="@+id/callIcon"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_marginRight="5dp"
+            android:layout_width="45dp"
+            android:layout_height="45dp"
+            android:layout_marginEnd="25dp"
             android:contentDescription="Call Icon"
             android:src="@drawable/ic_phone"
             app:tint="#4CAF50" />
 
-        <TextView
-            android:id="@+id/phoneNumberTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="9876543210"
-            android:textColor="#009688"
-            android:textSize="21sp" />
     </LinearLayout>
 
+    <!-- Rating Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:layout_marginEnd="7dp"
+        android:backgroundTint="@drawable/item_selector"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/viewReviewsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/green"
+            android:drawablePadding="6dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:text="View Reviews"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="4.5"
+                android:scaleX="0.7"
+                android:scaleY="0.7"
+                android:stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/ratingTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="4.5 ★ (3 reviews)"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!-- Expandable Reviews Section -->
+    <LinearLayout
+        android:id="@+id/reviewsContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:background="@color/silver"
+        android:orientation="vertical"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/reviewsHeadingTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:gravity="center"
+            android:text="User Reviews"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:orientation="vertical"
+            android:padding="8dp">
+
+            <TextView
+                android:id="@+id/reviewerNameTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="John Doe"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <RatingBar
+                android:id="@+id/reviewRatingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:rating="4.5"
+                android:stepSize="0.5" />
+
+            <TextView
+                android:id="@+id/reviewTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="Great service and professionalism!"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

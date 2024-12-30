@@ -13,8 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 public class AdminDashboardActivity extends AppCompatActivity {
 
     private TextView textViewWelcomeAdmin;
-    private Button buttonUploadCrops;
-    private Button buttonLogout;
+    private Button buttonUploadCrops, buttonLogout, buttonListCrops, buttonListPlaces;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +30,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         textViewWelcomeAdmin = findViewById(R.id.textViewWelcomeAdmin);
         buttonUploadCrops = findViewById(R.id.buttonUploadCrops);
         buttonLogout = findViewById(R.id.buttonLogout);
+        buttonListCrops = findViewById(R.id.buttonListCrops);
+        buttonListPlaces = findViewById(R.id.buttonListPlaces);
 
         // Set click listener for "Upload Crops" button
         buttonUploadCrops.setOnClickListener(new View.OnClickListener() {
@@ -42,7 +43,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
             }
         });
 
-        Button buttonListCrops = findViewById(R.id.buttonListCrops);
         buttonListCrops.setOnClickListener(v -> {
             Intent intent = new Intent(AdminDashboardActivity.this, CropLanguage.class);
             startActivity(intent);
@@ -55,6 +55,11 @@ public class AdminDashboardActivity extends AppCompatActivity {
                 // Perform logout
                 logout();
             }
+        });
+
+        buttonListPlaces.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboardActivity.this, AddLocation.class);
+            startActivity(intent);
         });
     }
 

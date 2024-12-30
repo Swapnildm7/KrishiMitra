@@ -7,12 +7,20 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -23,17 +31,19 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class TraderDetailsActivity extends AppCompatActivity {
-    private TextView traderNameTextView, shopNameTextView, shopAddressTextView, phoneNumberTextView;
+    private TextView traderNameTextView, shopNameTextView, shopAddressTextView, phoneNumberTextView, ratingTextView;
     private ImageView callIcon;
     private RecyclerView cropsRecyclerView;
+    private RatingBar ratingBar;
     private CropAdapter cropAdapter;
     private List<Crop> cropList;
     private String userId;
     private DatabaseReference databaseReference;
-
     private static final String TAG = "TraderDetailsActivity";
 
     @Override
@@ -52,8 +62,10 @@ public class TraderDetailsActivity extends AppCompatActivity {
         shopNameTextView = findViewById(R.id.shopNameTextView);
         shopAddressTextView = findViewById(R.id.shopAddressTextView);
         phoneNumberTextView = findViewById(R.id.phoneNumberTextView);
+        ratingTextView = findViewById(R.id.ratingTextView);
         callIcon = findViewById(R.id.callIcon);
         cropsRecyclerView = findViewById(R.id.cropsRecyclerView);
+        ratingBar = findViewById(R.id.ratingBar);
 
         // Get data from Intent
         userId = getIntent().getStringExtra("userId");
@@ -70,6 +82,26 @@ public class TraderDetailsActivity extends AppCompatActivity {
         shopNameTextView.setText(shopName != null ? shopName : "N/A");
         shopAddressTextView.setText(shopAddress != null ? shopAddress : "N/A");
         phoneNumberTextView.setText(phoneNumber != null ? phoneNumber : "N/A");
+
+        // Add real-time listener for trader's average rating and review count
+        DatabaseReference traderRef = FirebaseDatabase.getInstance().getReference("Users").child(userId);
+        traderRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Float averageRating = snapshot.child("averageRating").getValue(Float.class);
+                Long reviewCount = snapshot.child("reviewCount").getValue(Long.class);
+
+                ratingBar.setRating(averageRating != null ? averageRating : 0);
+                ratingTextView.setText(reviewCount != null
+                        ? reviewCount + " reviews, " + "( "+ (averageRating != null ? averageRating : 0) + " stars )"
+                        : "No reviews yet");
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(TraderDetailsActivity.this, "Failed to fetch trader data", Toast.LENGTH_SHORT).show();
+            }
+        });
 
         // Set up click listener for call icon
         callIcon.setOnClickListener(v -> {
@@ -102,7 +134,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
             databaseReference = FirebaseDatabase.getInstance().getReference("Users");
             databaseReference.child(userId).child("Listings").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     cropList.clear();
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                         Crop crop = snapshot.getValue(Crop.class);
@@ -116,7 +148,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onCancelled(DatabaseError databaseError) {
+                public void onCancelled(@NonNull DatabaseError databaseError) {
                     // Handle error
                     Log.e(TAG, "Database error: " + databaseError.getMessage());
                     Toast.makeText(TraderDetailsActivity.this, "Failed to load crops", Toast.LENGTH_SHORT).show();

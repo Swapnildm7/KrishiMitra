@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--    Language Selection-->
+    <string name="languages_title">भाषा</string>
+    <string name="language_selection">भाषा निवडा</string>
+    <string name="save_settings">सेटिंग्ज जतन करा</string>
+    <string name="all_languages_title">सर्व भाषा</string>
+    <string name="welcome_message">कृषी मित्रमध्ये आपले स्वागत आहे</string>
+
+    <!--    Main Activity-->
+    <string name="app_name">कृषी मित्र</string>
+    <string name="main_desc">The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips</string>
+    <string name="main_login">लॉगिन</string>
+    <string name="main_sign_up">साइन अप</string>
+
+    <!--    Login Activity-->
+    <string name="welcome">स्वागत</string>
+    <string name="mobile">मोबाइल नंबर</string>
+    <string name="password">पासवर्ड</string>
+    <string name="login">लॉगिन</string>
+    <string name="signup">नोंदणी केली नाही? साइन अप करा</string>
+    <string name="empty_fields_error">कृपया मोबाइल नंबर आणि पासवर्ड भरा</string>
+    <string name="invalid_phone_number_error">मोबाइल नंबर नक्की 10 अंकांचा असावा</string>
+    <string name="incorrect_admin_password">चुकीचा अॅडमिन पासवर्ड</string>
+    <string name="incorrect_password">चुकीचा पासवर्ड</string>
+    <string name="user_not_found">वापरकर्ता सापडला नाही</string>
+    <string name="database_error">डेटाबेस त्रुटी आली आहे. कृपया पुन्हा प्रयत्न करा.</string>
+    <string name="invalid_role">अवैध भूमिका</string>
+</resources>

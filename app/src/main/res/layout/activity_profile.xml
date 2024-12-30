@@ -1,15 +1,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:alpha="0.95"
     android:background="@drawable/bg_profile_activity">
 
-    <!-- Scrollable content -->
+    <!-- Fixed Title -->
+    <TextView
+        android:id="@+id/title_update_details"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:background="@color/white"
+        android:elevation="4dp"
+        android:gravity="center"
+        android:letterSpacing="0.175"
+        android:padding="16dp"
+        android:text="Update Your Details"
+        android:textColor="@color/green"
+        android:textSize="27sp"
+        android:textStyle="bold" />
+
+    <!-- Scrollable Content -->
     <ScrollView
         android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/bottom_container"
+        android:layout_below="@id/title_update_details"
         android:fillViewport="true">
 
         <LinearLayout
@@ -18,116 +36,64 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Title -->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="24dp"
-                android:gravity="center"
-                android:letterSpacing="0.175"
-                android:text="Update Your Details"
-                android:textColor="@color/green"
-                android:textSize="27sp"
-                android:textStyle="bold" />
-
-            <!-- Section Header -->
+            <!-- User Details Section -->
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:text="USER DETAILS"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
             <!-- First Name -->
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:hint="First Name">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="First Name"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_first_name"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_edittext"
-                    android:hint="First Name"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Last Name -->
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:hint="Last Name">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="Last Name"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_last_name"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_edittext"
-                    android:hint="Last Name"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Phone Number -->
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:hint="Phone Number">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:inputType="phone"
-                    android:paddingEnd="8dp"
-                    android:text="Phone Number"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_phone_number"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_edittext"
-                    android:hint="Phone Number"
                     android:inputType="phone"
                     android:maxLength="10"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Shop Details Section -->
             <TextView
@@ -135,160 +101,157 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
+                android:gravity="center"
                 android:text="SHOP DETAILS"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="21sp"
                 android:textStyle="bold" />
 
             <!-- Shop Name -->
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:hint="Shop Name">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="Shop Name"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_shop_name"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_edittext"
-                    android:hint="Shop Name"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
+            </com.google.android.material.textfield.TextInputLayout>
 
             <!-- Shop Address -->
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                android:hint="Shop Address">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="Shop Address"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_shop_address"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:background="@drawable/bg_edittext"
-                    android:hint="Shop Address"
-                    android:padding="12dp"
-                    android:textColor="@android:color/black" />
-            </LinearLayout>
+                    android:textColor="@android:color/black"
+                    android:textColorHint="@android:color/darker_gray" />
 
-            <!-- State, District, Taluka Section -->
-            <TextView
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Location Details Section Inside Card -->
+            <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp"
-                android:text="LOCATION DETAILS"
-                android:textColor="@android:color/holo_green_dark"
-                android:textSize="21sp"
-                android:textStyle="bold" />
+                android:layout_marginBottom="16dp"
+                android:alpha="0.9"
+                app:cardBackgroundColor="#CCFFFFFF"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="8dp"> <!-- Translucent White Background -->
 
-            <!-- State -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="State:"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                    android:orientation="vertical"
+                    android:padding="16dp">
 
-                <TextView
-                    android:id="@+id/current_state"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="[Current State]"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                    <!-- Location Details Title -->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="8dp"
+                        android:text="LOCATION DETAILS"
+                        android:textColor="@android:color/holo_green_dark"
+                        android:textSize="21sp"
+                        android:textStyle="bold" />
 
-            <!-- District -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                    <!-- State -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="District:"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingEnd="8dp"
+                            android:text="State:"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/current_district"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="[Current District]"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/current_state"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="[Current State]"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
 
-            <!-- Taluka -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
-                android:orientation="horizontal">
+                    <!-- District -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:paddingEnd="8dp"
-                    android:text="Taluka:"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp"
-                    android:textStyle="bold" />
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingEnd="8dp"
+                            android:text="District:"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/current_taluka"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:text="[Current Taluka]"
-                    android:textColor="@android:color/black"
-                    android:textSize="18sp" />
-            </LinearLayout>
+                        <TextView
+                            android:id="@+id/current_district"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="[Current District]"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
 
-            <!-- Save button -->
+                    <!-- Taluka -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:paddingEnd="8dp"
+                            android:text="Taluka:"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/current_taluka"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="[Current Taluka]"
+                            android:textColor="@android:color/black"
+                            android:textSize="18sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <!-- Save Button -->
             <Button
                 android:id="@+id/button_save"
                 android:layout_width="250dp"
@@ -299,45 +262,8 @@
                 android:padding="12dp"
                 android:text="Save"
                 android:textColor="@android:color/white" />
-
         </LinearLayout>
+
     </ScrollView>
-
-    <!-- Bottom Container for Delete Account and Privacy Policy -->
-    <LinearLayout
-        android:id="@+id/bottom_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:orientation="vertical"
-        android:padding="16dp">
-
-        <!-- Privacy Policy -->
-        <TextView
-            android:id="@+id/tv_privacy_policy"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center"
-            android:text="Privacy Policy"
-            android:textColor="@color/htext"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <!-- Delete Account Button -->
-        <Button
-            android:id="@+id/button_delete_account"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="10dp"
-            android:backgroundTint="@android:color/holo_red_light"
-            android:padding="12dp"
-            android:text="Delete Account"
-            android:textColor="@android:color/white" />
-
-    </LinearLayout>
 
 </RelativeLayout>

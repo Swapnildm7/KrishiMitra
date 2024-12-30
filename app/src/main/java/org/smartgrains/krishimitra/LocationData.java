@@ -1,5 +1,11 @@
 package org.smartgrains.krishimitra;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,41 +13,69 @@ import java.util.Map;
 
 public class LocationData {
 
-    // Hardcoded states
-    public static List<String> getStates() {
-        List<String> states = new ArrayList<>();
-        states.add("Maharashtra");
-        states.add("Karnataka");
-        return states;
+    private static DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("LocationData");
+
+    // Fetch states dynamically
+    public static void getStates(Callback<List<String>> callback) {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<String> states = new ArrayList<>();
+                for (DataSnapshot stateSnapshot : snapshot.getChildren()) {
+                    states.add(stateSnapshot.getKey());
+                }
+                callback.onSuccess(states);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                callback.onFailure(error.getMessage());
+            }
+        });
     }
 
-    // Hardcoded districts for a given state
-    public static List<String> getDistricts(String state) {
-        Map<String, List<String>> districtMap = getDistrictMap();
-        return districtMap.getOrDefault(state, new ArrayList<>());
+    // Fetch districts for a given state dynamically
+    public static void getDistricts(String state, Callback<List<String>> callback) {
+        databaseReference.child(state).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<String> districts = new ArrayList<>();
+                for (DataSnapshot districtSnapshot : snapshot.getChildren()) {
+                    districts.add(districtSnapshot.getKey());
+                }
+                callback.onSuccess(districts);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                callback.onFailure(error.getMessage());
+            }
+        });
     }
 
-    // Hardcoded talukas for a given district
-    public static List<String> getTalukas(String district) {
-        Map<String, List<String>> talukaMap = getTalukaMap();
-        return talukaMap.getOrDefault(district, new ArrayList<>());
+    // Fetch talukas for a given district dynamically
+    public static void getTalukas(String state, String district, Callback<List<String>> callback) {
+        databaseReference.child(state).child(district).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                List<String> talukas = new ArrayList<>();
+                for (DataSnapshot talukaSnapshot : snapshot.getChildren()) {
+                    talukas.add(talukaSnapshot.getValue(String.class));
+                }
+                callback.onSuccess(talukas);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                callback.onFailure(error.getMessage());
+            }
+        });
     }
 
-    // Hardcoded districts map
-    public static Map<String, List<String>> getDistrictMap() {
-        Map<String, List<String>> districtMap = new HashMap<>();
-        districtMap.put("Maharashtra", List.of("Latur", "Nanded")); // Added more example districts
-        districtMap.put("Karnataka", List.of("Bidar", "Kalaburgi")); // Added more example districts
-        return districtMap;
-    }
+    // Callback interface for async data fetching
+    public interface Callback<T> {
+        void onSuccess(T result);
 
-    // Hardcoded talukas map
-    public static Map<String, List<String>> getTalukaMap() {
-        Map<String, List<String>> talukaMap = new HashMap<>();
-        talukaMap.put("Latur", List.of("Ausa", "Chakur", "Latur", "Udgir"));
-        talukaMap.put("Nanded", List.of("Bhokar", "Deglur", "Nanded"));
-        talukaMap.put("Bidar", List.of("Aurad", "Bidar", "Bhalki"));
-        talukaMap.put("Kalaburgi", List.of("Aland", "Chincholi", "Jevargi", "Kalaburgi"));
-        return talukaMap;
+        void onFailure(String error);
     }
 }

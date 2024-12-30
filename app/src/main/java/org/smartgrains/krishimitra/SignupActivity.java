@@ -117,7 +117,7 @@ public class SignupActivity extends AppCompatActivity {
         // Generate unique ID for the admin
         String adminId = adminRef.push().getKey();
         String hashedPassword = hashPassword(password);
-        User admin = new User(adminId, firstName, lastName, phoneNumber, hashedPassword, "Admin", "", "", "", ""); // Empty address fields
+        User admin = new User(adminId, firstName, lastName, phoneNumber, hashedPassword, "Admin", "", "", "", "", ""); // Empty address fields
 
         if (adminId != null) {
             adminRef.child(adminId).setValue(admin)

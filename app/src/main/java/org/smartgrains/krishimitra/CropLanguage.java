@@ -42,6 +42,12 @@ public class CropLanguage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crop_language);
 
+        // Make status bar transparent
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+
         // Initialize Firebase database references
         cropResourceRef = FirebaseDatabase.getInstance().getReference("CropResource");
         translatedCropNamesRef = FirebaseDatabase.getInstance().getReference("TranslatedCropNames");
@@ -67,6 +73,9 @@ public class CropLanguage extends AppCompatActivity {
                 editTextHindi.setText("");
                 editTextKannada.setText("");
                 editTextMarathi.setText("");
+
+                // Fetch the translations for the selected crop
+                fetchTranslationsForSelectedCrop(selectedCropName);
             }
 
             @Override
@@ -84,11 +93,11 @@ public class CropLanguage extends AppCompatActivity {
                 String kannada = editTextKannada.getText().toString().trim();
                 String marathi = editTextMarathi.getText().toString().trim();
 
-                if (!hindi.isEmpty() && !kannada.isEmpty() && !marathi.isEmpty()) {
+                if (!hindi.isEmpty() || !kannada.isEmpty() || !marathi.isEmpty()) {
                     // Save translations to Firebase
                     saveTranslations(selectedCropId, selectedCropName, hindi, kannada, marathi);
                 } else {
-                    Toast.makeText(CropLanguage.this, "All fields must be filled!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(CropLanguage.this, "Please enter at least one translation!", Toast.LENGTH_SHORT).show();
                 }
             } else {
                 Toast.makeText(CropLanguage.this, "Please select a crop!", Toast.LENGTH_SHORT).show();
@@ -97,11 +106,14 @@ public class CropLanguage extends AppCompatActivity {
     }
 
     private void loadCropNames() {
+        // Fetch crop names from CropResource node
         cropResourceRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 cropNames.clear();
                 cropIds.clear();
+
+                // Load crop names and IDs from CropResource node
                 for (DataSnapshot cropSnapshot : snapshot.getChildren()) {
                     String cropId = cropSnapshot.getKey(); // Get the unique crop ID
                     String cropName = cropSnapshot.child("cropName").getValue(String.class); // Get the crop name
@@ -111,9 +123,8 @@ public class CropLanguage extends AppCompatActivity {
                     }
                 }
 
-                // Populate spinner with crop names
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(CropLanguage.this, android.R.layout.simple_spinner_item, cropNames);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                // Populate spinner with crop names using CustomSpinnerAdapter
+                CustomSpinnerAdapter adapter = new CustomSpinnerAdapter(CropLanguage.this, cropNames.toArray(new String[0]));
                 spinnerCrops.setAdapter(adapter);
             }
 
@@ -124,20 +135,66 @@ public class CropLanguage extends AppCompatActivity {
         });
     }
 
-    private void saveTranslations(String cropId, String cropName, String hindi, String kannada, String marathi) {
-        // Save translations to the TranslatedCropNames node using cropName as the key
-        Map<String, String> translations = new HashMap<>();
-        translations.put("Hindi", hindi);
-        translations.put("Kannada", kannada);
-        translations.put("Marathi", marathi);
+    private void fetchTranslationsForSelectedCrop(String cropName) {
+        // Fetch translations for the selected crop from TranslatedCropNames node
+        translatedCropNamesRef.child(cropName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    // If translations exist, populate the EditTexts with the existing values
+                    String hindi = snapshot.child("Hindi").getValue(String.class);
+                    String kannada = snapshot.child("Kannada").getValue(String.class);
+                    String marathi = snapshot.child("Marathi").getValue(String.class);
 
-        translatedCropNamesRef.child(cropName).setValue(translations).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Toast.makeText(CropLanguage.this, "Translations saved successfully!", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(CropLanguage.this, "Failed to save translations", Toast.LENGTH_SHORT).show();
+                    // Set text color to black
+                    if (hindi != null) {
+                        editTextHindi.setText(hindi);
+                        editTextHindi.setTextColor(getResources().getColor(android.R.color.black));
+                    } else {
+                        editTextHindi.setText("");
+                    }
+
+                    if (kannada != null) {
+                        editTextKannada.setText(kannada);
+                        editTextKannada.setTextColor(getResources().getColor(android.R.color.black));
+                    } else {
+                        editTextKannada.setText("");
+                    }
+
+                    if (marathi != null) {
+                        editTextMarathi.setText(marathi);
+                        editTextMarathi.setTextColor(getResources().getColor(android.R.color.black));
+                    } else {
+                        editTextMarathi.setText("");
+                    }
+                } else {
+                    // If no translations exist, the fields will be empty for the user to input
+                    Toast.makeText(CropLanguage.this, "No translations found. You can add them.", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(CropLanguage.this, "Failed to fetch translations", Toast.LENGTH_SHORT).show();
             }
         });
     }
-}
 
+    private void saveTranslations(String cropId, String cropName, String hindi, String kannada, String marathi) {
+        // Save translations to the TranslatedCropNames node using cropName as the key
+        Map<String, String> translations = new HashMap<>();
+        if (!hindi.isEmpty()) translations.put("Hindi", hindi);
+        if (!kannada.isEmpty()) translations.put("Kannada", kannada);
+        if (!marathi.isEmpty()) translations.put("Marathi", marathi);
+
+        if (!translations.isEmpty()) {
+            translatedCropNamesRef.child(cropName).setValue(translations).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Toast.makeText(CropLanguage.this, "Translations saved successfully!", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(CropLanguage.this, "Failed to save translations", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+}

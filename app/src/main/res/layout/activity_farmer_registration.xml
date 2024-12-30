@@ -1,52 +1,86 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_leafy"
-    android:fitsSystemWindows="false">
+    android:background="@drawable/bg_profile_activity"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
 
-    <!-- Registration content -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/address"
+        android:textAlignment="center"
+        android:textColor="#43A047"
+        android:textSize="29sp"
+        android:textStyle="bold" />
+
+    <Button
+        android:id="@+id/btnAutofill"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:backgroundTint="#8BC34A"
+        android:padding="12dp"
+        android:text="Auto-Fill My Details"
+        android:textColor="@android:color/white"
+        android:visibility="gone" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:paddingTop="0dp">
+        android:fillViewport="true"
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="50dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="16dp">
 
-            <TextView
+            <!-- Address -->
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="21dp"
-                android:text="@string/address"
-                android:textAlignment="center"
-                android:textColor="#43A047"
-                android:textSize="29sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/editTextAddress"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="11dp"
-                android:background="@drawable/bg_edittext"
                 android:hint="@string/enterAddress"
-                android:padding="11dp"
-                android:textAlignment="center"
-                android:textColor="@color/black"
-                android:textColorHint="#91918e"
-                android:textSize="19sp" />
+                android:textColorHint="#B0BEC5">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Locality -->
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="11dp"
+                android:hint="Locality/Village/Town"
+                android:textColorHint="#B0BEC5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/editTextLocality"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text"
+                    android:textColor="@color/black" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Rest of the Address Details -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:orientation="vertical">
 
+                <!-- State -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -61,14 +95,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_edittext"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="5dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="3dp">
+                    android:padding="5dp">
 
                     <Spinner
                         android:id="@+id/state_spinner"
@@ -77,16 +107,15 @@
                         android:layout_weight="1"
                         android:background="@drawable/bg_spinner" />
 
-                    <!-- Dropdown Icon to the Right of Spinner -->
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="8dp"
                         android:contentDescription="Dropdown icon"
                         android:src="@drawable/ic_updown" />
-
                 </LinearLayout>
 
+                <!-- District -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -101,14 +130,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_edittext"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="5dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="3dp">
+                    android:padding="5dp">
 
                     <Spinner
                         android:id="@+id/district_spinner"
@@ -117,16 +142,15 @@
                         android:layout_weight="1"
                         android:background="@drawable/bg_spinner" />
 
-                    <!-- Dropdown Icon to the Right of Spinner -->
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="8dp"
                         android:contentDescription="Dropdown icon"
                         android:src="@drawable/ic_updown" />
-
                 </LinearLayout>
 
+                <!-- Taluka -->
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -141,14 +165,10 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@drawable/bg_edittext"
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
-                    android:paddingStart="5dp"
-                    android:paddingTop="3dp"
-                    android:paddingEnd="5dp"
-                    android:paddingBottom="3dp">
+                    android:padding="5dp">
 
                     <Spinner
                         android:id="@+id/taluka_spinner"
@@ -157,18 +177,16 @@
                         android:layout_weight="1"
                         android:background="@drawable/bg_spinner" />
 
-                    <!-- Dropdown Icon to the Right of Spinner -->
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="8dp"
                         android:contentDescription="Dropdown icon"
                         android:src="@drawable/ic_updown" />
-
                 </LinearLayout>
-
             </LinearLayout>
 
+            <!-- Register Button -->
             <Button
                 android:id="@+id/buttonRegister"
                 android:layout_width="match_parent"
@@ -178,7 +196,7 @@
                 android:text="@string/register"
                 android:textColor="@color/white" />
 
-            <!-- Privacy policy checkbox -->
+            <!-- Privacy Policy Checkbox -->
             <CheckBox
                 android:id="@+id/privacy_policy_checkbox"
                 android:layout_width="match_parent"
@@ -187,12 +205,11 @@
                 android:checked="true"
                 android:text="@string/privacy_policy_text"
                 android:textAlignment="center"
-                android:textColor="@color/black" />
-
+                android:textColor="#9C27B0" />
         </LinearLayout>
     </ScrollView>
 
-    <!-- Progress bar for loading indication -->
+    <!-- Progress Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -200,4 +217,4 @@
         android:layout_gravity="center"
         android:visibility="gone" />
 
-</FrameLayout>
+</LinearLayout>

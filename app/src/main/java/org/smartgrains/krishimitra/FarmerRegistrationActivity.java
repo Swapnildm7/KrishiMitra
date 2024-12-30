@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,9 +33,9 @@ import java.util.List;
 
 public class FarmerRegistrationActivity extends AppCompatActivity {
 
-    private EditText editTextAddress;
+    private EditText editTextAddress, editTextLocality;
     private Spinner stateSpinner, districtSpinner, talukaSpinner;
-    private Button buttonRegister;
+    private Button buttonRegister, btnAutofill;
     private ProgressBar progressBar;
     private DatabaseReference databaseReference;
     private String firstName, lastName, phoneNumber, password;
@@ -57,14 +58,15 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
 
         // Initialize Views
         editTextAddress = findViewById(R.id.editTextAddress);
+        editTextLocality = findViewById(R.id.editTextLocality);
         stateSpinner = findViewById(R.id.state_spinner);
         districtSpinner = findViewById(R.id.district_spinner);
         talukaSpinner = findViewById(R.id.taluka_spinner);
         buttonRegister = findViewById(R.id.buttonRegister);
+//        btnAutofill = findViewById(R.id.btnAutofill);
         progressBar = findViewById(R.id.progressBar); // Initialize progress bar
         privacyPolicyCheckbox = findViewById(R.id.privacy_policy_checkbox); // Initialize the checkbox
         privacyPolicyCheckbox.setMovementMethod(LinkMovementMethod.getInstance());
-
 
         // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
@@ -79,6 +81,21 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
         phoneNumber = intent.getStringExtra("PHONE_NUMBER");
         password = intent.getStringExtra("PASSWORD"); // Get password from the previous activity
 
+//        btnAutofill.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(FarmerRegistrationActivity.this, FarmerRegistrationFrag.class);
+//
+//                // Pass data to the next activity
+//                intent.putExtra("FIRST_NAME", firstName);
+//                intent.putExtra("LAST_NAME", lastName);
+//                intent.putExtra("PHONE_NUMBER", phoneNumber);
+//                intent.putExtra("PASSWORD", password); // Consider hashing password before passing
+//                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+//                startActivity(intent);
+//            }
+//        });
+
         // Populate Location Spinners
         populateLocationSpinners();
 
@@ -90,6 +107,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
             }
 
             String address = editTextAddress.getText().toString().trim();
+            String locality = editTextLocality.getText().toString().trim();
             String selectedState = stateSpinner.getSelectedItem().toString();
             String selectedDistrict = districtSpinner.getSelectedItem().toString();
             String selectedTaluka = talukaSpinner.getSelectedItem().toString();
@@ -105,80 +123,99 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
             progressBar.setVisibility(View.VISIBLE);
 
             // Check if user is already registered before saving
-            checkIfUserRegistered(phoneNumber, firstName, lastName, password, address, selectedState, selectedDistrict, selectedTaluka);
+            checkIfUserRegistered(phoneNumber, firstName, lastName, password, address, selectedState, selectedDistrict, selectedTaluka, locality);
         });
     }
 
-    private void showPrivacyPolicyAlert() {
-        new AlertDialog.Builder(this)
-                .setTitle("Privacy Policy")
-                .setMessage("You must agree to the privacy policy to register.")
-                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
-                .show();
-    }
-
     private void populateLocationSpinners() {
-        List<String> states = LocationData.getStates();
-        String[] statesArray = states.toArray(new String[0]); // Convert List to String[]
-        CustomSpinnerAdapter stateAdapter = new CustomSpinnerAdapter(this, statesArray);
-        stateSpinner.setAdapter(stateAdapter);
-
-        stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        LocationData.getStates(new LocationData.Callback<List<String>>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedState = states.get(position);
-                populateDistrictSpinner(selectedState);
+            public void onSuccess(List<String> states) {
+                String[] statesArray = states.toArray(new String[0]); // Convert List to String[]
+                CustomSpinnerAdapter stateAdapter = new CustomSpinnerAdapter(FarmerRegistrationActivity.this, statesArray);
+                stateSpinner.setAdapter(stateAdapter);
+
+                stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedState = states.get(position);
+                        populateDistrictSpinner(selectedState);  // Populate district spinner based on selected state
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onFailure(String error) {
+                Toast.makeText(FarmerRegistrationActivity.this, "Failed to load states: " + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void populateDistrictSpinner(String state) {
-        List<String> districts = LocationData.getDistricts(state);
-        String[] districtsArray = districts.toArray(new String[0]); // Convert List to String[]
-        CustomSpinnerAdapter districtAdapter = new CustomSpinnerAdapter(this, districtsArray);
-        districtSpinner.setAdapter(districtAdapter);
-
-        districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        LocationData.getDistricts(state, new LocationData.Callback<List<String>>() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedDistrict = districts.get(position);
-                populateTalukaSpinner(selectedDistrict);
+            public void onSuccess(List<String> districts) {
+                String[] districtsArray = districts.toArray(new String[0]); // Convert List to String[]
+                CustomSpinnerAdapter districtAdapter = new CustomSpinnerAdapter(FarmerRegistrationActivity.this, districtsArray);
+                districtSpinner.setAdapter(districtAdapter);
+
+                districtSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedDistrict = districts.get(position);
+                        populateTalukaSpinner(state, selectedDistrict);  // Populate taluka spinner based on selected district
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+                    }
+                });
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onFailure(String error) {
+                Toast.makeText(FarmerRegistrationActivity.this, "Failed to load districts: " + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void populateTalukaSpinner(String district) {
-        List<String> talukas = LocationData.getTalukas(district);
-        String[] talukasArray = talukas.toArray(new String[0]); // Convert List to String[]
-        CustomSpinnerAdapter talukaAdapter = new CustomSpinnerAdapter(this, talukasArray);
-        talukaSpinner.setAdapter(talukaAdapter);
+    private void populateTalukaSpinner(String state, String district) {
+        LocationData.getTalukas(state, district, new LocationData.Callback<List<String>>() {
+            @Override
+            public void onSuccess(List<String> talukas) {
+                String[] talukasArray = talukas.toArray(new String[0]); // Convert List to String[]
+                CustomSpinnerAdapter talukaAdapter = new CustomSpinnerAdapter(FarmerRegistrationActivity.this, talukasArray);
+                talukaSpinner.setAdapter(talukaAdapter);
+            }
+
+            @Override
+            public void onFailure(String error) {
+                Toast.makeText(FarmerRegistrationActivity.this, "Failed to load talukas: " + error, Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void checkIfUserRegistered(String phoneNumber, String firstName, String lastName, String password,
-                                       String address, String state, String district, String taluka) {
+                                       String address, String state, String district, String taluka, String locality) {
         databaseReference.orderByChild("phoneNumber").equalTo(phoneNumber)
                 .addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
                             Toast.makeText(FarmerRegistrationActivity.this, "User already registered with this phone number", Toast.LENGTH_SHORT).show();
                             resetProgress();
                         } else {
                             String hashedPassword = hashPassword(password); // Hash the password
-                            saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, address, state, district, taluka);
+                            saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, address, state, district, taluka, locality);
                         }
                     }
 
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.e("FirebaseError", databaseError.getMessage());
                         Toast.makeText(FarmerRegistrationActivity.this, "Error checking registration", Toast.LENGTH_SHORT).show();
                         resetProgress();
@@ -206,9 +243,9 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
     }
 
     private void saveUserInfo(String firstName, String lastName, String phoneNumber, String password,
-                              String address, String state, String district, String taluka) {
+                              String address, String state, String district, String taluka, String locality) {
         String userId = databaseReference.push().getKey();
-        User user = new User(userId, firstName, lastName, phoneNumber, password, "Farmer", address, state, district, taluka);
+        User user = new User(userId, firstName, lastName, phoneNumber, password, "Farmer", address, state, district, taluka, locality);
 
         if (userId != null) {
             databaseReference.child(userId).setValue(user)
@@ -232,6 +269,14 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
         }
     }
 
+    private void showPrivacyPolicyAlert() {
+        new AlertDialog.Builder(this)
+                .setTitle("Privacy Policy")
+                .setMessage("You must agree to the privacy policy to register.")
+                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
+
     private void saveLoginState(String role, String userId) {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_ROLE, role);
@@ -244,4 +289,12 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
         buttonRegister.setEnabled(true); // Re-enable the button
     }
 
+//    @Override
+//    public void onBackPressed() {
+//        // Redirect the user to the signup page
+//        super.onBackPressed();
+//        Intent intent = new Intent(FarmerRegistrationActivity.this, FarmerRegistrationFrag.class);
+//        startActivity(intent);
+//        finish(); // Optionally finish the current activity
+//    }
 }
