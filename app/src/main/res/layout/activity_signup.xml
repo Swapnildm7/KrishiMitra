@@ -163,7 +163,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
                 android:backgroundTint="#43A047"
-                android:text="NEXT"
+                android:text="@string/proceed"
                 android:textColor="@color/white" />
 
         </LinearLayout>

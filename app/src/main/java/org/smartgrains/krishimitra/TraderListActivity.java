@@ -1,5 +1,7 @@
 package org.smartgrains.krishimitra;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class TraderListActivity extends AppCompatActivity {
     private static final String TAG = "TraderListActivity";
@@ -30,6 +33,16 @@ public class TraderListActivity extends AppCompatActivity {
     private List<Trader> traderList;
     private String cropName, farmerState, farmerDistrict, farmerTaluka, farmerUserId;
     private DatabaseReference databaseReference;
+    private DatabaseReference translatedCropNamesRef;
+    private String userLanguageCode;
+
+    // Define a map to associate language codes with Firebase translation keys
+    private static final Map<String, String> LANGUAGE_TRANSLATION_MAP = Map.of(
+            "mr", "Marathi",
+            "kn", "Kannada",
+            "hi", "Hindi",
+            "en", "English"
+    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +76,15 @@ public class TraderListActivity extends AppCompatActivity {
             return;
         }
 
-        // Set the crop name at the top
-        cropNameTextView.setText(cropName.toUpperCase());
+        // Retrieve user's preferred language code from SharedPreferences
+        SharedPreferences preferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        userLanguageCode = preferences.getString("LanguageCode", "en").trim().toLowerCase();
+
+        // Initialize Firebase reference to "TranslatedCropNames" node
+        translatedCropNamesRef = FirebaseDatabase.getInstance().getReference("TranslatedCropNames");
+
+        // Fetch the translated crop name
+        fetchTranslatedCropName();
 
         // Set up the RecyclerView
         traderAdapter = new TraderAdapter(this, traderList, farmerUserId);
@@ -73,6 +93,33 @@ public class TraderListActivity extends AppCompatActivity {
 
         // Fetch trader listings based on the crop and farmer's location
         fetchTraderListings();
+    }
+
+    private void fetchTranslatedCropName() {
+        // Fetch the translated crop name from Firebase
+        translatedCropNamesRef.child(cropName)
+                .addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // Get the translated name from Firebase if available
+                            String translatedName = snapshot.child(LANGUAGE_TRANSLATION_MAP.getOrDefault(userLanguageCode, "English"))
+                                    .getValue(String.class);
+
+                            // Set the translated name or fallback to original crop name
+                            cropNameTextView.setText(translatedName != null ? translatedName : cropName);
+                        } else {
+                            // If translation is not found, fallback to the original crop name
+                            cropNameTextView.setText(cropName);
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Handle Firebase errors gracefully
+                        cropNameTextView.setText(cropName);
+                    }
+                });
     }
 
     private void fetchTraderListings() {
@@ -190,4 +237,3 @@ public class TraderListActivity extends AppCompatActivity {
         return addedListings;
     }
 }
-

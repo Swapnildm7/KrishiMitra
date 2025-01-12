@@ -48,12 +48,11 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_farmer_registration);
 
         // Make status bar transparent
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
         // Initialize Views
@@ -114,7 +113,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
 
             // Validate input fields
             if (address.isEmpty() || selectedState.isEmpty() || selectedDistrict.isEmpty() || selectedTaluka.isEmpty()) {
-                Toast.makeText(FarmerRegistrationActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -150,7 +149,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                Toast.makeText(FarmerRegistrationActivity.this, "Failed to load states: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.failed_to_load_states) + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -178,7 +177,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                Toast.makeText(FarmerRegistrationActivity.this, "Failed to load districts: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.failed_to_load_districts) + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -194,7 +193,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                Toast.makeText(FarmerRegistrationActivity.this, "Failed to load talukas: " + error, Toast.LENGTH_SHORT).show();
+                Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.failed_to_load_talukas) + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -206,7 +205,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         if (dataSnapshot.exists()) {
-                            Toast.makeText(FarmerRegistrationActivity.this, "User already registered with this phone number", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.user_already_registered), Toast.LENGTH_SHORT).show();
                             resetProgress();
                         } else {
                             String hashedPassword = hashPassword(password); // Hash the password
@@ -217,7 +216,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                         Log.e("FirebaseError", databaseError.getMessage());
-                        Toast.makeText(FarmerRegistrationActivity.this, "Error checking registration", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.error_checking_registration), Toast.LENGTH_SHORT).show();
                         resetProgress();
                     }
                 });
@@ -252,10 +251,9 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                     .addOnCompleteListener(task -> {
                         resetProgress();
                         if (task.isSuccessful()) {
-                            // Save user role and ID in SharedPreferences
                             saveLoginState("Farmer", userId);
 
-                            Toast.makeText(FarmerRegistrationActivity.this, "Farmer registered successfully", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.farmer_registered_successfully), Toast.LENGTH_SHORT).show();
 
                             // Navigate to the Farmer Dashboard
                             Intent intent = new Intent(FarmerRegistrationActivity.this, FarmerDashboardActivity.class);
@@ -263,7 +261,7 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(FarmerRegistrationActivity.this, "Registration failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(FarmerRegistrationActivity.this, getString(R.string.registration_failed), Toast.LENGTH_SHORT).show();
                         }
                     });
         }
@@ -271,11 +269,12 @@ public class FarmerRegistrationActivity extends AppCompatActivity {
 
     private void showPrivacyPolicyAlert() {
         new AlertDialog.Builder(this)
-                .setTitle("Privacy Policy")
-                .setMessage("You must agree to the privacy policy to register.")
-                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .setTitle(getString(R.string.privacy_policy_title))
+                .setMessage(getString(R.string.privacy_policy_message))
+                .setPositiveButton(getString(R.string.ok_button), (dialog, which) -> dialog.dismiss())
                 .show();
     }
+
 
     private void saveLoginState(String role, String userId) {
         SharedPreferences.Editor editor = sharedPreferences.edit();

@@ -1,32 +1,52 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_profile_activity"
+    android:alpha="0.95"
+    android:background="#E5FDE2"
     android:orientation="vertical"
     android:padding="16dp">
 
-    <!-- Title: Languages -->
-    <TextView
-        android:id="@+id/tvLanguagesTitle"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:layout_marginBottom="32dp"
-        android:letterSpacing="0.2"
-        android:text="@string/languages_title"
-        android:textAlignment="center"
-        android:textColor="@color/colorPrimary"
-        android:textSize="27sp"
-        android:textStyle="bold" />
+        android:layout_marginBottom="30dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:orientation="horizontal">
 
+        <ImageView
+            android:id="@+id/ic_lang"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="7dp"
+            android:backgroundTint="@color/green"
+            android:src="@drawable/ic_lang" />
+
+        <!-- Title: Languages -->
+        <TextView
+            android:id="@+id/tvLanguagesTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
+            android:letterSpacing="0.15"
+            android:text="@string/languages_title"
+            android:textColor="@color/green"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+
+    <!-- Preferred Language Label -->
     <TextView
         android:id="@+id/tvPreferredLang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="7dp"
+        android:fontFamily="sans-serif"
         android:text="@string/language_selection"
-        android:textColor="#089FE4"
-        android:textSize="21sp"
+        android:textColor="#03A9F4"
+        android:textSize="22sp"
         android:textStyle="bold" />
 
     <!-- Selected Language Card -->
@@ -36,8 +56,9 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="7dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/rounded_corner"
-        android:elevation="4dp"
+        android:alpha="0.90"
+        android:background="@drawable/rounded_corner_shadow"
+        android:elevation="6dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="16dp">
@@ -53,9 +74,10 @@
             android:id="@+id/selectedLanguageName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-medium"
             android:text="English"
             android:textColor="@android:color/black"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
     </LinearLayout>
 
@@ -66,9 +88,10 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:layout_marginBottom="8dp"
+        android:fontFamily="sans-serif-medium"
         android:text="@string/all_languages_title"
-        android:textColor="@android:color/black"
-        android:textSize="16sp"
+        android:textColor="#03A9F4"
+        android:textSize="18sp"
         android:textStyle="bold" />
 
     <!-- RecyclerView for All Languages -->
@@ -77,16 +100,21 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="16dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:alpha="0.90"
+        android:clipToPadding="false"
+        android:paddingBottom="16dp" />
 
     <!-- Save Button -->
     <Button
         android:id="@+id/btnSaveSettings"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/colorPrimary"
-        android:paddingVertical="12dp"
+        android:backgroundTint="@color/green"
+        android:fontFamily="sans-serif-medium"
+        android:paddingVertical="14dp"
         android:text="@string/save_settings"
         android:textAllCaps="false"
-        android:textColor="@android:color/white" />
+        android:textColor="@android:color/white"
+        android:textSize="16sp" />
 </LinearLayout>

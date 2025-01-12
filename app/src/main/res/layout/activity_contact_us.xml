@@ -4,25 +4,27 @@
     android:background="@drawable/bg_menu"
     android:padding="16dp">
 
-    <!-- Scrollable Content -->
-    <ScrollView
+    <!-- Centered LinearLayout -->
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="70dp"
-        android:fillViewport="true">
+        android:background="@drawable/bg_bordercurved"
+        android:layout_marginTop="50dp"
+        android:alpha="0.75"
+        android:orientation="vertical"
+        android:paddingBottom="100dp"> <!-- Added padding to avoid overlap with the delete button -->
 
-        <LinearLayout
+        <!-- Scrollable Content -->
+        <ScrollView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="70dp"
-            android:orientation="vertical">
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
 
             <!-- Content wrapper with curved border background -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_bordercurved"
                 android:orientation="vertical"
                 android:padding="16dp">
 
@@ -54,8 +56,8 @@
                     android:layout_marginBottom="10dp"
                     android:elevation="4dp"
                     android:padding="3dp"
+                    android:justificationMode="inter_word"
                     android:text="@string/contactUsDesc"
-                    android:textAlignment="center"
                     android:textColor="@color/black"
                     android:textSize="18sp" />
 
@@ -91,10 +93,10 @@
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
-            </LinearLayout>
-        </LinearLayout>
 
-    </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 
     <!-- Delete Account Button Fixed at Bottom -->
     <Button

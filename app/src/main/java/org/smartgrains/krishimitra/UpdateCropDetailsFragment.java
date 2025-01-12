@@ -1,5 +1,7 @@
 package org.smartgrains.krishimitra;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -28,6 +30,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.TimeZone;
 
 public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
@@ -36,9 +39,17 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
     private EditText minPriceEditText, maxPriceEditText, quantityEditText;
     private Spinner unitSpinner;
     private Button updateButton, deleteButton;
+    private String userId, listingId, cropName;
+    private DatabaseReference listingsRef, historyRef, translatedCropNamesRef;
+    private String userLanguageCode;
 
-    private String userId, listingId;
-    private DatabaseReference listingsRef, historyRef;
+    // Map to handle language translation
+    private static final Map<String, String> LANGUAGE_TRANSLATION_MAP = Map.of(
+            "mr", "Marathi",
+            "kn", "Kannada",
+            "hi", "Hindi",
+            "en", "English"
+    );
 
     public static UpdateCropDetailsFragment newInstance(String userId, String listingId) {
         UpdateCropDetailsFragment fragment = new UpdateCropDetailsFragment();
@@ -69,10 +80,19 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
 
         listingsRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("Listings").child(listingId);
         historyRef = FirebaseDatabase.getInstance().getReference("Users").child(userId).child("ListingHistory").child(listingId);
+        translatedCropNamesRef = FirebaseDatabase.getInstance().getReference("TranslatedCropNames");
 
+        // Get the units array from resources
         String[] unitsArray = getResources().getStringArray(R.array.quantity_units_array);
+
+        // Set up the CustomSpinnerAdapter with the units array
         CustomSpinnerAdapter customAdapter = new CustomSpinnerAdapter(getContext(), unitsArray);
         unitSpinner.setAdapter(customAdapter);
+
+        // Retrieve user's preferred language code from SharedPreferences
+        SharedPreferences preferences = getContext().getSharedPreferences("AppPrefs", Context.MODE_PRIVATE);
+        userLanguageCode = preferences.getString("LanguageCode", "en").trim().toLowerCase();
+        Log.d("LanguageCode", "User's Language Code: " + userLanguageCode); // Log the preferred language code
 
         fetchCropDetails();
 
@@ -89,15 +109,23 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
                 if (snapshot.exists()) {
                     CropListing cropListing = snapshot.getValue(CropListing.class);
                     if (cropListing != null) {
-                        cropNameTextView.setText(cropListing.getCropName());
+                        cropName = cropListing.getCropName();
+                        Log.d("CropName", "Original Crop Name: " + cropName); // Log the original crop name
+                        // Fetch translated crop name
+                        fetchTranslatedCropName();
                         minPriceEditText.setText(cropListing.getMinPrice());
                         maxPriceEditText.setText(cropListing.getMaxPrice());
                         quantityEditText.setText(cropListing.getQuantity());
 
+                        // Handle the unit spinner selection
                         String unit = cropListing.getUnit();
-                        ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) unitSpinner.getAdapter();
-                        int spinnerPosition = adapter.getPosition(unit);
-                        unitSpinner.setSelection(spinnerPosition);
+                        if (unit != null) {
+                            CustomSpinnerAdapter adapter = (CustomSpinnerAdapter) unitSpinner.getAdapter();
+                            int spinnerPosition = adapter.getPosition(unit);
+                            if (spinnerPosition != -1) {
+                                unitSpinner.setSelection(spinnerPosition);
+                            }
+                        }
                     }
                 } else {
                     Toast.makeText(getContext(), "Crop details not found.", Toast.LENGTH_SHORT).show();
@@ -107,6 +135,34 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Failed to fetch crop details.", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void fetchTranslatedCropName() {
+        translatedCropNamesRef.child(cropName).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    Log.d("TranslatedCropName", "Snapshot exists for crop: " + cropName);
+                    String translatedName = snapshot.child(Objects.requireNonNull(LANGUAGE_TRANSLATION_MAP.getOrDefault(userLanguageCode, "English"))).getValue(String.class);
+                    Log.d("TranslatedCropName", "Translated Crop Name: " + translatedName); // Log the translated crop name
+                    if (translatedName != null) {
+                        cropNameTextView.setText(translatedName);
+                    } else {
+                        Log.d("TranslatedCropName", "No translation available, displaying original name.");
+                        cropNameTextView.setText(cropName);
+                    }
+                } else {
+                    Log.d("TranslatedCropName", "No translated data found in Firebase for crop: " + cropName);
+                    cropNameTextView.setText(cropName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("TranslatedCropName", "Failed to retrieve translated crop name for crop: " + cropName, error.toException());
+                cropNameTextView.setText(cropName);
             }
         });
     }
@@ -168,9 +224,28 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
         });
     }
 
+    private String getReadableTimestamp() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss", Locale.getDefault());
+        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
+        return sdf.format(new Date());
+    }
+
+    private void saveCropToHistory() {
+        String timestamp = getReadableTimestamp();
+        Map<String, Object> historyData = new HashMap<>();
+        historyData.put("cropName", cropName);
+        historyData.put("minPrice", minPriceEditText.getText().toString().trim());
+        historyData.put("maxPrice", maxPriceEditText.getText().toString().trim());
+        historyData.put("quantity", quantityEditText.getText().toString().trim());
+        historyData.put("unit", unitSpinner.getSelectedItem().toString());
+        historyData.put("timestamp", timestamp);
+
+        historyRef.setValue(historyData);
+    }
+
     private void showDeleteConfirmationDialog() {
-        new AlertDialog.Builder(requireContext())
-                .setTitle("Delete Confirmation")
+        new AlertDialog.Builder(getContext())
+                .setTitle("Confirm Deletion")
                 .setMessage("Are you sure you want to delete this crop listing?")
                 .setPositiveButton("Yes", (dialog, which) -> deleteCropListing())
                 .setNegativeButton("No", null)
@@ -178,8 +253,6 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
     }
 
     private void deleteCropListing() {
-        saveCropToHistory();
-
         listingsRef.removeValue().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 Toast.makeText(getContext(), "Crop listing deleted successfully.", Toast.LENGTH_SHORT).show();
@@ -188,36 +261,5 @@ public class UpdateCropDetailsFragment extends BottomSheetDialogFragment {
                 Toast.makeText(getContext(), "Failed to delete crop listing.", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void saveCropToHistory() {
-        listingsRef.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    Map<String, Object> cropDetails = (Map<String, Object>) snapshot.getValue();
-                    if (cropDetails != null) {
-                        String historyId = historyRef.push().getKey();
-                        if (historyId != null) {
-                            cropDetails.put("endTimestamp", getReadableTimestamp());
-                            historyRef.child(historyId).setValue(cropDetails)
-                                    .addOnSuccessListener(aVoid -> Log.d("History", "Crop details saved to history"))
-                                    .addOnFailureListener(e -> Log.e("History", "Failed to save crop details to history", e));
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                Log.e("History", "Failed to retrieve crop details for history", error.toException());
-            }
-        });
-    }
-
-    private String getReadableTimestamp() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault());
-        sdf.setTimeZone(TimeZone.getTimeZone("Asia/Kolkata"));
-        return sdf.format(new Date());
     }
 }

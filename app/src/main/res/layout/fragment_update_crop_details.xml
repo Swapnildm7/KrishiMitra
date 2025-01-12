@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:paddingBottom="8dp"
-            android:text="Crop Name"
+            android:text="@string/cropNameTv"
             android:textAlignment="center"
             android:textAllCaps="true"
             android:textColor="@color/green"
@@ -40,10 +40,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="11dp"
-            android:layout_weight="0.5"
-            android:text="Min Price:  ₹"
+            android:layout_weight="0.7"
+            android:text="@string/minPriceTv"
             android:textColor="@color/black"
-            android:textSize="21sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/minPriceEditText"
@@ -52,7 +52,7 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:background="@drawable/bg_edittext"
-            android:hint="Min Price"
+            android:hint="@string/minPriceEt"
             android:inputType="number"
             android:padding="10dp"
             android:textColor="@color/black" />
@@ -70,10 +70,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="11dp"
-            android:layout_weight="0.5"
-            android:text="Max Price: ₹"
+            android:layout_weight="0.7"
+            android:text="@string/maxPriceTv"
             android:textColor="@color/black"
-            android:textSize="21sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/maxPriceEditText"
@@ -82,7 +82,7 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:background="@drawable/bg_edittext"
-            android:hint="Max Price"
+            android:hint="@string/maxPriceEt"
             android:inputType="number"
             android:padding="10dp"
             android:textColor="@color/black" />
@@ -100,10 +100,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="11dp"
-            android:layout_weight="0.5"
-            android:text="Quantity"
+            android:layout_weight="0.7"
+            android:text="@string/quantityTv"
             android:textColor="@color/black"
-            android:textSize="21sp" />
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/quantityEditText"
@@ -112,7 +112,7 @@
             android:layout_marginBottom="8dp"
             android:layout_weight="1"
             android:background="@drawable/bg_edittext"
-            android:hint="Quantity"
+            android:hint="@string/quantityEt"
             android:inputType="number"
             android:padding="10dp"
             android:textColor="@color/black" />
@@ -132,10 +132,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_margin="11dp"
-            android:layout_weight="0.5"
-            android:text="Unit"
+            android:layout_weight="0.7"
+            android:text="@string/unitTv"
             android:textColor="@color/black"
-            android:textSize="21sp" />
+            android:textSize="18sp" />
 
         <!-- Container for Spinner and Icon -->
         <LinearLayout

@@ -12,10 +12,10 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:alpha="0.85"
         android:background="@drawable/item_selector"
         android:orientation="vertical"
-        android:padding="11dp"
-        android:alpha="0.85"> <!-- Makes the layout slightly translucent -->
+        android:padding="11dp"> <!-- Makes the layout slightly translucent -->
 
         <!-- Crop Name with Edit Icon beside it -->
         <LinearLayout
@@ -41,7 +41,7 @@
                 android:layout_weight="1"
                 android:padding="5dp"
                 android:paddingBottom="8dp"
-                android:text="Crop Name"
+                android:text="@string/cropNameTv"
                 android:textAllCaps="true"
                 android:textColor="@color/green"
                 android:textSize="22sp"
@@ -61,7 +61,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="2dp"
-                android:text="Min Price: "
+                android:text="@string/minPriceTv"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingBottom="2dp"
-                android:text="Max Price: "
+                android:text="@string/maxPriceTv"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -91,7 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:text="Quantity: 0"
+            android:text="@string/quantityTv"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />
@@ -102,7 +102,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="3dp"
-            android:text="Unit: kg"
+            android:text="@string/unitTv"
             android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold" />

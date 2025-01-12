@@ -17,7 +17,7 @@
         android:layout_marginTop="50dp"
         android:letterSpacing="0.1"
         android:lineSpacingExtra="6dp"
-        android:text="TRADER DETAIL"
+        android:text="@string/traderDetails"
         android:textAlignment="center"
         android:textColor="@color/green"
         android:textSize="32sp"
@@ -50,7 +50,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.35"
-                    android:text="TRADER NAME:"
+                    android:text="@string/traderNameTv"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -77,7 +77,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.35"
-                    android:text="SHOP NAME:"
+                    android:text="@string/shopNameTv"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -104,7 +104,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="0.35"
-                    android:text="SHOP ADDRESS:"
+                    android:text="@string/shopAddressTv"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0.35"
                     android:gravity="start"
-                    android:text="PHONE NUMBER"
+                    android:text="@string/phoneNumberTv"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -206,7 +206,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_edittext"
-        android:text="TRADER'S LISTING"
+        android:text="@string/traderCropListing"
         android:textAlignment="center"
         android:textColor="#A89506"
         android:textSize="22sp" />

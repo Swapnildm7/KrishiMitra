@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- Set icon color for all items -->
+    <item
+        android:id="@+id/nav_home"
+        android:icon="@drawable/ic_home"
+        android:iconTint="@color/green"
+        android:title="@string/nav_home" />
+
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_profile"
+        android:iconTint="@color/green"
+        android:title="@string/nav_profile" />
+
+    <item
+        android:id="@+id/nav_contact_us"
+        android:icon="@drawable/ic_contact"
+        android:iconTint="@color/green"
+        android:title="@string/nav_contact_us" />
+
+    <item
+        android:id="@+id/nav_language"
+        android:icon="@drawable/ic_lang"
+        android:iconTint="@color/green"
+        android:title="@string/nav_lang" />
+
+    <item
+        android:id="@+id/nav_privacy_policy"
+        android:icon="@drawable/ic_privacy_policy"
+        android:iconTint="@color/green"
+        android:title="@string/nav_privacy_policy" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:icon="@drawable/ic_logout"
+        android:iconTint="@color/green"
+        android:title="@string/nav_logout" />
+</menu>

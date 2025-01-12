@@ -50,6 +50,8 @@ public class TraderRegistrationActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
+
         setContentView(R.layout.activity_trader_registration);
 
         // Make status bar transparent
@@ -121,7 +123,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
 
         if (shopName.isEmpty() || shopAddress.isEmpty() || selectedState.isEmpty() ||
                 selectedDistrict.isEmpty() || selectedTaluka.isEmpty()) {
-            showToast("Please fill in all fields");
+            showToast(getString(R.string.fill_all_fields));
             return false;
         }
         return true;
@@ -134,9 +136,9 @@ public class TraderRegistrationActivity extends AppCompatActivity {
 
     private void showPrivacyPolicyAlert() {
         new AlertDialog.Builder(this)
-                .setTitle("Privacy Policy")
-                .setMessage("You must agree to the privacy policy to register.")
-                .setPositiveButton("OK", (dialog, which) -> dialog.dismiss())
+                .setTitle(getString(R.string.privacy_policy_title))
+                .setMessage(getString(R.string.privacy_policy_message))
+                .setPositiveButton(getString(R.string.ok_button), (dialog, which) -> dialog.dismiss())
                 .show();
     }
 
@@ -162,7 +164,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                showToast("Failed to load states: " + error);
+                Toast.makeText(TraderRegistrationActivity.this, getString(R.string.failed_to_load_states) + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -189,7 +191,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                showToast("Failed to load districts: " + error);
+                Toast.makeText(TraderRegistrationActivity.this, getString(R.string.failed_to_load_districts) + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -205,7 +207,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(String error) {
-                showToast("Failed to load talukas: " + error);
+                Toast.makeText(TraderRegistrationActivity.this, getString(R.string.failed_to_load_talukas) + error, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -219,7 +221,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                 progressBar.setVisibility(View.GONE);
                 buttonRegister.setEnabled(true);
                 if (dataSnapshot.exists()) {
-                    showToast("User already registered with this phone number");
+                    Toast.makeText(TraderRegistrationActivity.this, getString(R.string.user_already_registered), Toast.LENGTH_SHORT).show();
                 } else {
                     String hashedPassword = hashPassword(password);
                     saveUserInfo(firstName, lastName, phoneNumber, hashedPassword, shopName, shopAddress, state, district, taluka, locality);
@@ -230,7 +232,7 @@ public class TraderRegistrationActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError error) {
                 progressBar.setVisibility(View.GONE);
                 buttonRegister.setEnabled(true);
-                showToast("Error checking user registration: " + error.getMessage());
+                Toast.makeText(TraderRegistrationActivity.this, getString(R.string.error_checking_registration), Toast.LENGTH_SHORT).show();
                 logError("checkUserExists", error.toException());
             }
         });
@@ -247,16 +249,16 @@ public class TraderRegistrationActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.GONE);
                         buttonRegister.setEnabled(true);
                         if (task.isSuccessful()) {
-                            showToast("Trader registered successfully");
+                            showToast(getString(R.string.trader_registered_successfully));
                             saveLoginState("Farmer", userId);
                             navigateToDashboard(userId);
                         } else {
-                            showToast("Registration failed: " + (task.getException() != null ? task.getException().getMessage() : "Unknown error"));
+                            showToast(getString(R.string.registration_failed) + (task.getException() != null ? task.getException().getMessage() : "Unknown error"));
                             logError("saveUserInfo", task.getException());
                         }
                     });
         } else {
-            showToast("Error creating user ID. Please try again.");
+            showToast(getString(R.string.error_creating_user_id));
             logError("saveUserInfo", new Exception("User ID is null"));
         }
     }
@@ -288,9 +290,8 @@ public class TraderRegistrationActivity extends AppCompatActivity {
             }
             return hexString.toString();
         } catch (NoSuchAlgorithmException e) {
-            logError("hashPassword", e);
-            showToast("Error hashing password. Please try again.");
-            return null; // Handle password hashing failure gracefully
+            Log.e("HashError", "Error hashing password: " + e.getMessage());
+            return password;
         }
     }
 

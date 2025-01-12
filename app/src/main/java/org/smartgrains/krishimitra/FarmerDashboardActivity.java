@@ -43,7 +43,7 @@ import java.util.Set;
 
 public class FarmerDashboardActivity extends AppCompatActivity implements CropFilterBottomSheetFragment.OnCropsSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "FarmerDashboardActivity";
-    private static final String CURRENT_VERSION = "2.3";
+    private static final String CURRENT_VERSION = "2.7";
     private RecyclerView cropImageRecyclerView;
     private ProgressBar progressBar;
     private CropImageAdapter cropImageAdapter;
@@ -66,6 +66,7 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_farmer_dashboard);
 
         // Make status bar transparent
@@ -158,26 +159,34 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         int id = item.getItemId();
-
         // Handle each item in the navigation menu
         if (id == R.id.nav_home) {
+            // You can navigate to the Home/Dashboard screen here if needed
         } else if (id == R.id.nav_profile) {
             closeDrawerAndNavigate(() -> navigateToProfileActivity());
         } else if (id == R.id.nav_contact_us) {
             closeDrawerAndNavigate(() -> navigateToContactUsActivity());
+        } else if (id == R.id.nav_language) {
+            closeDrawerAndNavigate(() -> navigateToLanguageSelection());
         } else if (id == R.id.nav_logout) {
             closeDrawerAndNavigate(() -> performLogout());
         } else if (id == R.id.nav_privacy_policy) {
             String privacyPolicyUrl = "https://smartgrains.org/PrivacyPolicyKrishiMitra.html";
-
             // Create an Intent to open the URL in a browser
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl));
             startActivity(intent);
-            // Set OnClickListener to open the privacy policy link
-
         }
+        // Close the drawer after item selection
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void navigateToLanguageSelection() {
+        Intent intent = new Intent(FarmerDashboardActivity.this, LanguageSelectionActivity.class);
+        intent.putExtra("USER_ROLE", userRole);
+        intent.putExtra("Dashboard", "FarmerDashboardActivity");
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out); // Smooth animation
     }
 
     private void fetchHeaderDetails(String userId, TextView userFirstName, TextView userPhoneNumber) {
@@ -193,19 +202,8 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
                 userFirstName.setText(firstName != null ? firstName : "Unknown");
                 userPhoneNumber.setText(phoneNumber != null ? phoneNumber : "Unknown");
 
-                // Array of greeting messages
-                String[] greetings = {
-                        "Welcome back, %s!",
-                        "Hello, %s!",
-                        "Good to see you, %s!",
-                        "Hope you’re having a great day, %s!",
-                        "Hi %s! Let’s make today awesome!",
-                        "Greetings, %s! Ready to get started?",
-                        "Hey %s! How’s it going?",
-                        "Welcome, %s! Let’s do something amazing!",
-                        "Hello %s! Let’s make it count!",
-                        "Hi %s! Let’s achieve greatness!"
-                };
+                // Fetch the greetings from the localized resources
+                String[] greetings = getResources().getStringArray(R.array.greetings_array);
 
                 // Generate a personalized random greeting
                 String personalizedGreeting = getPersonalizedGreeting(greetings, firstName);
@@ -241,13 +239,19 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
         return String.format(greetings[index], userName); // Replace %s with user's name
     }
 
-    private void closeDrawerAndNavigate(Runnable action) {
-        // Close the drawer asynchronously
-        drawerLayout.post(() -> {
-            drawerLayout.closeDrawer(GravityCompat.START);
-            // After closing the drawer, immediately perform the action
-            action.run();
-        });
+    private void closeDrawerAndNavigate(Runnable navigationAction) {
+        // Add a one-time listener to handle navigation
+        DrawerLayout.SimpleDrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                navigationAction.run(); // Execute the navigation action
+                drawerLayout.removeDrawerListener(this); // Remove the listener to prevent memory leaks
+            }
+        };
+
+        // Add the listener and close the drawer
+        drawerLayout.addDrawerListener(drawerListener);
+        drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
     }
 
     private void showCropFilterBottomSheet() {
@@ -466,13 +470,16 @@ public class FarmerDashboardActivity extends AppCompatActivity implements CropFi
 
     private void performLogout() {
         closeOptionsMenu();
-        // Clear Firebase session (if using Firebase authentication)
-        // mAuth.signOut(); // Uncomment if using Firebase authentication
 
-        // Clear SharedPreferences for user session
+        // Access SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // Clear all saved data
+
+        // Preserve the language selection
+        String languageCode = sharedPreferences.getString("LanguageCode", "en"); // Default to "en" if not set
+        editor.clear(); // Clear all data
+        editor.putString("LanguageCode", languageCode); // Restore the language preference
+        editor.putBoolean("IS_FIRST_TIME_USER", false); // Mark as not a first-time user
         editor.apply();
 
         // Redirect to Login Page

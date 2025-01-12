@@ -16,7 +16,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        // Set the locale before setting the content view (applies language based on saved preferences)
         LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_main);
 

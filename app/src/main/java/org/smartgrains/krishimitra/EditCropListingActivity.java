@@ -22,7 +22,6 @@ import java.util.List;
 public class EditCropListingActivity extends AppCompatActivity {
 
     private static final String TAG = "EditCropListingActivity";
-
     private RecyclerView listingsRecyclerView;
     private CropListingAdapter cropListingAdapter;
     private List<CropListing> cropListingList;
@@ -32,6 +31,8 @@ public class EditCropListingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
+
         setContentView(R.layout.activity_edit_crop_listing);
 
         // Make status bar transparent

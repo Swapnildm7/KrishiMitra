@@ -1,8 +1,13 @@
+<!-- Selected Language Card -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/selectedLanguageCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="11dp"
-    android:background="@drawable/bg_edittext"
+    android:layout_marginHorizontal="7dp"
+    android:layout_marginBottom="16dp"
+    android:alpha="0.90"
+    android:background="@drawable/rounded_corner_shadow"
+    android:elevation="6dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="16dp">
@@ -16,10 +21,10 @@
 
     <TextView
         android:id="@+id/tvLanguageName"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
         android:text="English"
-        android:textAllCaps="true"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold" />

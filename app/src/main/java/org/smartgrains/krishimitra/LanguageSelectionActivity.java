@@ -13,14 +13,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class LanguageSelectionActivity extends AppCompatActivity {
-
     private ImageView selectedLanguageFlag;
     private TextView selectedLanguageName;
     private Button btnSaveSettings;
     private String selectedLanguageCode = "en"; // Default language
-
     private final String[] languages = {"English", "हिन्दी", "ಕನ್ನಡ", "मराठी"}; // Localized language names
     private final String[] languageCodes = {"en", "hi", "kn", "mr"};
+    private String userRole, userId, dashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +59,17 @@ public class LanguageSelectionActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
+        // Get the user role from the intent
+        userRole = getIntent().getStringExtra("USER_ROLE");
+        userId = getIntent().getStringExtra("USER_ID");
+        dashboard = getIntent().getStringExtra("Dashboard");
+
         // Save button functionality
         btnSaveSettings.setOnClickListener(v -> {
             saveLanguagePreference(selectedLanguageCode);
             navigateToNextScreen();
         });
+
     }
 
     private void saveLanguagePreference(String languageCode) {
@@ -74,8 +79,23 @@ public class LanguageSelectionActivity extends AppCompatActivity {
     }
 
     private void navigateToNextScreen() {
-        // Navigate to the next screen, e.g., MainActivity
-        Intent intent = new Intent(this, MainActivity.class);
+        // Update SharedPreferences to mark the user as no longer a first-time user
+        SharedPreferences preferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("IS_FIRST_TIME_USER", false);
+        editor.apply();
+
+        // Navigate based on userRole
+        Intent intent;
+        if ("Farmer".equals(userRole)) {
+            intent = new Intent(this, FarmerDashboardActivity.class);
+        } else if ("Trader".equals(userRole)) {
+            intent = new Intent(this, TraderDashboardActivity.class);
+            intent.putExtra("USER_ID", userId); // Pass the User ID to the dashboard activity
+        } else {
+            intent = new Intent(this, MainActivity.class);
+        }
+        // Start the respective activity and finish the current one
         startActivity(intent);
     }
 

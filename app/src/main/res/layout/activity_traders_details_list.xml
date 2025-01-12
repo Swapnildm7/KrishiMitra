@@ -11,7 +11,7 @@
         android:layout_marginTop="50dp"
         android:letterSpacing="0.1"
         android:padding="5dp"
-        android:text="KRISHI MITRA"
+        android:text="@string/app_name"
         android:textAlignment="center"
         android:textColor="@color/green"
         android:textSize="32sp"
@@ -37,11 +37,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/bg_spinner"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:paddingHorizontal="5dp">
 
                 <Spinner
                     android:id="@+id/state_spinner"
@@ -72,11 +72,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/bg_spinner"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:paddingHorizontal="5dp">
 
                 <Spinner
                     android:id="@+id/district_spinner"
@@ -117,11 +117,11 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:background="@drawable/bg_spinner"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
-                android:padding="8dp">
+                android:paddingHorizontal="5dp">
 
                 <Spinner
                     android:id="@+id/taluka_spinner"
@@ -145,13 +145,14 @@
         <Button
             android:id="@+id/applyFilterButton"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_marginStart="8dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/colorPrimary"
-            android:text="Apply Filter"
+            android:backgroundTint="@color/green"
+            android:text="@string/apply_filter"
             android:textColor="@android:color/white"
-            android:textSize="18sp" />
+            android:textSize="16sp"
+            android:textStyle="bold" />
     </LinearLayout>
 
     <!-- Trader's List Header -->
@@ -160,7 +161,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:padding="5dp"
-        android:text="TRADER'S LIST"
+        android:text="@string/traderList"
         android:textAlignment="center"
         android:textColor="@color/green"
         android:textSize="28sp"
@@ -176,7 +177,7 @@
         android:fontFamily="sans-serif-medium"
         android:gravity="center"
         android:padding="8dp"
-        android:text="Trader Detail"
+        android:text="@string/traderDetails"
         android:textColor="@color/black"
         android:textSize="16sp"
         android:textStyle="italic" />

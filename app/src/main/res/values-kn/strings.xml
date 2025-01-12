@@ -1,30 +1,172 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--    Language Activity-->
-    <string name="languages_title">ಭಾಷೆಗಳು</string>
-    <string name="language_selection">ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
-    <string name="save_settings">ಸೆಟ್ಟಿಂಗ್‌ಗಳನ್ನು ಉಳಿಸಿ</string>
-    <string name="all_languages_title">ಎಲ್ಲ ಭಾಷೆಗಳು</string>
-    <string name="welcome_message">ಕೃಷಿ ಮಿತ್ರಕ್ಕೆ ಸ್ವಾಗತ</string>
 
-    <!--    Main Activity-->
+    <!-- Non-Translatable Strings -->
+    <string name="openDrawer" translatable="false">ನೇವಿಗೇಶನ್ ಡ್ರಾಯವರ್ ತೆರೆಯಿರಿ</string>
+    <string name="closeDrawer" translatable="false">ನೇವಿಗೇಶನ್ ಡ್ರಾಯವರ್ ಮುಚ್ಚಿ</string>
+    <string name="admin" translatable="false">ಸ್ವಾಗತ, ಆಡ್ಮಿನ್</string>
+    <string name="manageCrops" translatable="false">ಹೊಸ ಫಸಲು ಅಪ್ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="manageUsers" translatable="false">ಉಪಯೋಗಿಗಳು ನಿರ್ವಹಿಸಿ</string>
+    <string name="cropName" translatable="false">ಫಸಲು ಹೆಸರನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="selectImage" translatable="false">ಚಿತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="uploadCropImage" translatable="false">ಚಿತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="uploadCrop" translatable="false">ಫಸಲು ಅಪ್ಲೋಡ್ ಮಾಡಿ</string>
+    <string name="email" translatable="false">support@smartgrains.org</string>
+
+    <!-- General Purpose -->
+    <string name="save">ಉಳಿಸಿ</string>
+    <string name="logout">ಲಾಗ್‌ಔಟ್</string>
+    <string name="ok_button">ಸರಿ</string>
+    <string name="proceed">ಮುಂದುವರಿಯಿರಿ</string>
+    <string name="privacy_policy_title">ಗೋಪನೀಯತೆ ನೀತಿ</string>
+    <string name="privacy_policy_text">
+        ನಾನು <a href='https://smartgrains.org/PrivacyPolicyKrishiMitra.html'>ಗೋಪನೀಯತೆ ನೀತಿಗೆ</a> ಒಪ್ಪಿಗೆಯಾಗಿದ್ದೇನೆ
+    </string>
+
+    <string name="welcome_message">ಕ್ರಿಷಿ ಮೈತ್ರಿಗೆ ಸ್ವಾಗತ</string>
+
+    <!-- Language Selection -->
+    <string name="languages_title">ಭಾಷೆಗಳು</string>
+    <string name="language_selection">ಆಯ್ಕೆಯಾದ ಭಾಷೆ</string>
+    <string name="all_languages_title">ಭಾಷೆ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="save_settings">ಸೆಟ್ಟಿಂಗ್ ಉಳಿಸಿ</string>
+
+    <!-- Main Activity -->
     <string name="app_name">ಕೃಷಿ ಮಿತ್ರ</string>
-    <string name="main_desc">The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips</string>
+    <string name="main_desc">
+        ಕೃಷಿಯ ಭವಿಷ್ಯ ಇಲ್ಲಿ ಇದೆ. ನಿಮ್ಮ นิಗಿತೆಯಲ್ಲಿ ತಂತ್ರಜ್ಞಾನದಿಂದ ಶಕ್ತಿ ನೀಡಿ
+    </string>
     <string name="main_login">ಲಾಗಿನ್</string>
     <string name="main_sign_up">ಸೈನ್ ಅಪ್</string>
 
-    <!--    Login Activity-->
+    <!-- Login Activity -->
     <string name="welcome">ಸ್ವಾಗತ</string>
     <string name="mobile">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ</string>
     <string name="password">ಪಾಸ್ವರ್ಡ್</string>
     <string name="login">ಲಾಗಿನ್</string>
-    <string name="signup">ನೋಂದಣಿ ಮಾಡಿಲ್ಲವೇ? ಸೈನ್ ಅಪ್</string>
-    <string name="empty_fields_error">ದಯವಿಟ್ಟು ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಪಾಸ್‌ವರ್ಡ್ ನಮೂದಿಸಿ</string>
-    <string name="invalid_phone_number_error">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಸರಿಯಾಗಿ 10 ಅಂಕೆಗಳು ಇರಬೇಕು</string>
-    <string name="incorrect_admin_password">ತಪ್ಪಾದ ಅಡ್ಮಿನ್ ಪಾಸ್‌ವರ್ಡ್</string>
-    <string name="incorrect_password">ತಪ್ಪಾದ ಪಾಸ್‌ವರ್ಡ್</string>
-    <string name="user_not_found">ಬಳಕೆದಾರರು ಕಾಣಿಸಿಲ್ಲ</string>
-    <string name="database_error">ಡೇಟಾಬೇಸ್ ದೋಷ ಸಂಭವಿಸಿದೆ. ದಯವಿಟ್ಟು ಮತ್ತೆ ಪ್ರಯತ್ನಿಸಿ.</string>
-    <string name="invalid_role">ದೋಷಪೂರಿತ ಪಾತ್ರ</string>
+    <string name="signup">ಪಂಜಿಯಾಯಿತು? ಸೈನ್ ಅಪ್ ಮಾಡಿ</string>
+    <string name="empty_fields_error">ದಯವಿಟ್ಟು ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ಮತ್ತು ಪಾಸ್ವರ್ಡ್ ನಮೂದಿಸಿ</string>
+    <string name="invalid_phone_number_error">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ ನಿಖರವಾಗಿ 10 ಅಂಕಿಗಳಾಗಿರಬೇಕು</string>
+    <string name="incorrect_admin_password">ತಪ್ಪಾದ ಆಡ್ಮಿನ್ ಪಾಸ್ವರ್ಡ್</string>
+    <string name="incorrect_password">ತಪ್ಪಾದ ಪಾಸ್ವರ್ಡ್</string>
+    <string name="user_not_found">ಉಪಯೋಗಿ ಕಂಡುಬಂದಿಲ್ಲ</string>
+    <string name="database_error">ಡೇಟಾಬೇಸ್ ದೋಷ ನಡೆದಿದೆ. ದಯವಿಟ್ಟು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.</string>
+    <string name="invalid_role">ಅಮಾನ್ಯ ಪಾತ್ರ</string>
+
+    <!-- Signup Activity -->
+    <string name="details">ವಿವರಗಳನ್ನು ನಮೂದಿಸಿ</string>
+    <string name="firstName">ಮೊದಲ ಹೆಸರು (ಅವಶ್ಯಕ)</string>
+    <string name="lastName">ಕೊನೆಯ ಹೆಸರು</string>
+    <string name="phoneNumber">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ (ಅವಶ್ಯಕ)</string>
+    <string name="enterPassword">ಪಾಸ್ವರ್ಡ್ ನಮೂದಿಸಿ (ಅವಶ್ಯಕ)</string>
+    <string name="confirmPassword">ಪಾಸ್ವರ್ಡ್ ದೃಢೀಕರಿಸಿ (ಅವಶ್ಯಕ)</string>
+    <string name="selectRole">ಪಾತ್ರ ಆಯ್ಕೆಮಾಡಿ:</string>
+    <string name="farmer">ರೈತ</string>
+    <string name="trader">ವ್ಯಾಪಾರಿ</string>
+    <string name="invalid_phone_number">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ 10 ಅಂಕಿಗಳಾಗಿರಬೇಕು</string>
+    <string name="password_mismatch">ಪಾಸ್ವರ್ಡ್ ಗಳು ಹೊಂದಿಕೆಯಾಗುತ್ತಿಲ್ಲ</string>
+    <string name="select_role">ದಯವಿಟ್ಟು ಪಾತ್ರವನ್ನು ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="fill_all_fields">ದಯವಿಟ್ಟು ಎಲ್ಲಾ ಕಡ್ಡಾಯ ಕಣಗಳನ್ನು ಭರ್ತಿ ಮಾಡಿ</string>
+    <string name="register">ಪಂಜಿಯಾಯಿತಾಗಿ</string>
+    <string name="user_already_registered">ಈ ಮೊಬೈಲ್ ಸಂಖ್ಯೆಗೆ ಮೊದಲೇ ಪಂಜಿಯಾಯಿತವಾಗಿದೆ</string>
+    <string name="error_checking_registration">ಪಂಜಿಯಕರಣ ಪರಿಶೀಲಿಸುವಾಗ ದೋಷ ಸಂಭವಿಸಿದೆ</string>
+    <string name="registration_failed">ಪಂಜಿಯಕರಣ ವಿಫಲವಾಯಿತು</string>
+    <string name="privacy_policy_message">ಪಂಜಿಯಾಯಿಸಲು ನೀವು ಗೋಪನೀಯತೆ ನೀತಿಗೆ ಒಪ್ಪಿಗೆಯಾದಿರಬೇಕು.</string>
+
+    <!-- Location Details -->
+    <string name="enterLocality">ಸ್ಥಳ/ಗ್ರಾಮ/ಪಟ್ಟಣ</string>
+    <string name="state">ನಿಮ್ಮ ರಾಜ್ಯ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="district">ನಿಮ್ಮ ಜಿಲ್ಲೆ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="taluka">ನಿಮ್ಮ ತಲುಕಾ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="failed_to_load_states">ರಾಜ್ಯಗಳನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ: </string>
+    <string name="failed_to_load_districts">ಜಿಲ್ಲೆಗಳ ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ: </string>
+    <string name="failed_to_load_talukas">ತಲುಕಾವನ್ನು ಲೋಡ್ ಮಾಡಲು ವಿಫಲವಾಗಿದೆ: </string>
+
+    <!-- Drawer Menu -->
+    <string name="nav_home">ಮನೆ</string>
+    <string name="nav_profile">ಪ್ರೊಫೈಲ್</string>
+    <string name="nav_lang">ಭಾಷೆ ಬದಲಾಯಿಸಿ</string>
+    <string name="nav_contact_us">ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ</string>
+    <string name="nav_privacy_policy">ಗೋಪನೀಯತೆ ನೀತಿ</string>
+    <string name="nav_logout">ಲಾಗ್‌ಔಟ್</string>
+
+    <!-- Trader Dashboard -->
+    <string name="listCrop">ಬೆಳೆ ಖರೀದಿ ಪೋಸ್ಟ್ ಮಾಡಿ</string>
+    <string name="viewCropList">ಬೆಳೆ ಖರೀದಿ ಬದಲಿಸಿ</string>
+
+    <!-- Trader Crop Listing -->
+    <string name="selectCrop">ಬೆಳೆ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="minPriceTv">ಕನಿಷ್ಠ ಬೆಲೆ : ₹</string>
+    <string name="minPriceEt">ಕನಿಷ್ಠ ಬೆಲೆ ನಮೂದಿಸಿ</string>
+    <string name="maxPriceTv">ಅತ್ಯುತ್ತಮ ಬೆಲೆ : ₹</string>
+    <string name="maxPriceEt">ಅತ್ಯುತ್ತಮ ಬೆಲೆ ನಮೂದಿಸಿ</string>
+    <string name="quantityTv">ಪ್ರಮಾಣ : </string>
+    <string name="quantityEt">ಪ್ರಮಾಣ ನಮೂದಿಸಿ : </string>
+    <string name="cropListingTv">ಬೆಳೆ ಪಟ್ಟಿಗಳು</string>
+
+    <!-- Farmer Dashboard -->
+    <string name="crops">ಬೆಳೆ ಆಯ್ಕೆಮಾಡಿ</string>
+    <string name="findTrader">ವ್ಯಾಪಾರಿಯನ್ನು ಹುಡುಕಿರಿ</string>
+    <string name="refresh">ಹುಡುಕಿ</string>
+
+    <!-- User Profile -->
+    <string name="update_your_profile">ನಿಮ್ಮ ವಿವರಗಳನ್ನು ಅಪ್ಡೇಟ್ ಮಾಡಿ</string>
+    <string name="userDetails">ಉಪಯೋಗಿ ವಿವರಗಳು</string>
+    <string name="locationDetails">ಸ್ಥಳ ವಿವರಗಳು</string>
+    <string name="tvState">ರಾಜ್ಯ:</string>
+    <string name="stateDetail">[ಪ್ರಸ್ತುತ ರಾಜ್ಯ]</string>
+    <string name="tvDistrict">ಜಿಲ್ಲೆ:</string>
+    <string name="districtDetail">[ಪ್ರಸ್ತುತ ಜಿಲ್ಲಾ]</string>
+    <string name="tvTaluka">ತಲುಕಾ:</string>
+    <string name="talukaDetail">[ಪ್ರಸ್ತುತ ತಲುಕಾ]</string>
+    <string name="viewReviews">ಸಮೀಕ್ಷೆಗಳನ್ನು ನೋಡಿ</string>
+
+    <!-- Farmer Registration Activity -->
+    <string name="address">ಪತ್ತೆಯ ವಿವರಗಳು</string>
+    <string name="enterAddress">ನಿಮ್ಮ ಪತ್ತೆಯನ್ನು ನಮೂದಿಸಿ (ಅವಶ್ಯಕ)</string>
+    <string name="farmer_registered_successfully">ರೈತ ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಿಸಲಾಗಿದೆ</string>
+
+    <!-- Trader Registration -->
+    <string name="shopDetails">ಅಂಗಡಿಯ ವಿವರಗಳು</string>
+    <string name="shopName">ಅಂಗಡಿ ಹೆಸರನ್ನು ನಮೂದಿಸಿ (ಅವಶ್ಯಕ)</string>
+    <string name="shopAddress">ಅಂಗಡಿ ವಿಳಾಸವನ್ನು ನಮೂದಿಸಿ (ಅವಶ್ಯಕ)</string>
+    <string name="trader_registered_successfully">ವ್ಯಾಪಾರಿ ಯಶಸ್ವಿಯಾಗಿ ದಾಖಲಿಸಲಾಗಿದೆ</string>
+    <string name="error_creating_user_id">ಬಳಕೆದಾರ ID ಸೃಷ್ಟಿಸುವಾಗ ದೋಷವಾಗಿದೆ. ದಯವಿಟ್ಟು ಪುನಃ ಪ್ರಯತ್ನಿಸಿ.</string>
+
+    <string name="cropNameTv">ಬೆಳೆ ಹೆಸರು</string>
+    <string name="unitTv">ಘಟಕ : </string>
+
+    <string name="traderNameTv">ವ್ಯಾಪಾರಿ ಹೆಸರು</string>
+    <string name="shopNameTv">ಅಂಗಡಿ ಹೆಸರು:</string>
+    <string name="shopAddressTv">ಅಂಗಡಿ ವಿಳಾಸ:</string>
+    <string name="priceTv">ಬೆಲೆ ₹:</string>
+    <string name="quantTv">ಪ್ರಮಾಣ :</string>
+    <string name="phoneNumberTv">ಮೊಬೈಲ್ ಸಂಖ್ಯೆ :</string>
+    <string name="traderDetails">ವ್ಯಾಪಾರಿ ವಿವರಗಳು</string>
+    <string name="traderCropListing">ವ್ಯಾಪಾರಿ ಫಸಲು ಪಟ್ಟಿಗಳು</string>
+    <string name="traderList">ಉಪಲಭ್ಯ ವ್ಯಾಪಾರಿಗಳು</string>
+    <string name="cropListing">ಬೆಳೆ ಪಟ್ಟಿ</string>
+
+    <!-- ContactUs Activity -->
+    <string name="contactUsDesc">
+   ಕೃಷಿ ಮಿತ್ರ ಕೃಷಿಯಲ್ಲಿ ಪಾರದರ್ಶಕತೆ, ನ್ಯಾಯತ್ಮಕತೆ, ಮತ್ತು ಸ್ಥಿರತೆಯನ್ನು ಉತ್ತೇಜಿಸುವ ಮೂಲಕ ರೈತರು ಮತ್ತು ವ್ಯಾಪಾರಿಗಳನ್ನು ಶಕ್ತಿ ಹೊಂದಿಸಲು ಪ್ರಯತ್ನಿಸುತ್ತದೆ. ನಮ್ಮ ಉದ್ದೇಶ ಗ್ರಾಮೀಣ ರೈತರು ಮತ್ತು ಮಾರುಕಟ್ಟೆಗಳಲ್ಲಿ ಇರುವ ಅಂತರವನ್ನು ದೂರ ಮಾಡಿ, ರೈತರಿಗೆ ಅವರ ಬೆಳೆಗಳಿಗೆ ನ್ಯಾಯಸಮ್ಮತ ದರವನ್ನು ಪಡೆಯಲು ಮತ್ತು ವ್ಯಾಪಾರಿಗಳಿಗೆ ಉತ್ತಮ ಗುಣಮಟ್ಟದ ಉತ್ಪನ್ನಗಳನ್ನು ಸುಲಭವಾಗಿ ಪಡೆದುಕೊಳ್ಳಲು ಸಹಾಯ ಮಾಡುವುದು. ಸಮಾನ ಅವಕಾಶಗಳನ್ನು ಉತ್ತೇಜಿಸುವ ಮೂಲಕ ಶೋಷಣೆಯನ್ನು ಕಡಿಮೆ ಮಾಡುವುದು, ಜೀವನೋಪಾಯವನ್ನು ಸುಧಾರಿಸುವುದು ಮತ್ತು ಗ್ರಾಮೀಣ ಆರ್ಥಿಕತೆಯನ್ನು ಬಲಪಡಿಸುವುದು ನಮ್ಮ ಧ್ಯೇಯವಾಗಿದೆ. ಉತ್ತಮ ಸಂಪರ್ಕ ಮತ್ತು ಜ್ಞಾನದ ಆಧಾರದ ಮೇಲೆ ನಿರ್ಧಾರಗಳನ್ನು ಕೈಗೊಳ್ಳುವ ಮೂಲಕ, ಕೃಷಿ ಮಿತ್ರ ಪ್ರತಿರೋಧಶೀಲ ಕೃಷಿ ವ್ಯವಸ್ಥೆಯನ್ನು ನಿರ್ಮಿಸಲು, ಸಮುದಾಯಗಳನ್ನು ಶಕ್ತಿ ಹೊಂದಿಸಲು, ಮತ್ತು ಶಾಶ್ವತ ಕೃಷಿ ಅಭ್ಯಾಸಗಳನ್ನು ಬೆಂಬಲಿಸಲು ಸಹಾಯ ಮಾಡುತ್ತದೆ.
+</string>
+    <string name="inquiries">ಯಾವುದೇ ವಿಚಾರಣೆಗೆ, ದಯವಿಟ್ಟು ನಮ್ಮನ್ನು ಸಂಪರ್ಕಿಸಿ:</string>
+    <string name="help">ನಾವು ನಿಮ್ಮನ್ನು ಸಹಾಯ ಮಾಡಲು ಕಾಯುತ್ತಿದ್ದೇವೆ!</string>
+
+    <!-- Crop Units -->
+    <string-array name="quantity_units_array">
+        <item>ಕ್ವಿಂಟಾಲ್</item>
+        <item>ಕೆ.ಜಿ</item>
+        <item>ಟನ್</item>
+    </string-array>
+
+    <string-array name="greetings_array">
+        <item>ಹಲೋ, %s!</item>
+        <item>ಸ್ವಾಗತ, %s!</item>
+        <item>ನಮಸ್ಕಾರ, %s!</item>
+        <item>ನೀವು ಉತ್ತಮ ದಿನವನ್ನು ಕಳೆದಿದ್ದೀರಿ ಎಂದು ಆಶಿಸುವೆ, %s!</item>
+    </string-array>
+
+    <string name="apply_filter">ಹೆಚ್ಚಿಸಿ</string> <!-- Kannada -->
 
 </resources>

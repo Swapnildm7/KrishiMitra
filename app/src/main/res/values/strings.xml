@@ -1,25 +1,46 @@
 <resources>
-    <!--    Language Selection-->
-    <string name="languages_title">Languages</string>
-    <string name="language_selection">Select Language</string>
-    <string name="all_languages_title">All Languages</string>
-    <string name="save_settings">Save Settings</string>
-    <string name="welcome_message">Welcome to Krishi Mitra</string>
 
-
+    <!-- Non-Translatable Strings -->
     <string name="openDrawer" translatable="false">Open Navigation Drawer</string>
     <string name="closeDrawer" translatable="false">Close Navigation Drawer</string>
-
-    <!-- Splash Screen -->
+    <string name="admin" translatable="false">WELCOME, ADMIN</string>
+    <string name="manageCrops" translatable="false">UPLOAD NEW CROP</string>
+    <string name="manageUsers" translatable="false">Manage Users</string>
+    <string name="cropName" translatable="false">Enter Crop Name</string>
+    <string name="selectImage" translatable="false">Select Image</string>
+    <string name="uploadCropImage" translatable="false">Select Image</string>
+    <string name="uploadCrop" translatable="false">Upload Crop</string>
+    <string name="email" translatable="false">support@smartgrains.org</string>
     <string name="slogan" translatable="false">Grow Dreams, Empower Farmers And Strengthen Agriculture</string>
 
-    <!--    Main Activity-->
+    <!-- General Purpose -->
+    <string name="save">SAVE</string>
+    <string name="logout">LOGOUT</string>
+    <string name="ok_button">OK</string>
+    <string name="proceed">NEXT</string>
+    <string name="privacy_policy_title">Privacy Policy</string>
+    <string name="privacy_policy_text">
+        I agree to the <a href='https://smartgrains.org/PrivacyPolicyKrishiMitra.html'>Privacy Policy</a>
+    </string>
+
+    <!-- Splash Screen -->
+    <string name="welcome_message">Welcome to Krishi Mitra</string>
+
+    <!-- Language Selection -->
+    <string name="languages_title">LANGUAGES</string>
+    <string name="language_selection">Selected Language</string>
+    <string name="all_languages_title">Select Language</string>
+    <string name="save_settings">SAVE SETTING</string>
+
+    <!-- Main Activity -->
     <string name="app_name">KRISHI MITRA</string>
-    <string name="main_desc">The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips</string>
+    <string name="main_desc">
+        The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips
+    </string>
     <string name="main_login">LOGIN</string>
     <string name="main_sign_up">SIGNUP</string>
 
-    <!--    Login Activity-->
+    <!-- Login Activity -->
     <string name="welcome">WELCOME</string>
     <string name="mobile">Mobile Number</string>
     <string name="password">Password</string>
@@ -33,68 +54,120 @@
     <string name="database_error">Database error occurred. Please try again.</string>
     <string name="invalid_role">Invalid role</string>
 
-    <!--    Signup Activity-->
-    <string name="details" translatable="false">ENTER DETAILS</string>
-    <string name="firstName" translatable="false">First Name (Required)</string>
-    <string name="lastName" translatable="false">Last Name</string>
-    <string name="phoneNumber" translatable="false">Phone Number (Required)</string>
-    <string name="enterPassword" translatable="false">Enter Password (Required)</string>
-    <string name="confirmPassword" translatable="false">Confirm Password (Required)</string>
-    <string name="selectRole" translatable="false">Select Role:</string>
-    <string name="farmer" translatable="false">Farmer</string>
-    <string name="trader" translatable="false">Trader</string>
-    <string name="proceed" translatable="false">Proceed</string>
+    <!-- Signup Activity -->
+    <string name="details">ENTER DETAILS</string>
+    <string name="firstName">First Name (Required)</string>
+    <string name="lastName">Last Name</string>
+    <string name="phoneNumber">Phone Number (Required)</string>
+    <string name="enterPassword">Enter Password (Required)</string>
+    <string name="confirmPassword">Confirm Password (Required)</string>
+    <string name="selectRole">Select Role:</string>
+    <string name="farmer">Farmer</string>
+    <string name="trader">Trader</string>
+    <string name="invalid_phone_number">Phone number must be 10 digits</string>
+    <string name="password_mismatch">Passwords do not match</string>
+    <string name="select_role">Please select a role</string>
+    <string name="fill_all_fields">Please fill in all compulsory fields</string>
+    <string name="register">REGISTER</string>
+    <string name="user_already_registered">User already registered with this phone number</string>
+    <string name="error_checking_registration">Error checking registration</string>
+    <string name="registration_failed">Registration failed</string>
+    <string name="privacy_policy_message">You must agree to the privacy policy to register.</string>
+
+    <!-- Location Details -->
+    <string name="enterLocality">Locality/Village/Town</string>
+    <string name="state">SELECT YOUR STATE</string>
+    <string name="district">SELECT YOUR DISTRICT</string>
+    <string name="taluka">SELECT YOUR TALUKA</string>
+    <string name="failed_to_load_states">Failed to load states: </string>
+    <string name="failed_to_load_districts">Failed to load districts: </string>
+    <string name="failed_to_load_talukas">Failed to load talukas: </string>
+
+    <!-- Drawer Menu -->
+    <string name="nav_home">Home</string>
+    <string name="nav_profile">Profile</string>
+    <string name="nav_lang">Change Language</string>
+    <string name="nav_contact_us">Contact Us</string>
+    <string name="nav_privacy_policy">Privacy Policy</string>
+    <string name="nav_logout">Logout</string>
+
+    <!-- Trader Dashboard -->
+    <string name="listCrop">LIST CROP</string>
+    <string name="viewCropList">EDIT LISTING</string>
+
+    <!-- Trader Crop Listing -->
+    <string name="selectCrop">SELECT CROP</string>
+    <string name="minPriceTv">Min Price : ₹</string>
+    <string name="minPriceEt">Enter Min Price</string>
+    <string name="maxPriceTv">Max Price : ₹</string>
+    <string name="maxPriceEt">Enter Max Price</string>
+    <string name="quantityTv">Quantity : </string>
+    <string name="quantityEt">Enter Quantity : </string>
+    <string name="cropListingTv">Crop Listings</string>
+
+    <!-- Farmer Dashboard -->
+    <string name="crops">Select Crop</string>
+    <string name="findTrader">Find Trader</string>
+    <string name="refresh">Refresh</string>
+
+    <!-- User Profile -->
+    <string name="update_your_profile">Update Your Details</string>
+    <string name="userDetails">USER DETAILS</string>
+    <string name="locationDetails">LOCATION DETAILS</string>
+    <string name="tvState">State:</string>
+    <string name="stateDetail">[Current State]</string>
+    <string name="tvDistrict">District:</string>
+    <string name="districtDetail">[Current District]</string>
+    <string name="tvTaluka">Taluka:</string>
+    <string name="talukaDetail">[Current Taluka]</string>
+    <string name="viewReviews">View Reviews</string>
 
     <!--    Farmer Registration Activity-->
-    <string name="address" translatable="false">ADDRESS DETAILS</string>
-    <string name="enterAddress" translatable="false">Enter Your Address (Required)</string>
+    <string name="address">ADDRESS DETAILS</string>
+    <string name="enterAddress">Enter Your Address (Required)</string>
+    <string name="farmer_registered_successfully">Farmer registered successfully</string>
 
     <!--Trader Registration-->
-    <string name="shopDetails" translatable="false">SHOP DETAILS</string>
-    <string name="shopName" translatable="false">Enter Shop Name (Required)</string>
-    <string name="shopAddress" translatable="false">Enter Shop Address (Required)</string>
+    <string name="shopDetails">SHOP DETAILS</string>
+    <string name="shopName">Enter Shop Name (Required)</string>
+    <string name="shopAddress">Enter Shop Address (Required)</string>
+    <string name="trader_registered_successfully">Trader registered successfully</string>
+    <string name="error_creating_user_id">Error creating user ID. Please try again.</string>
 
-    <!--    Farmer Dashboard-->
-    <string name="crops" translatable="false">Select Crop</string>
-    <string name="refresh" translatable="false">Refresh</string>
+    <string name="cropNameTv">Crop Name</string>
+    <string name="unitTv">Unit : </string>
 
-    <!--    Trader Dashboard-->
-    <string name="listCrop" translatable="false">LIST CROP</string>
-    <string name="viewCropList" translatable="false">EDIT LISTING</string>
-
-
-    <!--    Common Fields-->
-    <string name="state" translatable="false">SELECT YOUR STATE</string>
-    <string name="district" translatable="false">SELECT YOUR DISTRICT</string>
-    <string name="taluka" translatable="false">SELECT YOUR TALUKA</string>
-
-    <string name="register" translatable="false">REGISTER</string>
-    <string name="logout" translatable="false">LOGOUT</string>
-
-    <string name="privacy_policy_text" translatable="false">I agree to the <a href='https://smartgrains.org/PrivacyPolicyKrishiMitra.html'>Privacy Policy</a></string>
-
-    <!--    Admin Dashboard-->
-    <string name="admin" translatable="false">WELCOME, ADMIN</string>
-    <string name="manageCrops" translatable="false">UPLOAD NEW CROP</string>
-    <string name="manageUsers" translatable="false">Manage Users</string>
-
-    <!--    Crop Upload Activity-->
-    <string name="cropName" translatable="false">Enter Crop Name</string>
-    <string name="selectImage" translatable="false">Select Image</string>
-    <string name="uploadCropImage" translatable="false">Select Image</string>
-    <string name="uploadCrop" translatable="false">Upload Crop</string>
+    <string name="traderNameTv">TRADER NAME</string>
+    <string name="shopNameTv">SHOP NAME:</string>
+    <string name="shopAddressTv">SHOP ADDRESS:</string>
+    <string name="priceTv">PRICE ₹:</string>
+    <string name="quantTv">QUANTITY :</string>
+    <string name="phoneNumberTv">PHONE NUMBER :</string>
+    <string name="traderDetails">TRADER DETAILS</string>
+    <string name="traderCropListing">TRADER CROP LISTING</string>
+    <string name="traderList">AVAILABLE TRADERS</string>
+    <string name="cropListing">CROP LISTING</string>
 
     <!--    ContactUs Activity-->
-    <string name="contactUsDesc" translatable="false">"Krishi Mitra is an innovative mobile application designed to empower farmers and traders by bridging the gap in agricultural information and resources. Krishi Mitra aims to revolutionize the agricultural landscape by providing farmers and traders with the tools they need to succeed. Join us on this journey to enhance agricultural practices and promote sustainable farming in your community!"</string>
-    <string name="inquiries" translatable="false">For any inquiries, please contact us:</string>
-    <string name="email" translatable="false">support@smartgrains.org</string>
-    <string name="help" translatable="false">We look forward to assisting you!</string>
+    <string name="contactUsDesc">
+        "We at "Krishi Mitra" strives to empower farmers and traders by promoting transparency, fairness, and sustainability in agriculture. Our goal is to bridge the gap between rural farmers and markets, ensuring farmers receive fair prices for their crops while enabling traders to source quality produce efficiently. By fostering equitable opportunities, we aim to reduce exploitation, enhance livelihoods, and strengthen rural economies. Through better connectivity and informed decision-making, Krishi Mitra contributes to building a resilient agricultural ecosystem, empowering communities, and supporting sustainable farming practices for a prosperous future in agriculture."
+    </string>
+    <string name="inquiries">For any inquiries, please contact us:</string>
+    <string name="help">We look forward to assisting you!</string>
+    <string name="apply_filter">APPLY</string>
 
     <!--    Crop Units-->
     <string-array name="quantity_units_array">
         <item>Quintal</item>
         <item>Kg</item>
         <item>Ton</item>
+    </string-array>
+
+    <string-array name="greetings_array">
+        <item>Hello, %s!</item>
+        <item>Welcome, %s!</item>
+        <item>"Good to see you, %s!</item>
+        <item>"Hope you’re having a great day, %s!</item>
     </string-array>
 
 </resources>

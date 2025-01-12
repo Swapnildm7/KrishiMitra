@@ -18,11 +18,11 @@ public class SplashActivity extends AppCompatActivity {
     private static final String PREFS_NAME = "UserPrefs";
     private static final String KEY_ROLE = "USER_ROLE";
     private static final String KEY_USER_ID = "USER_ID";
-
     private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        LocaleHelper.setLocale(this); // Apply user's preferred language
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
@@ -55,19 +55,26 @@ public class SplashActivity extends AppCompatActivity {
     }
 
     private void checkLoginState() {
+        boolean isFirstTimeUser = sharedPreferences.getBoolean("IS_FIRST_TIME_USER", true);
         String role = sharedPreferences.getString(KEY_ROLE, null);
         String userId = sharedPreferences.getString(KEY_USER_ID, null);
 
         if (role != null && userId != null) {
             // User is already logged in, navigate to the respective dashboard
             navigateToDashboard(role, userId);
-        } else {
-            // User is not logged in, navigate to the LoginActivity
+        } else if (isFirstTimeUser) {
+            // First-time user, navigate to LanguageSelectionActivity
             Intent intent = new Intent(SplashActivity.this, LanguageSelectionActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            // Returning user, but not logged in, navigate to LoginActivity
+            Intent intent = new Intent(SplashActivity.this, LoginActivity.class);
             startActivity(intent);
             finish();
         }
     }
+
 
     private void navigateToDashboard(String role, String userId) {
         Intent intent;

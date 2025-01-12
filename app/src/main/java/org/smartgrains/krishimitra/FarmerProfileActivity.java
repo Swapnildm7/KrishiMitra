@@ -37,6 +37,7 @@ public class FarmerProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_farmer_profile);
 
         // Make status bar transparent

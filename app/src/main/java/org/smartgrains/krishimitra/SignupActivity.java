@@ -25,7 +25,6 @@ import java.security.NoSuchAlgorithmException;
 public class SignupActivity extends AppCompatActivity {
 
     private static final String ADMIN_LAST_NAME = "Smartgrains";
-
     private RadioGroup radioGroupRole;
     private RadioButton radioFarmer, radioTrader;
     private Button buttonNext;
@@ -34,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_signup);
 
         // Make status bar transparent
@@ -56,7 +56,6 @@ public class SignupActivity extends AppCompatActivity {
         // Set the farmer and trader icons beside the radio buttons
         setRadioButtonIcons();
 
-        // Button click listener
         buttonNext.setOnClickListener(v -> {
             // Get user input
             String firstName = editTextFirstName.getText().toString().trim();
@@ -67,19 +66,19 @@ public class SignupActivity extends AppCompatActivity {
 
             // Validate inputs
             if (firstName.isEmpty() || phoneNumber.isEmpty() || password.isEmpty() || confirmPassword.isEmpty()) {
-                Toast.makeText(SignupActivity.this, "Please fill in all compulsory fields", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, getString(R.string.fill_all_fields), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // Validate phone number length
             if (phoneNumber.length() != 10) {
-                Toast.makeText(SignupActivity.this, "Phone number must be 10 digits", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, getString(R.string.invalid_phone_number), Toast.LENGTH_SHORT).show();
                 return;
             }
 
             // Check if passwords match
             if (!password.equals(confirmPassword)) {
-                Toast.makeText(SignupActivity.this, "Passwords do not match", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, getString(R.string.password_mismatch), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -92,7 +91,7 @@ public class SignupActivity extends AppCompatActivity {
             // Get selected role
             int selectedRoleId = radioGroupRole.getCheckedRadioButtonId();
             if (selectedRoleId == -1) {
-                Toast.makeText(SignupActivity.this, "Please select a role", Toast.LENGTH_SHORT).show();
+                Toast.makeText(SignupActivity.this, getString(R.string.select_role), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -111,7 +110,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     // Method to save admin information in Firebase under the "Admins" node
-    private void saveAdminInfo(String firstName, String lastName, String phoneNumber, String password) {
+    private void saveAdminInfo(String firstName, String lastName, String phoneNumber, String
+            password) {
         DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference("Admins");
 
         // Generate unique ID for the admin

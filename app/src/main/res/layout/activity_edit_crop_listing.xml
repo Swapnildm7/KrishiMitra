@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-medium"
             android:letterSpacing="0.2"
-            android:text="KRISHI MITRA"
+            android:text="@string/app_name"
             android:textColor="@color/green"
             android:textSize="28sp"
             android:textStyle="bold" />
@@ -32,7 +32,7 @@
             android:layout_marginTop="7dp"
             android:fontFamily="sans-serif-light"
             android:letterSpacing="0.1"
-            android:text="Crop Listings"
+            android:text="@string/cropListingTv"
             android:textColor="#F8F3BA"
             android:textSize="21sp"
             android:textStyle="bold" />

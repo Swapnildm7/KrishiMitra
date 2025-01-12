@@ -1,30 +1,173 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-<!--    Language Selection-->
-    <string name="languages_title">भाषाएँ</string>
-    <string name="language_selection">भाषा चुनें</string>
-    <string name="save_settings">सेटिंग्स सहेजें</string>
-    <string name="all_languages_title">सभी भाषाएँ</string>
+
+    <!-- Non-Translatable Strings -->
+    <string name="openDrawer" translatable="false">Open Navigation Drawer</string>
+    <string name="closeDrawer" translatable="false">Close Navigation Drawer</string>
+    <string name="admin" translatable="false">WELCOME, ADMIN</string>
+    <string name="manageCrops" translatable="false">UPLOAD NEW CROP</string>
+    <string name="manageUsers" translatable="false">Manage Users</string>
+    <string name="cropName" translatable="false">Enter Crop Name</string>
+    <string name="selectImage" translatable="false">Select Image</string>
+    <string name="uploadCropImage" translatable="false">Select Image</string>
+    <string name="uploadCrop" translatable="false">Upload Crop</string>
+    <string name="email" translatable="false">support@smartgrains.org</string>
+
+    <!-- General Purpose -->
+    <string name="save">सहेजें</string>
+    <string name="logout">लॉगआउट</string>
+    <string name="ok_button">ठीक है</string>
+    <string name="proceed">आगे बढ़ें</string>
+    <string name="privacy_policy_title">गोपनीयता नीति</string>
+    <string name="privacy_policy_text">
+        मैं <a href='https://smartgrains.org/PrivacyPolicyKrishiMitra.html'>गोपनीयता नीति</a> से सहमत हूं।
+    </string>
+
     <string name="welcome_message">कृषि मित्र में आपका स्वागत है</string>
 
-    <!--    Main Activity-->
+    <!-- Language Selection -->
+    <string name="languages_title">भाषाएं</string>
+    <string name="language_selection">चयनित भाषा</string>
+    <string name="all_languages_title">भाषा चुनें</string>
+    <string name="save_settings">सेटिंग सहेजें</string>
+
+    <!-- Main Activity -->
     <string name="app_name">कृषि मित्र</string>
-    <string name="main_desc">The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips</string>
+    <string name="main_desc">
+        कृषि का भविष्य यहाँ है। आपके हाथों में तकनीक के साथ सशक्त बनाना।
+    </string>
     <string name="main_login">लॉगिन</string>
     <string name="main_sign_up">साइन अप</string>
 
-<!--    Login Activity-->
+    <!-- Login Activity -->
     <string name="welcome">स्वागत है</string>
     <string name="mobile">मोबाइल नंबर</string>
     <string name="password">पासवर्ड</string>
     <string name="login">लॉगिन</string>
-    <string name="signup">पंजीकरण नहीं किया? साइन अप करें</string>
-    <string name="empty_fields_error">कृपया मोबाइल नंबर और पासवर्ड दर्ज करें</string>
-    <string name="invalid_phone_number_error">मोबाइल नंबर को ठीक से 10 अंक होना चाहिए</string>
+    <string name="signup">पंजीकृत नहीं हैं? साइन अप करें</string>
+    <string name="empty_fields_error">कृपया फोन नंबर और पासवर्ड दर्ज करें</string>
+    <string name="invalid_phone_number_error">फोन नंबर ठीक 10 अंकों का होना चाहिए</string>
     <string name="incorrect_admin_password">गलत एडमिन पासवर्ड</string>
     <string name="incorrect_password">गलत पासवर्ड</string>
     <string name="user_not_found">उपयोगकर्ता नहीं मिला</string>
-    <string name="database_error">डेटाबेस त्रुटि हुई है। कृपया पुनः प्रयास करें।</string>
+    <string name="database_error">डेटाबेस में त्रुटि। कृपया पुनः प्रयास करें।</string>
     <string name="invalid_role">अमान्य भूमिका</string>
+
+    <!-- Signup Activity -->
+    <string name="details">विवरण दर्ज करें</string>
+    <string name="firstName">प्रथम नाम (आवश्यक)</string>
+    <string name="lastName">अंतिम नाम</string>
+    <string name="phoneNumber">फोन नंबर (आवश्यक)</string>
+    <string name="enterPassword">पासवर्ड दर्ज करें (आवश्यक)</string>
+    <string name="confirmPassword">पासवर्ड की पुष्टि करें (आवश्यक)</string>
+    <string name="selectRole">भूमिका चुनें:</string>
+    <string name="farmer">किसान</string>
+    <string name="trader">व्यापारी</string>
+    <string name="invalid_phone_number">फोन नंबर 10 अंकों का होना चाहिए</string>
+    <string name="password_mismatch">पासवर्ड मेल नहीं खाते</string>
+    <string name="select_role">कृपया एक भूमिका चुनें</string>
+    <string name="fill_all_fields">कृपया सभी अनिवार्य फ़ील्ड भरें</string>
+    <string name="register">रजिस्टर करें</string>
+    <string name="user_already_registered">यह फोन नंबर पहले से पंजीकृत है</string>
+    <string name="error_checking_registration">पंजीकरण की जांच में त्रुटि</string>
+    <string name="registration_failed">पंजीकरण विफल रहा</string>
+
+    <!-- Location Details -->
+    <string name="enterLocality">स्थानीयता/गाँव/शहर</string>
+    <string name="state">अपना राज्य चुनें</string>
+    <string name="district">अपना जिला चुनें</string>
+    <string name="taluka">अपना तालुका चुनें</string>
+    <string name="failed_to_load_states">राज्य लोड करने में विफल: </string>
+    <string name="failed_to_load_districts">जिला लोड करने में विफल: </string>
+    <string name="failed_to_load_talukas">तालुका लोड करने में विफल: </string>
+
+    <!-- Drawer Menu -->
+    <string name="nav_home">मुख्य पृष्ठ</string>
+    <string name="nav_profile">प्रोफ़ाइल</string>
+    <string name="nav_lang">भाषा बदलें</string>
+    <string name="nav_contact_us">हमसे संपर्क करें</string>
+    <string name="nav_privacy_policy">गोपनीयता नीति</string>
+    <string name="nav_logout">लॉगआउट</string>
+
+    <!-- Trader Dashboard -->
+    <string name="listCrop">फसल खरीद पोस्ट करें</string>
+    <string name="viewCropList">फसल अधिग्रहण बदलें</string>
+
+    <!-- Trader Crop Listing -->
+    <string name="selectCrop">फसल चुनें</string>
+    <string name="minPriceTv">न्यूनतम मूल्य : ₹</string>
+    <string name="minPriceEt">न्यूनतम मूल्य दर्ज करें</string>
+    <string name="maxPriceTv">अधिकतम मूल्य : ₹</string>
+    <string name="maxPriceEt">अधिकतम मूल्य दर्ज करें</string>
+    <string name="quantityTv">मात्रा : </string>
+    <string name="quantityEt">मात्रा दर्ज करें : </string>
+    <string name="cropListingTv">फसल सूची</string>
+
+    <!-- Farmer Dashboard -->
+    <string name="crops">फसल चुनें</string>
+    <string name="findTrader">व्यापारी ढूँढें</string>
+    <string name="refresh">रिफ्रेश करें</string>
+
+    <!-- User Profile -->
+    <string name="update_your_profile">अपने विवरण अपडेट करें</string>
+    <string name="userDetails">उपयोगकर्ता विवरण</string>
+    <string name="locationDetails">स्थान विवरण</string>
+    <string name="tvState">राज्य:</string>
+    <string name="stateDetail">[वर्तमान राज्य]</string>
+    <string name="tvDistrict">जिला:</string>
+    <string name="districtDetail">[वर्तमान जिला]</string>
+    <string name="tvTaluka">तलुका:</string>
+    <string name="talukaDetail">[वर्तमान तलुका]</string>
+    <string name="viewReviews">समीक्षाएँ देखें</string>
+
+    <string name="privacy_policy_message">पंजीकरण करने के लिए आपको गोपनीयता नीति से सहमत होना चाहिए।</string>
+
+    <!-- Farmer Registration Activity-->
+    <string name="address">पता विवरण</string>
+    <string name="enterAddress">अपना पता दर्ज करें (आवश्यक)</string>
+    <string name="farmer_registered_successfully">कृषक सफलतापूर्वक पंजीकृत हो गया</string>
+
+    <!-- Trader Registration-->
+    <string name="shopDetails">दुकान विवरण</string>
+    <string name="shopName">दुकान का नाम दर्ज करें (आवश्यक)</string>
+    <string name="shopAddress">दुकान का पता दर्ज करें (आवश्यक)</string>
+    <string name="trader_registered_successfully">व्यापारी सफलतापूर्वक पंजीकृत हो गया</string>
+    <string name="error_creating_user_id">उपयोगकर्ता आईडी बनाने में त्रुटि। कृपया फिर से प्रयास करें।</string>
+
+    <string name="cropNameTv">फसल का नाम</string>
+    <string name="unitTv">इकाई : </string>
+
+    <string name="traderNameTv">व्यापारी का नाम</string>
+    <string name="shopNameTv">दुकान का नाम:</string>
+    <string name="shopAddressTv">दुकान का पता:</string>
+    <string name="priceTv">मूल्य ₹:</string>
+    <string name="quantTv">मात्रा :</string>
+    <string name="phoneNumberTv">फोन नंबर :</string>
+    <string name="traderDetails">व्यापारी विवरण</string>
+    <string name="traderCropListing">व्यापारी फसल सूची</string>
+    <string name="traderList">उपलब्ध व्यापारी</string>
+    <string name="cropListing">फसल सूची</string>
+
+    <!-- ContactUs Activity-->
+    <string name="contactUsDesc">
+    "हम "कृषि मित्र" में किसानों और व्यापारियों को पारदर्शिता, निष्पक्षता और कृषि में स्थिरता को बढ़ावा देने का प्रयास करते हैं। हमारा लक्ष्य ग्रामीण किसानों और बाजारों के बीच की खाई को पाटना है, ताकि किसान अपनी फसल के लिए उचित मूल्य प्राप्त कर सकें और व्यापारी गुणवत्ता वाले उत्पाद को कुशलतापूर्वक स्रोत कर सकें। हम समान अवसरों को बढ़ावा देकर शोषण को कम करने, आजीविका को सशक्त बनाने और ग्रामीण अर्थव्यवस्थाओं को मजबूत करने का लक्ष्य रखते हैं। बेहतर संपर्क और सूचित निर्णय-निर्माण के माध्यम से, कृषि मित्र एक मजबूत कृषि पारिस्थितिकी तंत्र बनाने, समुदायों को सशक्त बनाने और स्थायी कृषि प्रथाओं को समर्थन देने में योगदान करता है, ताकि कृषि में समृद्ध भविष्य सुनिश्चित हो।"
+</string>
+    <string name="inquiries">किसी भी पूछताछ के लिए कृपया हमसे संपर्क करें:</string>
+    <string name="help">हम आपकी सहायता करने के लिए तत्पर हैं!</string>
+
+    <!-- Crop Units-->
+    <string-array name="quantity_units_array">
+        <item>क्विंटल</item>
+        <item>किलोग्राम</item>
+        <item>टन</item>
+    </string-array>
+
+    <string-array name="greetings_array">
+        <item>नमस्ते, %s!</item>
+        <item>स्वागत है, %s!</item>
+        <item>अच्छा लगा आपको देख कर, %s!</item>
+        <item>आशा है कि आपका दिन शुभ हो, %s!</item>
+    </string-array>
+
+    <string name="apply_filter">लागू करें</string> <!-- Hindi -->
 
 </resources>

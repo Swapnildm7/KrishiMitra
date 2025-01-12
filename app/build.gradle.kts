@@ -11,10 +11,11 @@ android {
         applicationId = "org.smartgrains.krishimitra"
         minSdk = 24
         targetSdk = 34
-        versionCode = 13
-        versionName = "2.3"
+        versionCode = 17
+        versionName = "2.7"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+
     }
 
     buildTypes {
@@ -33,7 +34,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.activity)

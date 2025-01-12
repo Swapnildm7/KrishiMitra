@@ -1,30 +1,172 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!--    Language Selection-->
+    <!-- Non-Translatable Strings -->
+    <string name="openDrawer" translatable="false">नॅव्हिगेशन ड्रॉवर उघडा</string>
+    <string name="closeDrawer" translatable="false">नॅव्हिगेशन ड्रॉवर बंद करा</string>
+    <string name="admin" translatable="false">स्वागत आहे, अॅडमिन</string>
+    <string name="manageCrops" translatable="false">नवीन पीक अपलोड करा</string>
+    <string name="manageUsers" translatable="false">वापरकर्त्यांचे व्यवस्थापन करा</string>
+    <string name="cropName" translatable="false">पीक नाव टाका</string>
+    <string name="selectImage" translatable="false">प्रतिमा निवडा</string>
+    <string name="uploadCropImage" translatable="false">प्रतिमा अपलोड करा</string>
+    <string name="uploadCrop" translatable="false">पीक अपलोड करा</string>
+    <string name="email" translatable="false">support@smartgrains.org</string>
+
+    <!-- General Purpose -->
+    <string name="save">संचयित करा</string>
+    <string name="logout">लॉगआउट</string>
+    <string name="ok_button">ठीक आहे</string>
+    <string name="proceed">पुढे जा</string>
+    <string name="privacy_policy_title">गोपनीयता धोरण</string>
+    <string name="privacy_policy_text">
+        मी <a href='https://smartgrains.org/PrivacyPolicyKrishiMitra.html'>गोपनीयता धोरण</a> स्वीकारतो
+    </string>
+
+    <string name="welcome_message">क्रिषी मित्रात आपले स्वागत आहे</string>
+
+    <!-- Language Selection -->
     <string name="languages_title">भाषा</string>
-    <string name="language_selection">भाषा निवडा</string>
-    <string name="save_settings">सेटिंग्ज जतन करा</string>
-    <string name="all_languages_title">सर्व भाषा</string>
-    <string name="welcome_message">कृषी मित्रमध्ये आपले स्वागत आहे</string>
+    <string name="language_selection">निवडलेली भाषा</string>
+    <string name="all_languages_title">भाषा निवडा</string>
+    <string name="save_settings">सेटिंग्ज सेव्ह करा</string>
 
-    <!--    Main Activity-->
-    <string name="app_name">कृषी मित्र</string>
-    <string name="main_desc">The Future Of Agriculture Is Here. Empowering you with the Technology at your Fingertips</string>
+    <!-- Main Activity -->
+    <string name="app_name">क्रिषी मित्र</string>
+    <string name="main_desc">
+        कृषीचे भविष्य येथे आहे. आपल्याला तंत्रज्ञानाचा वापर करत सक्षमीकरण
+    </string>
     <string name="main_login">लॉगिन</string>
-    <string name="main_sign_up">साइन अप</string>
+    <string name="main_sign_up">साइनअप</string>
 
-    <!--    Login Activity-->
-    <string name="welcome">स्वागत</string>
+    <!-- Login Activity -->
+    <string name="welcome">स्वागत आहे</string>
     <string name="mobile">मोबाइल नंबर</string>
     <string name="password">पासवर्ड</string>
     <string name="login">लॉगिन</string>
-    <string name="signup">नोंदणी केली नाही? साइन अप करा</string>
-    <string name="empty_fields_error">कृपया मोबाइल नंबर आणि पासवर्ड भरा</string>
-    <string name="invalid_phone_number_error">मोबाइल नंबर नक्की 10 अंकांचा असावा</string>
-    <string name="incorrect_admin_password">चुकीचा अॅडमिन पासवर्ड</string>
-    <string name="incorrect_password">चुकीचा पासवर्ड</string>
+    <string name="signup">नोंदणी केलेली नाही का? साइन अप करा</string>
+    <string name="empty_fields_error">फोन नंबर आणि पासवर्ड टाका</string>
+    <string name="invalid_phone_number_error">फोन नंबर १० अंकांचा असावा लागेल</string>
+    <string name="incorrect_admin_password">चुकलेला अॅडमिन पासवर्ड</string>
+    <string name="incorrect_password">चुकलेला पासवर्ड</string>
     <string name="user_not_found">वापरकर्ता सापडला नाही</string>
     <string name="database_error">डेटाबेस त्रुटी आली आहे. कृपया पुन्हा प्रयत्न करा.</string>
     <string name="invalid_role">अवैध भूमिका</string>
+
+    <!-- Signup Activity -->
+    <string name="details">तपशील भरा</string>
+    <string name="firstName">पहिले नाव (आवश्यक)</string>
+    <string name="lastName">आडनाव</string>
+    <string name="phoneNumber">फोन नंबर (आवश्यक)</string>
+    <string name="enterPassword">पासवर्ड टाका (आवश्यक)</string>
+    <string name="confirmPassword">पासवर्ड कन्फर्म करा (आवश्यक)</string>
+    <string name="selectRole">भूमिका निवडा:</string>
+    <string name="farmer">शेतकरी</string>
+    <string name="trader">व्यापारी</string>
+    <string name="invalid_phone_number">फोन नंबर १० अंकांचा असावा लागेल</string>
+    <string name="password_mismatch">पासवर्ड जुळत नाहीत</string>
+    <string name="select_role">कृपया भूमिका निवडा</string>
+    <string name="fill_all_fields">सर्व आवश्यक फील्ड भरा</string>
+    <string name="register">नोंदणी करा</string>
+    <string name="user_already_registered">या फोन नंबरसह वापरकर्ता आधीच नोंदणीकृत आहे</string>
+    <string name="error_checking_registration">नोंदणी तपासताना त्रुटी आली</string>
+    <string name="registration_failed">नोंदणी अयशस्वी</string>
+    <string name="privacy_policy_message">नोंदणी करण्यासाठी गोपनीयता धोरण मान्य करणे आवश्यक आहे.</string>
+
+    <!-- Location Details -->
+    <string name="enterLocality">स्थान/गाव/शहर</string>
+    <string name="state">तुमचा राज्य निवडा</string>
+    <string name="district">तुमचा जिल्हा निवडा</string>
+    <string name="taluka">तुमचा तालुका निवडा</string>
+    <string name="failed_to_load_states">राज्य लोड करण्यात अयशस्वी: </string>
+    <string name="failed_to_load_districts">जिल्हे लोड करण्यात अयशस्वी: </string>
+    <string name="failed_to_load_talukas">तालुका लोड करण्यात अयशस्वी: </string>
+
+    <!-- Drawer Menu -->
+    <string name="nav_home">मुख्यपृष्ठ</string>
+    <string name="nav_profile">प्रोफाइल</string>
+    <string name="nav_lang">भाषा बदला</string>
+    <string name="nav_contact_us">संपर्क करा</string>
+    <string name="nav_privacy_policy">गोपनीयता धोरण</string>
+    <string name="nav_logout">लॉगआउट</string>
+
+    <!-- Trader Dashboard -->
+    <string name="listCrop">पिक खरेदी पोस्ट करा</string>
+    <string name="viewCropList">पिक खरेदी संशोधित करा</string>
+
+    <!-- Trader Crop Listing -->
+    <string name="selectCrop">पीक निवडा</string>
+    <string name="minPriceTv">किमान किंमत : ₹</string>
+    <string name="minPriceEt">किमान किंमत टाका</string>
+    <string name="maxPriceTv">कमाल किंमत : ₹</string>
+    <string name="maxPriceEt">कमाल किंमत टाका</string>
+    <string name="quantityTv">मात्रा : </string>
+    <string name="quantityEt">मात्रा टाका : </string>
+    <string name="cropListingTv">पीक यादी</string>
+
+    <!-- Farmer Dashboard -->
+    <string name="crops">पीक निवडा</string>
+    <string name="findTrader">व्यापारी शोधा</string>
+    <string name="refresh">ताजेतवाने करा</string>
+
+    <!-- User Profile -->
+    <string name="update_your_profile">तुमची माहिती अपडेट करा</string>
+    <string name="userDetails">वापरकर्ता माहिती</string>
+    <string name="locationDetails">स्थान माहिती</string>
+    <string name="tvState">राज्य:</string>
+    <string name="stateDetail">[वर्तमान राज्य]</string>
+    <string name="tvDistrict">जिल्हा:</string>
+    <string name="districtDetail">[वर्तमान जिल्हा]</string>
+    <string name="tvTaluka">तालुका:</string>
+    <string name="talukaDetail">[वर्तमान तालुका]</string>
+    <string name="viewReviews">समीक्षा पहा</string>
+
+    <!-- Farmer Registration Activity -->
+    <string name="address">पत्ता माहिती</string>
+    <string name="enterAddress">तुमचा पत्ता टाका (आवश्यक)</string>
+    <string name="farmer_registered_successfully">शेतकरी यशस्वीरित्या नोंदणीकृत</string>
+
+    <!-- Trader Registration -->
+    <string name="shopDetails">दुकान माहिती</string>
+    <string name="shopName">दुकान नाव टाका (आवश्यक)</string>
+    <string name="shopAddress">दुकान पत्ता टाका (आवश्यक)</string>
+    <string name="trader_registered_successfully">व्यापारी यशस्वीरित्या नोंदणीकृत</string>
+    <string name="error_creating_user_id">वापरकर्ता आयडी तयार करण्यात त्रुटी आली. कृपया पुन्हा प्रयत्न करा.</string>
+
+    <string name="cropNameTv">पीक नाव</string>
+    <string name="unitTv">युनिट : </string>
+
+    <string name="traderNameTv">व्यापारी नाव</string>
+    <string name="shopNameTv">दुकान नाव:</string>
+    <string name="shopAddressTv">दुकान पत्ता:</string>
+    <string name="priceTv">किंमत ₹:</string>
+    <string name="quantTv">मात्रा :</string>
+    <string name="phoneNumberTv">फोन नंबर :</string>
+    <string name="traderDetails">व्यापारी माहिती</string>
+    <string name="traderCropListing">व्यापारी पीक यादी</string>
+    <string name="traderList">उपलब्ध व्यापारी</string>
+    <string name="cropListing">पीक यादी</string>
+
+    <!-- ContactUs Activity -->
+    <string name="contactUsDesc">
+        "क्रिषी मित्र" शेतकऱ्यांना आणि व्यापार्यांना कृषी क्षेत्रात पारदर्शकता, न्याय आणि शाश्वतता प्रोत्साहित करून सक्षमीकरण करण्यासाठी काम करत आहे. आमचा उद्दिष्ट ग्रामीण शेतकऱ्यां आणि बाजारपेठांमधील अंतर कमी करून शेतकऱ्यांना त्यांच्या पिकांसाठी योग्य दर मिळवून देणे आहे.
+    </string>
+    <string name="inquiries">कुठल्याही चौकशीसाठी कृपया संपर्क करा:</string>
+    <string name="help">आम्ही आपल्याला मदतीसाठी तयार आहोत!</string>
+
+    <!-- Crop Units -->
+    <string-array name="quantity_units_array">
+        <item>क्विंटल</item>
+        <item>किलोग्रॅम</item>
+        <item>टन</item>
+    </string-array>
+
+    <string-array name="greetings_array">
+        <item>नमस्कार, %s!</item>
+        <item>स्वागत आहे, %s!</item>
+        <item>"तुम्हाला पाहून आनंद झाला, %s!</item>
+        <item>"आशा आहे की तुमचा दिवस चांगला जात आहे, %s!</item>
+    </string-array>
+
+    <string name="apply_filter">लागू करा</string> <!-- Marathi -->
+
 </resources>

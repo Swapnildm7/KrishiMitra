@@ -35,7 +35,7 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
     private static final String TAG = "TraderDashboardActivity";
     private ImageView userProfile, headerProfile;
     private TextView appName;
-    private static final String CURRENT_VERSION = "2.3";
+    private static final String CURRENT_VERSION = "2.7";
     private LinearLayout listCropLayout, viewListingsLayout; // Update to LinearLayout
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;
@@ -51,6 +51,7 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_trader_dashboard);
 
         // Make status bar transparent
@@ -138,20 +139,8 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
                     String firstName = dataSnapshot.child("firstName").getValue(String.class);
                     String phoneNumber = dataSnapshot.child("phoneNumber").getValue(String.class);
 
-
-                    // Array of greeting messages
-                    String[] greetings = {
-                            "Welcome back, %s!",
-                            "Hello, %s!",
-                            "Good to see you, %s!",
-                            "Hope you’re having a great day, %s!",
-                            "Hi %s! Let’s make today awesome!",
-                            "Greetings, %s! Ready to get started?",
-                            "Hey %s! How’s it going?",
-                            "Welcome, %s! Let’s do something amazing!",
-                            "Hello %s! Let’s make it count!",
-                            "Hi %s! Let’s achieve greatness!"
-                    };
+                    // Fetch the greetings from the localized resources
+                    String[] greetings = getResources().getStringArray(R.array.greetings_array);
 
                     // Generate a personalized random greeting
                     String personalizedGreeting = getPersonalizedGreeting(greetings, firstName);
@@ -248,28 +237,44 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
         } else if (id == R.id.nav_contact_us) {
             drawerLayout.closeDrawer(GravityCompat.START);
             closeDrawerAndNavigate(() -> navigateToContactUsActivity());
+        } else if (id == R.id.nav_language) {
+            closeDrawerAndNavigate(() -> navigateToLanguageSelection());
         } else if (id == R.id.nav_logout) {
             drawerLayout.closeDrawer(GravityCompat.START);
             closeDrawerAndNavigate(() -> performLogout());
         } else if (id == R.id.nav_privacy_policy) {
             String privacyPolicyUrl = "https://smartgrains.org/PrivacyPolicyKrishiMitra.html";
-
             // Create an Intent to open the URL in a browser
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(privacyPolicyUrl));
             startActivity(intent);
-            // Set OnClickListener to open the privacy policy link
-
         }
+        // Close the drawer after item selection
+        drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 
-    private void closeDrawerAndNavigate(Runnable action) {
-        // Close the drawer asynchronously
-        drawerLayout.post(() -> {
-            drawerLayout.closeDrawer(GravityCompat.START);
-            // After closing the drawer, immediately perform the action
-            action.run();
-        });
+    private void navigateToLanguageSelection() {
+        Intent intent = new Intent(TraderDashboardActivity.this, LanguageSelectionActivity.class);
+        intent.putExtra("USER_ID", userId);
+        intent.putExtra("USER_ROLE", userRole);
+        intent.putExtra("Dashboard", "TraderDashboardActivity");
+        startActivity(intent);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out); // Smooth animation
+    }
+
+    private void closeDrawerAndNavigate(Runnable navigationAction) {
+        // Add a one-time listener to handle navigation
+        DrawerLayout.SimpleDrawerListener drawerListener = new DrawerLayout.SimpleDrawerListener() {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                navigationAction.run(); // Execute the navigation action
+                drawerLayout.removeDrawerListener(this); // Remove the listener to prevent memory leaks
+            }
+        };
+
+        // Add the listener and close the drawer
+        drawerLayout.addDrawerListener(drawerListener);
+        drawerLayout.closeDrawer(GravityCompat.START); // Close the drawer
     }
 
     private void openListCropActivity() {
@@ -321,13 +326,16 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
 
     private void performLogout() {
         closeOptionsMenu();
-        // Clear Firebase session (if using Firebase authentication)
-        // mAuth.signOut(); // Uncomment if using Firebase authentication
 
-        // Clear SharedPreferences for user session
+        // Access SharedPreferences
         SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.clear(); // Clear all saved data
+
+        // Preserve the language selection
+        String languageCode = sharedPreferences.getString("LanguageCode", "en"); // Default to "en" if not set
+        editor.clear(); // Clear all data
+        editor.putString("LanguageCode", languageCode); // Restore the language preference
+        editor.putBoolean("IS_FIRST_TIME_USER", false); // Mark as not a first-time user
         editor.apply();
 
         // Redirect to Login Page

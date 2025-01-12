@@ -17,7 +17,7 @@
         android:gravity="center"
         android:letterSpacing="0.175"
         android:padding="16dp"
-        android:text="Update Your Details"
+        android:text="@string/update_your_profile"
         android:textColor="@color/green"
         android:textSize="27sp"
         android:textStyle="bold" />
@@ -43,7 +43,7 @@
                 android:layout_marginTop="25dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="USER DETAILS"
+                android:text="@string/userDetails"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="21sp"
                 android:textStyle="bold" />
@@ -53,7 +53,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="First Name">
+                android:hint="@string/firstName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_first_name"
@@ -68,7 +68,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Last Name">
+                android:hint="@string/lastName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_last_name"
@@ -83,7 +83,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Phone Number">
+                android:hint="@string/phoneNumber">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_phone_number"
@@ -102,7 +102,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:gravity="center"
-                android:text="SHOP DETAILS"
+                android:text="@string/shopDetails"
                 android:textColor="@android:color/holo_green_dark"
                 android:textSize="21sp"
                 android:textStyle="bold" />
@@ -112,7 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Shop Name">
+                android:hint="@string/shopName">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_shop_name"
@@ -127,7 +127,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="10dp"
-                android:hint="Shop Address">
+                android:hint="@string/shopAddress">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edit_shop_address"
@@ -161,7 +161,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="16dp"
                         android:layout_marginBottom="8dp"
-                        android:text="LOCATION DETAILS"
+                        android:text="@string/locationDetails"
                         android:textColor="@android:color/holo_green_dark"
                         android:textSize="21sp"
                         android:textStyle="bold" />
@@ -178,7 +178,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingEnd="8dp"
-                            android:text="State:"
+                            android:text="@string/tvState"
                             android:textColor="@android:color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -188,7 +188,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="[Current State]"
+                            android:text="@string/stateDetail"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -205,7 +205,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingEnd="8dp"
-                            android:text="District:"
+                            android:text="@string/tvDistrict"
                             android:textColor="@android:color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -215,7 +215,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="[Current District]"
+                            android:text="@string/districtDetail"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -232,7 +232,7 @@
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
                             android:paddingEnd="8dp"
-                            android:text="Taluka:"
+                            android:text="@string/tvTaluka"
                             android:textColor="@android:color/black"
                             android:textSize="18sp"
                             android:textStyle="bold" />
@@ -242,7 +242,7 @@
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="2"
-                            android:text="[Current Taluka]"
+                            android:text="@string/talukaDetail"
                             android:textColor="@android:color/black"
                             android:textSize="18sp" />
                     </LinearLayout>
@@ -260,7 +260,7 @@
                 android:layout_marginTop="50dp"
                 android:backgroundTint="@color/green"
                 android:padding="12dp"
-                android:text="Save"
+                android:text="@string/save"
                 android:textColor="@android:color/white" />
         </LinearLayout>
 

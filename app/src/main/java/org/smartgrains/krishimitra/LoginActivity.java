@@ -49,12 +49,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LocaleHelper.setLocale(this);
         setContentView(R.layout.activity_login);
 
         // Make status bar transparent
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
 
         // Initialize Firebase Database references
@@ -69,7 +68,7 @@ public class LoginActivity extends AppCompatActivity {
         progressBar = findViewById(R.id.progressBar); // Initialize ProgressBar
 
         // Initialize SharedPreferences
-        sharedPreferences = getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(PREFS_NAME, MODE_PRIVATE);
 
         // Set Click Listener for Login Button
         buttonLogin.setOnClickListener(v -> loginUser());
@@ -87,13 +86,13 @@ public class LoginActivity extends AppCompatActivity {
 
         // Validate input fields
         if (phoneNumber.isEmpty() || password.isEmpty()) {
-            Toast.makeText(LoginActivity.this, "Please enter phone number and password", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, getString(R.string.empty_fields_error), Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Validate phone number length (should not exceed 10 digits)
         if (phoneNumber.length() != 10) {
-            Toast.makeText(LoginActivity.this, "Phone number must be exactly 10 digits", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, getString(R.string.invalid_phone_number_error), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -132,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
                 navigateToDashboard("Admin", adminId);
                 return; // Exit after successful login
             } else {
-                Toast.makeText(LoginActivity.this, "Incorrect admin password", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LoginActivity.this, getString(R.string.incorrect_admin_password), Toast.LENGTH_SHORT).show();
             }
         }
         // Hide the progress bar and re-enable the login button
@@ -160,11 +159,11 @@ public class LoginActivity extends AppCompatActivity {
                             navigateToDashboard(role, userId);
                             return; // Exit after successful login
                         } else {
-                            Toast.makeText(LoginActivity.this, "Incorrect password", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, getString(R.string.incorrect_password), Toast.LENGTH_SHORT).show();
                         }
                     }
                 } else {
-                    Toast.makeText(LoginActivity.this, "User not found", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, getString(R.string.user_not_found), Toast.LENGTH_SHORT).show();
                 }
                 // Hide the progress bar and re-enable the login button
                 showProgressBar(false);
@@ -179,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleDatabaseError(DatabaseError databaseError) {
         Log.e("LoginActivity", "Database error: " + databaseError.getMessage());
-        Toast.makeText(LoginActivity.this, "Database error occurred. Please try again.", Toast.LENGTH_SHORT).show();
+        Toast.makeText(LoginActivity.this, getString(R.string.database_error), Toast.LENGTH_SHORT).show();
         // Hide the progress bar and re-enable the login button
         showProgressBar(false);
     }
@@ -210,7 +209,7 @@ public class LoginActivity extends AppCompatActivity {
         } else if ("Admin".equals(role)) {
             intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
         } else {
-            Toast.makeText(LoginActivity.this, "Invalid role", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, getString(R.string.invalid_role), Toast.LENGTH_SHORT).show();
             return;
         }
 

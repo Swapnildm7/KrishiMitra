@@ -93,7 +93,7 @@ public class TraderDetailsActivity extends AppCompatActivity {
 
                 ratingBar.setRating(averageRating != null ? averageRating : 0);
                 ratingTextView.setText(reviewCount != null
-                        ? reviewCount + " reviews, " + "( "+ (averageRating != null ? averageRating : 0) + " stars )"
+                        ? reviewCount + " reviews, " + "( " + (averageRating != null ? averageRating : 0) + " stars )"
                         : "No reviews yet");
             }
 
@@ -125,7 +125,9 @@ public class TraderDetailsActivity extends AppCompatActivity {
 
         // Initialize RecyclerView
         cropList = new ArrayList<>();
-        cropAdapter = new CropAdapter(cropList);
+
+        // Pass the context along with the list to the adapter
+        cropAdapter = new CropAdapter(this, cropList);
         cropsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         cropsRecyclerView.setAdapter(cropAdapter);
 
