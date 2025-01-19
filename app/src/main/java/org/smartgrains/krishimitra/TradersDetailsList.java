@@ -2,6 +2,8 @@ package org.smartgrains.krishimitra;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,10 +41,9 @@ public class TradersDetailsList extends AppCompatActivity {
         setContentView(R.layout.activity_traders_details_list);
 
         // Make status bar transparent
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            EdgeToEdgeUtil.configureEdgeToEdge(getWindow());
+        }
 
         // Initialize Views
         stateSpinner = findViewById(R.id.state_spinner);

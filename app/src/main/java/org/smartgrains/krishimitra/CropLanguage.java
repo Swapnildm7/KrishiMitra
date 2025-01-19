@@ -1,9 +1,10 @@
 package org.smartgrains.krishimitra;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -28,10 +29,8 @@ public class CropLanguage extends AppCompatActivity {
     private Spinner spinnerCrops;
     private EditText editTextHindi, editTextKannada, editTextMarathi;
     private Button buttonSaveCrop;
-
     private DatabaseReference cropResourceRef; // Reference to CropResource node
     private DatabaseReference translatedCropNamesRef; // Reference to TranslatedCropNames node
-
     private String selectedCropId; // Selected crop ID
     private String selectedCropName; // Selected crop name
     private List<String> cropNames = new ArrayList<>(); // List of crop names
@@ -43,10 +42,9 @@ public class CropLanguage extends AppCompatActivity {
         setContentView(R.layout.activity_crop_language);
 
         // Make status bar transparent
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            EdgeToEdgeUtil.configureEdgeToEdge(getWindow());
+        }
 
         // Initialize Firebase database references
         cropResourceRef = FirebaseDatabase.getInstance().getReference("CropResource");

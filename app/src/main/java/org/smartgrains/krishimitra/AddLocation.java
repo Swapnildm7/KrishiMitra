@@ -1,5 +1,7 @@
 package org.smartgrains.krishimitra;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,7 +15,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AddLocation extends AppCompatActivity {
-
     private EditText inputState, inputDistrict, inputTaluka;
     private Button buttonSubmit;
     private DatabaseReference databaseReference;
@@ -23,11 +24,9 @@ public class AddLocation extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_location);
 
-        // Make status bar transparent
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            EdgeToEdgeUtil.configureEdgeToEdge(getWindow());
+        }
 
         inputState = findViewById(R.id.inputState);
         inputDistrict = findViewById(R.id.inputDistrict);

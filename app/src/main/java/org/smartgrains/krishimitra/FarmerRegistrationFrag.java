@@ -1,5 +1,7 @@
 package org.smartgrains.krishimitra;
 
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -89,10 +91,9 @@ public class FarmerRegistrationFrag extends AppCompatActivity {
         setContentView(R.layout.activity_farmer_autofill);
 
         // Make status bar transparent
-        getWindow().getDecorView().setSystemUiVisibility(
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE
-                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
-        getWindow().setStatusBarColor(android.graphics.Color.TRANSPARENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            EdgeToEdgeUtil.configureEdgeToEdge(getWindow());
+        }
 
         // Initialize UI elements
         Button btnUseMyLocation = findViewById(R.id.btnUseMyLocation);
