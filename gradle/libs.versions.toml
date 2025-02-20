@@ -14,6 +14,7 @@ picasso = "2.71828"
 volley = "1.2.1"
 playServicesLocation = "21.3.0"
 firebaseFirestore = "25.1.1"
+splashscreen = "1.0.1"
 
 [libraries]
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -29,7 +30,7 @@ picasso = { module = "com.squareup.picasso:picasso", version.ref = "picasso" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
-
+splashscreen = { group = "androidx.core:core-splashscreen", name = "core-splashscreen", version.ref = "splashscreen" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

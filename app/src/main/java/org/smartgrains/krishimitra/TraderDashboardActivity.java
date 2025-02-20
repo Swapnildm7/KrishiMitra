@@ -35,7 +35,7 @@ public class TraderDashboardActivity extends AppCompatActivity implements Naviga
     private static final String TAG = "TraderDashboardActivity";
     private ImageView userProfile, headerProfile;
     private TextView appName;
-    private static final String CURRENT_VERSION = "2.7";
+    private static final String CURRENT_VERSION = "2.8";
     private LinearLayout listCropLayout, viewListingsLayout; // Update to LinearLayout
     private DrawerLayout drawerLayout;
     private ActionBarDrawerToggle drawerToggle;

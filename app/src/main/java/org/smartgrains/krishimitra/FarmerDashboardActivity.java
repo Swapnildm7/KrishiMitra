@@ -44,7 +44,7 @@ import java.util.Set;
 
 public class FarmerDashboardActivity extends AppCompatActivity implements CropFilterBottomSheetFragment.OnCropsSelectedListener, NavigationView.OnNavigationItemSelectedListener {
     private static final String TAG = "FarmerDashboardActivity";
-    private static final String CURRENT_VERSION = "2.7";
+    private static final String CURRENT_VERSION = "2.8";
     private RecyclerView cropImageRecyclerView;
     private ProgressBar progressBar;
     private CropImageAdapter cropImageAdapter;
