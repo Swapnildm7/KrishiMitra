@@ -73,60 +73,49 @@ cd krishi-mitra
 - Select "Open an existing project"
 - Navigate to the cloned repository
 
-📊 Key Functionalities
-Smart Location Matching
-Hierarchical Fallback: Taluka → District → State → All India
+## 📊 Key Functionalities
 
-GPS Integration: Automatic location detection for farmers
+### **Smart Location Matching**
+- **Hierarchical Fallback**: Taluka → District → State → All India
+- **GPS Integration**: Automatic location detection for farmers
+- **Manual Override**: Option to select location manually
 
-Manual Override: Option to select location manually
+### **Multilingual Crop Management**
+- Dynamic crop name translations
+- Language-specific UI elements
+- Persistent language preferences
 
-Multilingual Crop Management
-Dynamic crop name translations
+### **Secure Communication**
+- Direct phone integration
+- Privacy-focused data handling
+- Secure Firebase authentication
 
-Language-specific UI elements
+## 🎯 Impact & Benefits
 
-Persistent language preferences
+- **🚫 Reduces Exploitation** - Eliminates middlemen for fair pricing
+- **📈 Enhances Livelihoods** - Direct farmer-trader connections
+- **💪 Strengthens Rural Economies** - Technology-driven market access
+- **🌱 Promotes Sustainable Farming** - Better market connectivity
+- **🤝 Empowers Communities** - Digital inclusion for rural areas
 
-Secure Communication
-Direct phone integration
+## 👨‍💻 Authors & Contributors
 
-Privacy-focused data handling
+- **Smart Grains Team** - *Initial work and development*
+- **Community Contributors** - *Feature enhancements and bug fixes*
 
-Secure Firebase authentication
+## 📞 Support & Contact
 
-🎯 Impact & Benefits
-🚫 Reduces Exploitation - Eliminates middlemen for fair pricing
+- **Email**: [support@smartgrains.org](mailto:support@smartgrains.org)
+- **Website**: [smartgrains.org](https://smartgrains.org)
+- **Privacy Policy**: [Privacy Policy](https://smartgrains.org/PrivacyPolicyKrishiMitra.html)
 
-📈 Enhances Livelihoods - Direct farmer-trader connections
+## 🙏 Acknowledgments
 
-💪 Strengthens Rural Economies - Technology-driven market access
+- Firebase for backend services
+- Google Location Services for GPS functionality
+- Picasso for efficient image loading
+- Indian agricultural community for inspiration
+- Open source contributors for various libraries
 
-🌱 Promotes Sustainable Farming - Better market connectivity
-
-🤝 Empowers Communities - Digital inclusion for rural areas
-
-👨‍💻 Authors & Contributors
-Smart Grains Team - Initial work and development
-
-Community Contributors - Feature enhancements and bug fixes
-
-📞 Support & Contact
-Email: support@smartgrains.org
-
-Website: smartgrains.org
-
-Privacy Policy: Privacy Policy
-
-🙏 Acknowledgments
-Firebase for backend services
-
-Google Location Services for GPS functionality
-
-Picasso for efficient image loading
-
-Indian agricultural community for inspiration
-
-Open source contributors for various libraries
 
 
