@@ -49,36 +49,6 @@ Krishi Mitra is a comprehensive Android agricultural marketplace application tha
 - **Location Services**: Google Location Services
 - **UI Framework**: Material Design Components
 
-### **Project Structure**
-
-app/
-├── src/main/java/org/smartgrains/krishimitra/
-│ ├── activities/ # Activity classes
-│ ├── adapters/ # RecyclerView adapters
-│ ├── models/ # Data models
-│ ├── utils/ # Utility classes
-│ └── fragments/ # Fragment classes
-├── res/
-│ ├── layout/ # XML layouts
-│ ├── values/ # Strings, colors, themes
-│ ├── values-hi/ # Hindi translations
-│ ├── values-kn/ # Kannada translations
-│ ├── values-mr/ # Marathi translations
-│ └── drawable/ # Images and icons
-└── AndroidManifest.xml
-
-### **Database Structure**
-Firebase Realtime Database
-├── Users/ # User profiles (Farmers & Traders)
-│ ├── {userId}/
-│ │ ├── role: "Farmer" | "Trader"
-│ │ ├── location: {state, district, taluka}
-│ │ └── Listings/ # Trader crop listings
-├── CropResource/ # Available crops with images
-├── TranslatedCropNames/ # Multilingual crop names
-├── LocationData/ # Hierarchical location data
-└── AppVersion/ # Version control
-
 ## 🚀 **Getting Started**
 
 ### **Prerequisites**
@@ -102,34 +72,6 @@ cd krishi-mitra
 - Open Android Studio
 - Select "Open an existing project"
 - Navigate to the cloned repository
-
-4. **Build and Run**
-./gradlew assembleDebug
-
-
-### **Configuration**
-
-#### **Firebase Database Rules**
-{
-"rules": {
-"Users": {
-".read": "auth != null",
-".write": "auth != null"
-},
-"CropResource": {
-".read": true,
-".write": "auth != null"
-},
-"TranslatedCropNames": {
-".read": true,
-".write": "auth != null"
-}
-}
-}
-
-
-#### **Required Permissions**
-<uses-permission android:name="android.permission.INTERNET" /> <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> ```
 
 📊 Key Functionalities
 Smart Location Matching
@@ -164,17 +106,27 @@ Secure Firebase authentication
 
 🤝 Empowers Communities - Digital inclusion for rural areas
 
-MIT License
+👨‍💻 Authors & Contributors
+Smart Grains Team - Initial work and development
 
-Copyright (c) 2024 Smart Grains
+Community Contributors - Feature enhancements and bug fixes
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+📞 Support & Contact
+Email: support@smartgrains.org
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Website: smartgrains.org
+
+Privacy Policy: Privacy Policy
+
+🙏 Acknowledgments
+Firebase for backend services
+
+Google Location Services for GPS functionality
+
+Picasso for efficient image loading
+
+Indian agricultural community for inspiration
+
+Open source contributors for various libraries
+
 
